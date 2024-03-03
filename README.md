@@ -1,8 +1,37 @@
-# React + Vite
+# Frontend ReFood App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Design
 
-Currently, two official plugins are available:
+[Design Figma]()
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Usage
+
+### Clone Repo
+
+```sh
+git clone https://github.com/muhammadisa226/fe-refood-app.git
+```
+
+### Or clone repo another branch
+
+```sh
+git clone -b namebranch https://github.com/muhammadisa226/fe-refood-app.git
+```
+
+### Project Setup
+
+```sh
+npm install
+```
+
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
+```
+
+### Compile and Minify for Production
+
+```sh
+npm run build
+```

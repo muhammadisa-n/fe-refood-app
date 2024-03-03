@@ -1,7 +1,7 @@
 {
-  "name": "frontend",
+  "name": "fe-refood-app",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,6 +9,19 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muhammadisa226/fe-refood-app.git"
+  },
+  "keywords": [
+    "frontend",
+    "refood",
+    "app",
+    "react"
+  ],
+  "author": "Muhammad Isa",
+  "license": "ISC",
+  "homepage": "https://github.com/muhammadisa226/fe-refood-app#readme",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
