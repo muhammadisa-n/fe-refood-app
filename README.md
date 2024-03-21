@@ -6,7 +6,7 @@
 
 ### Backend Repository
 
-[Backend ReFood App](https://github.com/muhammadisa226/be-tugas-akhir)
+[Backend](https://github.com/muhammadisa226/be-tugas-akhir)
 
 # Usage
 
