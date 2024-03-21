@@ -6,20 +6,20 @@
 
 ### Backend Repository
 
-[Backend ReFood App](https://github.com/muhammadisa226/be-refood-app)
+[Backend ReFood App](https://github.com/muhammadisa226/be-tugas-akhir)
 
 # Usage
 
 ### Clone Repo
 
 ```sh
-git clone https://github.com/muhammadisa226/fe-refood-app.git
+git clone https://github.com/muhammadisa226/fe-tugas-akhir.git
 ```
 
 ### Or clone repo another branch
 
 ```sh
-git clone -b namebranch https://github.com/muhammadisa226/fe-refood-app.git
+git clone -b namebranch https://github.com/muhammadisa226/fe-tugas-akhir.git
 ```
 
 ### Project Setup
