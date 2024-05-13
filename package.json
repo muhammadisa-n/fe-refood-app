@@ -24,9 +24,12 @@
   "license": "ISC",
   "homepage": "https://github.com/muhammadisa226/fe-tugas-akhir#readme",
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.5",
     "axios": "^1.6.8",
+    "jwt-decode": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.2.0",
     "react-router-dom": "^6.22.2"
   },
   "devDependencies": {

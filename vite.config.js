@@ -7,7 +7,7 @@ export default defineConfig({
   resolve: {
     alias: [
       {
-        find: "@",
+        find: "@src",
         replacement: fileURLToPath(new URL("./src", import.meta.url)),
       },
       {
@@ -21,12 +21,16 @@ export default defineConfig({
         ),
       },
       {
+        find: "@context",
+        replacement: fileURLToPath(new URL("./src/context", import.meta.url)),
+      },
+      {
         find: "@pages",
         replacement: fileURLToPath(new URL("./src/pages", import.meta.url)),
       },
       {
-        find: "@layouts",
-        replacement: fileURLToPath(new URL("./src/layouts", import.meta.url)),
+        find: "@utils",
+        replacement: fileURLToPath(new URL("./src/utils", import.meta.url)),
       },
     ],
   },
