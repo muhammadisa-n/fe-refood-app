@@ -1,10 +1,9 @@
-import React, { useContext } from "react"
+import React from "react"
 import { Navigate, Outlet, useLocation } from "react-router-dom"
-import AuthContext from "@context/authContext"
 const IsLoggedIn = () => {
-  const { loggedIn } = useContext(AuthContext)
+  const data = JSON.parse(localStorage.getItem("data-app"))
   const location = useLocation()
-  if (loggedIn === true) {
+  if (data.status === true) {
     return <Outlet />
   } else {
     return <Navigate to="/login" state={{ from: location }} replace />

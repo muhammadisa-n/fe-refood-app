@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
-import Bag from "@assets/Cart.svg"
 import { AiOutlineMenu } from "react-icons/ai"
 import AuthContext from "../../context/authContext"
 import axios from "axios"
 import DropdownButton from "../DropdownButton"
 import profileImage from "@assets/userdefault.png"
-
+import { FaShoppingCart } from "react-icons/fa"
+import { IoNotifications } from "react-icons/io5"
 const Header = () => {
   const { loggedIn, getLoggedIn, user } = useContext(AuthContext)
   const [isOpenNavMobile, setIsOpenNavMobile] = useState(false)
@@ -20,7 +20,8 @@ const Header = () => {
     await axios.delete(`${import.meta.env.VITE_API_URL}` + "auth/logout", {
       withCredentials: true,
     })
-    getLoggedIn()
+    localStorage.removeItem("data-app")
+    await getLoggedIn()
     navigate("/")
   }
   const menuItemsCustomer = [
@@ -79,7 +80,7 @@ const Header = () => {
                     Recomendation
                   </NavLink>
                   <NavLink to="/carts" className={setActive}>
-                    <img src={Bag} alt="" />
+                    <FaShoppingCart size={20} />
                   </NavLink>
                 </>
               )}

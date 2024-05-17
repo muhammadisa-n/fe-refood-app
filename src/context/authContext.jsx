@@ -10,8 +10,9 @@ const AuthContextProvider = ({ children }) => {
       `${import.meta.env.VITE_API_URL}` + "loggedIn",
       { withCredentials: true }
     )
-    setLoggedIn(response.data.status)
-    setUser(response.data.user)
+    setLoggedIn(response.data.data.status)
+    setUser(response.data.data.user)
+    localStorage.setItem("data-app", JSON.stringify(response.data.data))
   }
   useEffect(() => {
     getLoggedIn()

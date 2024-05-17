@@ -5,16 +5,14 @@ import axios from "axios"
 import ImgDefault from "@assets/userdefault.png"
 const MyProfile = () => {
   const [user, setUser] = useState()
-
+  const getUser = async () => {
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}` + "user/get",
+      { withCredentials: true }
+    )
+    setUser(response.data.user)
+  }
   useEffect(() => {
-    const getUser = async () => {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}` + "user/get",
-        { withCredentials: true }
-      )
-      console.log(response.data.User)
-      setUser(response.data.User)
-    }
     getUser()
   }, [])
   return (
@@ -27,7 +25,7 @@ const MyProfile = () => {
               <div className="px-4 py-8">
                 <img
                   className="object-cover w-full h-48 md:w-48"
-                  src={user?.ava_image ? user.ava_image : ImgDefault}
+                  src={user?.image_url ? user.image_url : ImgDefault}
                   alt="Profile"
                 />
               </div>

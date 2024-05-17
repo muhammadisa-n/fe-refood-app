@@ -29,6 +29,10 @@ export default defineConfig({
         replacement: fileURLToPath(new URL("./src/pages", import.meta.url)),
       },
       {
+        find: "@layouts",
+        replacement: fileURLToPath(new URL("./src/layouts", import.meta.url)),
+      },
+      {
         find: "@utils",
         replacement: fileURLToPath(new URL("./src/utils", import.meta.url)),
       },

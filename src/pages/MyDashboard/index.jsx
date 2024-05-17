@@ -1,50 +1,37 @@
 import React from "react"
-import Header from "@components/Header"
-import Footer from "@components/Footer"
-import SideBar from "@components/SideBar"
-import { Link } from "react-router-dom"
-import { BowlFood, ListBullets } from "@phosphor-icons/react"
+import { AiFillProduct } from "react-icons/ai"
+import DashboardLayout from "@layouts/DashboardLayout"
+
 const MyDashboard = () => {
   return (
-    <>
-      <Header />
-      <SideBar>
-        <div className="flex flex-col max-w-full min-h-screen mt-10">
-          <div className="mx-3 ">
-            <p className="text-3xl font-bold text-primary">My Dashboard</p>
+    <DashboardLayout>
+      <div className="px-6 pt-6 ">
+        <div className="flex items-center">
+          <h1 className="text-3xl font-semibold text-primary">My Dashboard</h1>
+        </div>
+        <div className="grid grid-cols-4 gap-5 pb-4 mt-5 ">
+          {/* card */}
+          <div className="h-[100px] rounded-[8px] bg-white border-l-4 border-primary flex items-center justify-between px-7 hover:shadow-lg transform hover:scale-105 transition duration-300 ease-out ">
+            <div>
+              <h2 className="text-base font-bold leading-3 text-primary ">
+                Total Products
+              </h2>
+              <h1 className="text-xl font-bold text-gray-600">50</h1>
+            </div>
+            <AiFillProduct fontSize={28} className="text-black" />
           </div>
-          <div className="grid grid-cols-3 gap-5 mt-10">
-            <div className="w-full  px-2 mb-4">
-              <div className="bg-white border border-primary rounded-lg shadow-md h-full p-4">
-                <div className="flex items-center mb-4">
-                  <div className="text-xs font-semibold text-primary uppercase">
-                    Jumlah Product
-                  </div>
-                  <div className="ml-auto">
-                    <BowlFood size={32} className="text-primary" />
-                  </div>
-                </div>
-                <div className="text-xl font-bold text-gray-800">40</div>
-              </div>
+          <div className="h-[100px] rounded-[8px] bg-white border-l-4 border-primary flex items-center justify-between px-7 hover:shadow-lg transform hover:scale-105 transition duration-300 ease-out ">
+            <div>
+              <h2 className="text-base font-bold leading-3 text-primary ">
+                Total Orders
+              </h2>
+              <h1 className="text-xl font-bold text-gray-600">50</h1>
             </div>
-            <div className="w-full  px-2 mb-4">
-              <div className="bg-white border border-primary rounded-lg shadow-md h-full p-4">
-                <div className="flex items-center mb-4">
-                  <div className="text-xs font-semibold text-primary uppercase">
-                    Jumlah Pesanan
-                  </div>
-                  <div className="ml-auto">
-                    <ListBullets size={32} className="text-primary" />
-                  </div>
-                </div>
-                <div className="text-xl font-bold text-gray-800">40</div>
-              </div>
-            </div>
+            <AiFillProduct fontSize={28} className="text-black" />
           </div>
         </div>
-      </SideBar>
-      <Footer />
-    </>
+      </div>
+    </DashboardLayout>
   )
 }
 

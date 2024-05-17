@@ -1,13 +1,13 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import Button from "@components/Button"
+import { BiSolidCartAdd } from "react-icons/bi"
 const CardProduct = ({ imgSrc, name, price, linkHref }) => {
   return (
     <div className="flex justify-center py-2 ">
       <div className="w-full max-w-sm mx-2 bg-white border rounded-lg shadow ">
-        <a href="">
-          <img src={imgSrc} alt="" className="p-8 rounded-t-lg " />
-        </a>
+        <img src={imgSrc} alt="" className="p-8 rounded-lg " />
+
         <div className="px-5 pb-5">
           <Link to={linkHref}>
             <h5 className="text-xl font-semibold text-black">{name}</h5>
@@ -19,7 +19,9 @@ const CardProduct = ({ imgSrc, name, price, linkHref }) => {
         </div>
         <div className="flex items-center justify-between px-5 pb-5">
           <span className="text-base font-bold text-black">Rp. {price}</span>
-          <Button>Add To Cart</Button>
+          <Button>
+            <BiSolidCartAdd size={25} />
+          </Button>
         </div>
       </div>
     </div>

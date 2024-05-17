@@ -46,7 +46,6 @@ const LoginPage = () => {
 
   return (
     <>
-      <Header />
       <div className="flex items-center justify-center min-h-screen ">
         <div className="w-full max-w-xl px-4 py-16 bg-white">
           <h1 className="mb-2 text-3xl font-semibold text-center text-primary ">
@@ -102,7 +101,6 @@ const LoginPage = () => {
           </form>
         </div>
       </div>
-      <Footer />
     </>
   )
 }

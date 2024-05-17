@@ -8,9 +8,16 @@ import RecomendationPage from "@pages/Recomendation"
 import CartsPage from "@pages/Carts"
 import MyDashboard from "@pages/MyDashboard"
 import IsLoggedIn from "@utils/middleware/IsLoggedIn"
-import MyProducts from "@pages/Seller/MyProducts"
-import SellerOrders from "@pages/Seller/Orders"
-import MyProfile from "./pages/MyProfile"
+import MyProfile from "@pages/MyProfile"
+import MyOrderPage from "@pages/MyOrders"
+import AccessForbiddenPage from "@pages/AccesForbidden"
+import IsSeller from "@utils/middleware/IsSeller"
+import IsNotAdminAndSeller from "@utils/middleware/IsNotAdminAndCustomer"
+import IsCustomer from "@utils/middleware/IsCustomer"
+import DashboardProfile from "@pages/MyDashboard/MyProfile"
+import MyProducts from "@pages/MyDashboard/Seller/MyProducts"
+import CreateProduct from "@pages/MyDashboard/Seller/MyProducts/create"
+import SellerOrders from "@pages/MyDashboard/Seller/Orders"
 const RoutesPage = () => {
   return (
     <BrowserRouter>
@@ -22,19 +29,74 @@ const RoutesPage = () => {
         <Route path="/register" element={<RegisterPage />} />
         {/* Protectted Routes */}
         <Route element={<IsLoggedIn />}>
-          <Route path="/my-dashboard" element={<MyDashboard />} />
-          <Route path="/my-profile" element={<MyProfile />} />
+          {/* Customer Route */}
           <Route
-            path="/my-dashboard/seller/my-products"
-            element={<MyProducts />}
+            path="/carts"
+            element={
+              <IsCustomer>
+                <CartsPage />
+              </IsCustomer>
+            }
+          />
+          <Route
+            path="/my-orders"
+            element={
+              <IsCustomer>
+                <MyOrderPage />
+              </IsCustomer>
+            }
+          />
+          <Route
+            path="/my-profile"
+            element={
+              <IsCustomer>
+                <MyProfile />
+              </IsCustomer>
+            }
+          />
+          {/* Seller And Admin Route */}
+          <Route
+            path="/my-dashboard"
+            element={
+              <IsNotAdminAndSeller>
+                <MyDashboard />
+              </IsNotAdminAndSeller>
+            }
+          />
+          <Route
+            path="/my-dashboard/profile"
+            element={
+              <IsNotAdminAndSeller>
+                <DashboardProfile />
+              </IsNotAdminAndSeller>
+            }
+          />
+
+          {/* SeLler Route */}
+          <Route
+            path="/my-dashboard/seller/products"
+            element={
+              <IsSeller>
+                <MyProducts />
+              </IsSeller>
+            }
+          />
+          <Route
+            path="/my-dashboard/seller/products/create"
+            element={<CreateProduct />}
           />
           <Route
             path="/my-dashboard/seller/orders"
-            element={<SellerOrders />}
+            element={
+              <IsSeller>
+                <SellerOrders />
+              </IsSeller>
+            }
           />
-          <Route path="/carts" element={<CartsPage />} />
         </Route>
-        {/* Route Not Found */}
+
+        {/* Route Not Found  and Access Forbidden */}
+        <Route path="/access-forbidden" element={<AccessForbiddenPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>

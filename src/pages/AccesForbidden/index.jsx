@@ -11,9 +11,9 @@ const AccessForbiddenPage = () => {
         <h3 className="text-3xl font-bold text-primary">403 Access Forbiden</h3>
         <button
           className="underline transition-all text-primary hover:text-secondary "
-          onClick={() => navigate("/")}
+          onClick={() => navigate(-1)}
         >
-          Back To Home
+          Back
         </button>
       </div>
     </div>

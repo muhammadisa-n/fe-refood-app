@@ -158,7 +158,6 @@ const RegisterPage = () => {
 
   return (
     <>
-      <Header />
       <div className="flex items-center justify-center min-h-screen mt-5 mb-10 ">
         <div className="w-full max-w-xl px-4 py-16 bg-white rounded-xl">
           <h1 className="mb-2 text-3xl font-semibold text-center text-primary font-inter">
@@ -479,7 +478,6 @@ const RegisterPage = () => {
           </form>
         </div>
       </div>
-      <Footer />
     </>
   )
 }
