@@ -1,13 +1,8 @@
-import React from "react"
-import RoutesPage from "./Routes"
-import { AuthContextProvider } from "@context/authContext"
+import React from 'react'
+import RoutesPage from './Routes'
 
 const App = () => {
-  return (
-    <AuthContextProvider>
-      <RoutesPage />
-    </AuthContextProvider>
-  )
+    return <RoutesPage />
 }
 
 export default App

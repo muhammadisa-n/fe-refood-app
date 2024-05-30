@@ -1,14 +1,12 @@
 import { jwtDecode } from 'jwt-decode'
 import React from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
-const IsSeller = ({ children }) => {
+const IsAdminAndSeller = ({ children }) => {
     const location = useLocation()
     const token = localStorage.getItem('access_token')
     if (token) {
         const decoded = jwtDecode(token)
-        if (decoded.user_role === 'Seller') {
-            return children
-        } else {
+        if (decoded.user_role === 'Customer') {
             return (
                 <Navigate
                     to='/access-forbidden'
@@ -16,7 +14,9 @@ const IsSeller = ({ children }) => {
                     replace
                 />
             )
+        } else {
+            return children
         }
     }
 }
-export default IsSeller
+export default IsAdminAndSeller

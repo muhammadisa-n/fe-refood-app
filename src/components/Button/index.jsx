@@ -1,17 +1,16 @@
-import React from "react"
+import React from 'react'
 
 const Button = (props) => {
-  const { children = "Button", classname = "bg-primary ", onClick } = props
-  return (
-    <>
-      <button
-        className={`h-10 px-2 font-semibold text-white rounded-md ${classname} `}
-        onClick={onClick}
-      >
-        {children}
-      </button>
-    </>
-  )
+    const { children = 'Button', classname = 'bg-primary ', onClick } = props
+    return (
+        <>
+            <button
+                className={`h-10 px-2 font-semibold text-white rounded-md ${classname} `}
+                onClick={onClick}>
+                {children}
+            </button>
+        </>
+    )
 }
 
 export default Button
