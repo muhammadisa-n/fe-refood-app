@@ -35,9 +35,10 @@ const RegisterPage = () => {
     const [villages, setVillages] = useState([])
     const [errorMessage, setErrorMessage] = useState('')
     const navigate = useNavigate()
-
+    const [isLoading, setIsLoading] = useState(false)
     const HandleRegister = async (e) => {
         e.preventDefault()
+        setIsLoading(true)
         const data = {
             fullname: fullName,
             email: email,
@@ -58,6 +59,9 @@ const RegisterPage = () => {
             navigate('/login', { state: { message: msg } })
         } catch (error) {
             setErrorMessage(error.message)
+        } finally {
+            setIsLoading(false)
+            setErrorMessage('')
         }
     }
     useEffect(() => {
@@ -443,7 +447,17 @@ const RegisterPage = () => {
                         </NavLink>
                     </p>
                 </div>
-                <Button classname='w-full bg-primary'>Sign Up </Button>
+                <Button
+                    disabled={isLoading}
+                    classname={`w-full bg-primary relative ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}>
+                    {isLoading ? (
+                        <div className='absolute inset-0 flex items-center justify-center'>
+                            <div className='animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white'></div>
+                        </div>
+                    ) : (
+                        'Sign Up'
+                    )}
+                </Button>
             </form>
         </AuthLayout>
     )

@@ -15,8 +15,10 @@ const LoginPage = () => {
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
     const [errorMessage, setErrorMessage] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
     const HandleLogin = async (e) => {
         e.preventDefault()
+        setIsLoading(true)
         const data = {
             email: email,
             password: password,
@@ -32,6 +34,9 @@ const LoginPage = () => {
             }
         } catch (error) {
             setErrorMessage(error.message)
+        } finally {
+            setIsLoading(false)
+            setMessage('')
         }
     }
     return (
@@ -81,7 +86,17 @@ const LoginPage = () => {
                         </NavLink>
                     </p>
                 </div>
-                <Button classname='w-full bg-primary'>Log In</Button>
+                <Button
+                    disabled={isLoading}
+                    classname={`w-full bg-primary relative ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}>
+                    {isLoading ? (
+                        <div className='absolute inset-0 flex items-center justify-center'>
+                            <div className='animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white'></div>
+                        </div>
+                    ) : (
+                        'Log In'
+                    )}
+                </Button>
             </form>
         </AuthLayout>
     )
