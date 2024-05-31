@@ -10,7 +10,7 @@ import Product5Img from '@assets/product5.png'
 import Product6Img from '@assets/product6.png'
 import Product7Img from '@assets/product7.png'
 import Product8Img from '@assets/product8.png'
-const RecomendationPage = () => {
+const RecommendationPage = () => {
     const [isOpen, setIsOpen] = useState(false)
 
     const products = [
@@ -157,4 +157,4 @@ const RecomendationPage = () => {
     )
 }
 
-export default RecomendationPage
+export default RecommendationPage

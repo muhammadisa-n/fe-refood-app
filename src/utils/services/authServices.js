@@ -38,3 +38,15 @@ export const logout = async () => {
         throw error.response ? error.response.data : error
     }
 }
+
+export const verifyEmail = async (token) => {
+    try {
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}` +
+                `auth/verify-email?token=${token}`
+        )
+        return response.data
+    } catch (error) {
+        throw error.response ? error.response.data : error
+    }
+}

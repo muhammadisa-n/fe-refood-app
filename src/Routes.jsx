@@ -4,13 +4,13 @@ import HomePage from '@pages/Home'
 import LoginPage from '@pages/Login'
 import RegisterPage from '@pages/Register'
 import NotFoundPage from '@pages/NotFound'
-import RecomendationPage from '@pages/Recomendation'
+import RecommendationPage from '@pages/Recommendation'
 import CartsPage from '@pages/Carts'
 import MyDashboard from '@pages/MyDashboard'
-import IsLoggedIn from '@utils/middleware/IsLoggedIn'
 import MyProfile from '@pages/MyProfile'
 import MyOrderPage from '@pages/MyOrders'
 import AccessForbiddenPage from '@pages/AccesForbidden'
+import VerificationEmailPage from '@pages/VerificationEmail'
 import IsSeller from '@utils/middleware/IsSeller'
 import IsCustomer from '@utils/middleware/IsCustomer'
 import DashboardProfile from '@pages/MyDashboard/MyProfile'
@@ -19,16 +19,21 @@ import CreateProduct from '@pages/MyDashboard/Seller/MyProducts/create'
 import EditProduct from '@pages/MyDashboard/Seller/MyProducts/edit'
 import SellerOrders from '@pages/MyDashboard/Seller/Orders'
 import IsAdminAndSeller from '@utils/middleware/IsAdminAndSeller'
+import IsLoggedIn from '@utils/middleware/IsLoggedIn'
 const RoutesPage = () => {
     return (
         <BrowserRouter>
             <Routes>
                 {/* PublicRoute */}
                 <Route exact path='/' element={<HomePage />} />
-                <Route path='/recomendation' element={<RecomendationPage />} />
+                <Route path='/recomendation' element={<RecommendationPage />} />
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/register' element={<RegisterPage />} />
-                {/* Protectted Routes */}
+                <Route
+                    path='/verification-email'
+                    element={<VerificationEmailPage />}
+                />
+                {/* Protected Routes */}
                 <Route element={<IsLoggedIn />}>
                     {/* Customer Route */}
                     <Route
@@ -72,7 +77,7 @@ const RoutesPage = () => {
                             </IsAdminAndSeller>
                         }
                     />
-                    {/* SeLler Route */}
+                    {/* Selle Route*/}
                     <Route
                         path='/my-dashboard/seller/products'
                         element={
