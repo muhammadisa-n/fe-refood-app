@@ -8,3 +8,11 @@ export const getUser = async () => {
         throw error.response ? error.response.data : error
     }
 }
+export const updateUser = async (data) => {
+    try {
+        const response = await axiosJWT.put('user/update', data)
+        return response.data
+    } catch (error) {
+        throw error.response ? error.response.data : error
+    }
+}

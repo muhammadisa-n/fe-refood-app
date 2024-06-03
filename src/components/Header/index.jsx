@@ -6,7 +6,9 @@ import profileImage from '@assets/userdefault.png'
 import { FaShoppingCart } from 'react-icons/fa'
 import { logout } from '@utils/services/authServices.js'
 import { getUser } from '@utils/services/userServices.js'
+import { useCart } from '@context/CartContext'
 const Header = () => {
+    const { carts, refreshCart } = useCart()
     const [token, setToken] = useState(localStorage.getItem('access_token'))
     const [isOpenNavMobile, setIsOpenNavMobile] = useState(false)
     const [user, setUser] = useState([])
@@ -66,6 +68,9 @@ const Header = () => {
             fetchUser()
         }
     }, [token])
+    useEffect(() => {
+        refreshCart()
+    }, [])
     return (
         <>
             <nav className='sticky top-0 px-4 py-4 bg-white '>
@@ -99,8 +104,16 @@ const Header = () => {
                                         className={setActive}>
                                         Recommendation
                                     </NavLink>
-                                    <NavLink to='/carts' className={setActive}>
-                                        <FaShoppingCart size={20} />
+                                    <NavLink to='/carts' className='relative'>
+                                        <FaShoppingCart
+                                            size={20}
+                                            className='hover:text-primary'
+                                        />
+                                        {carts && carts.length > 0 && (
+                                            <span className='absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-primary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center'>
+                                                {carts.length}
+                                            </span>
+                                        )}
                                     </NavLink>
                                 </>
                             )}

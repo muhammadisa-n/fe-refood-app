@@ -15,7 +15,7 @@ const DropdownButton = ({ menuItems, nameUser, profileImage }) => {
                 className='inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white border rounded-md shadow-sm border-secondary bg-primary hover:bg-secondary '
                 onClick={toggleDropdown}>
                 <img
-                    className='w-6 h-6 mr-2 rounded-full'
+                    className='w-6 h-6 mr-2 rounded-full object-cover'
                     src={profileImage}
                     alt='Profile'
                 />

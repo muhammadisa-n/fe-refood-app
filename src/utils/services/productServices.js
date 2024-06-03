@@ -1,40 +1,22 @@
 import axiosJWT from '@utils/services/axiosJWT.js'
+import axios from 'axios'
 
-export const getAllProductsSeller = async () => {
+export const getAllProducts = async () => {
     try {
-        const response = await axiosJWT.get('seller/products')
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}` + 'products'
+        )
         return response.data.product
     } catch (error) {
         throw error.response ? error.response.data : error
     }
 }
-export const deleteProduct = async (id) => {
-    try {
-        const response = await axiosJWT.delete('seller/products/' + id)
-        return response.data
-    } catch (error) {
-        throw error.response ? error.response.data : error
-    }
-}
-export const addProduct = async (data) => {
-    try {
-        const response = await axiosJWT.post('seller/products/', data)
-        return response.data
-    } catch (error) {
-        throw error.response ? error.response.data : error
-    }
-}
-export const updateProduct = async (id, data) => {
-    try {
-        const response = await axiosJWT.put('seller/products/' + id, data)
-        return response.data
-    } catch (error) {
-        throw error.response ? error.response.data : error
-    }
-}
+
 export const getProductById = async (id) => {
     try {
-        const response = await axiosJWT.get('products/' + id)
+        const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}` + `products/${id}`
+        )
         return response.data.product
     } catch (error) {
         throw error.response ? error.response.data : error

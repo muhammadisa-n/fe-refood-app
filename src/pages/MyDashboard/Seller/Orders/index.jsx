@@ -1,6 +1,6 @@
 import React from 'react'
 import DashboardLayout from '@layouts/DashboardLayout'
-const SellerOrders = () => {
+const SellerOrdersPage = () => {
     return (
         <DashboardLayout>
             <div className='px-6 pt-6 '>
@@ -17,4 +17,4 @@ const SellerOrders = () => {
     )
 }
 
-export default SellerOrders
+export default SellerOrdersPage

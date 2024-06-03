@@ -25,8 +25,8 @@ const LoginPage = () => {
         }
         try {
             const response = await login(data)
-            const decodedData = jwtDecode(response.access_token)
             localStorage.setItem('access_token', response.access_token)
+            const decodedData = jwtDecode(response.access_token)
             if (decodedData.user_role !== 'Customer') {
                 navigate('/my-dashboard')
             } else {
@@ -77,12 +77,19 @@ const LoginPage = () => {
                     OnChange={(e) => setPassword(e.target.value)}
                 />
                 <div className='w-full mb-2 text-center'>
-                    <p className='text-base font-medium text-black'>
-                        {"Doesn't Have Account ?"}
+                    <p className='text-sm font-medium text-black'>
+                        {"Doesn't Have Account? "}
                         <NavLink
                             className='font-bold text-primary '
                             to='/register'>
                             Register Now
+                        </NavLink>
+                    </p>
+                    <p className='text-sm font-medium text-black my-2'>
+                        <NavLink
+                            className='font-bold text-primary '
+                            to='/forgot-password'>
+                            Forgot Password?
                         </NavLink>
                     </p>
                 </div>

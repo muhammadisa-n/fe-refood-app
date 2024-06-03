@@ -4,7 +4,7 @@ import InputForm from '@components/InputForm'
 import Button from '@components/Button'
 import { useNavigate } from 'react-router-dom'
 import AlertMessage from '@components/AlertMessage'
-import AuthLayout from '@layouts/AuthLayout/index.jsx'
+import AuthLayout from '@layouts/AuthLayout'
 import { register } from '@utils/services/authServices.js'
 import {
     fetchProvinces,
@@ -61,7 +61,6 @@ const RegisterPage = () => {
             setErrorMessage(error.message)
         } finally {
             setIsLoading(false)
-            setErrorMessage('')
         }
     }
     useEffect(() => {

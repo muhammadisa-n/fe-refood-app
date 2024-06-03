@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import DashboardLayout from '@layouts/DashboardLayout'
 import ImgDefault from '@assets/userdefault.png'
-import axiosJWT from '@utils/services/axiosJWT.js'
 import Swal from 'sweetalert2'
 import InputForm from '@components/InputForm'
-import axios from 'axios'
 import AlertMessage from '@components/AlertMessage/index.jsx'
+import { getUser, updateUser } from '@utils/services/userServices.js'
+import {
+    fetchProvinces,
+    fetchCities,
+    fetchDistricts,
+    fetchVillages,
+} from '@utils/services/locationServices.js'
 
-const DashboardProfile = () => {
-    const [token, setToken] = useState(
-        localStorage.getItem('access_token') || ''
-    )
+const DashboardProfilePage = () => {
+    const [token, setToken] = useState(localStorage.getItem('access_token'))
     const [openEditMenu, setOpenEditMenu] = useState(false)
     const [user, setUser] = useState()
     const [errorMessage, SetErrorMessage] = useState('')
@@ -34,44 +37,8 @@ const DashboardProfile = () => {
     const [image, setImage] = useState(null)
     const [previewImg, setPreviewImg] = useState('')
 
-    const handleUpdate = async (e) => {
-        e.preventDefault()
-        const formData = new FormData()
-        formData.append('fullname', fullName)
-        formData.append('province', selectedProvinceName)
-        formData.append('city', selectedCityName)
-        formData.append('district', selectedDistrictName)
-        formData.append('village', selectedVillageName)
-        formData.append('postal_code', postalCode)
-        formData.append('address', address)
-        formData.append('no_hp', noHp)
-        if (image) {
-            formData.append('image', image)
-        }
-
-        try {
-            const response = await axiosJWT.put('user/update', formData)
-            Swal.fire({
-                icon: 'success',
-                title: `${response.data.message}`,
-                showConfirmButton: true,
-                timer: 1500,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    setOpenEditMenu(false)
-                    getUser()
-                }
-            })
-        } catch (error) {
-            if (error.response) {
-                SetErrorMessage(error.response.data.message)
-            }
-        }
-    }
-
-    const getUser = async () => {
-        const response = await axiosJWT.get('user/get')
-        const userdata = response.data.user
+    const fetcUser = async () => {
+        const userdata = await getUser()
         setUser(userdata)
         setFullName(userdata.fullname)
         setNoHp(userdata.no_hp)
@@ -87,116 +54,27 @@ const DashboardProfile = () => {
         } else {
             setPreviewImg(ImgDefault)
         }
-
-        // Fetch data kota, kecamatan, dan kelurahan berdasarkan nama provinsi, kota, dan kecamatan yang ada
-        if (userdata.province) {
-            const province = provinces.find(
-                (prov) => prov.name === userdata.province
-            )
-            if (province) {
-                setSelectedProvince(province.id)
-                fetchCities(province.id)
-            }
-        }
-        if (userdata.city) {
-            const city = cities.find((ct) => ct.name === userdata.city)
-            if (city) {
-                setSelectedCity(city.id)
-                fetchDistricts(city.id)
-            }
-        }
-        if (userdata.district) {
-            const district = districts.find(
-                (dist) => dist.name === userdata.district
-            )
-            if (district) {
-                setSelectedDistrict(district.id)
-                fetchVillages(district.id)
-            }
-        }
     }
 
     useEffect(() => {
         if (token) {
-            getUser()
+            fetcUser()
         }
-    }, [token])
-
-    const loadImage = (e) => {
-        const file = e.target.files[0]
-        setImage(file)
-        setPreviewImg(URL.createObjectURL(file))
-    }
-
-    useEffect(() => {
-        // Fetch data provinsi dari URL
-        axios
-            .get(
-                'https://muhammadisa226.github.io/api-wilayah-indonesia/api/provinces.json'
-            )
-            .then((response) => {
-                setProvinces(response.data)
-            })
-            .catch((error) => console.error('Error fetching provinces:', error))
     }, [])
 
     useEffect(() => {
-        if (selectedProvince) {
-            fetchCities(selectedProvince)
+        const loadProvinces = async () => {
+            try {
+                const provincesData = await fetchProvinces()
+                setProvinces(provincesData)
+            } catch (error) {
+                console.error('Error fetching provinces:', error)
+            }
         }
-    }, [selectedProvince])
+        loadProvinces()
+    }, [])
 
-    useEffect(() => {
-        if (selectedCity) {
-            fetchDistricts(selectedCity)
-        }
-    }, [selectedCity])
-
-    useEffect(() => {
-        if (selectedDistrict) {
-            fetchVillages(selectedDistrict)
-        }
-    }, [selectedDistrict])
-
-    const fetchCities = (provinceId) => {
-        // Fetch data kota berdasarkan id provinsi yang dipilih
-        axios
-            .get(
-                `https://muhammadisa226.github.io/api-wilayah-indonesia/api/regencies/${provinceId}.json`
-            )
-            .then((response) => {
-                setCities(response.data)
-            })
-            .catch((error) => {
-                console.error('Error fetching cities:', error)
-            })
-    }
-
-    const fetchDistricts = (cityId) => {
-        // Fetch data kecamatan berdasarkan id kota yang dipilih
-        axios
-            .get(
-                `https://muhammadisa226.github.io/api-wilayah-indonesia/api/districts/${cityId}.json`
-            )
-            .then((response) => {
-                setDistricts(response.data)
-            })
-            .catch((error) => console.error('Error fetching districts:', error))
-    }
-
-    const fetchVillages = (districtId) => {
-        // Fetch data kelurahan berdasarkan id kecamatan yang dipilih
-        axios
-            .get(
-                `https://muhammadisa226.github.io/api-wilayah-indonesia/api/villages/${districtId}.json`
-            )
-            .then((response) => {
-                setVillages(response.data)
-            })
-            .catch((error) => console.error('Error fetching villages:', error))
-    }
-
-    const handleProvinceChange = (event) => {
+    const handleProvinceChange = async (event) => {
         const selectedProvinceId = event.target.value
         const provinceName =
             event.target.options[event.target.selectedIndex].text
@@ -209,10 +87,15 @@ const DashboardProfile = () => {
         setSelectedDistrictName('')
         setSelectedVillageName('')
 
-        fetchCities(selectedProvinceId)
+        try {
+            const citiesData = await fetchCities(selectedProvinceId)
+            setCities(citiesData)
+        } catch (error) {
+            console.error('Error fetching cities:', error)
+        }
     }
 
-    const handleCityChange = (event) => {
+    const handleCityChange = async (event) => {
         const selectedCityId = event.target.value
         const cityName = event.target.options[event.target.selectedIndex].text
         setSelectedCity(selectedCityId)
@@ -222,10 +105,15 @@ const DashboardProfile = () => {
         setSelectedDistrictName('')
         setSelectedVillageName('')
 
-        fetchDistricts(selectedCityId)
+        try {
+            const districtsData = await fetchDistricts(selectedCityId)
+            setDistricts(districtsData)
+        } catch (error) {
+            console.error('Error fetching districts:', error)
+        }
     }
 
-    const handleDistrictChange = (event) => {
+    const handleDistrictChange = async (event) => {
         const selectedDistrictId = event.target.value
         const districtName =
             event.target.options[event.target.selectedIndex].text
@@ -234,15 +122,55 @@ const DashboardProfile = () => {
         setSelectedVillage('')
         setSelectedVillageName('')
 
-        fetchVillages(selectedDistrictId)
+        try {
+            const villagesData = await fetchVillages(selectedDistrictId)
+            setVillages(villagesData)
+        } catch (error) {
+            console.error('Error fetching villages:', error)
+        }
     }
 
     const handleVillageChange = (event) => {
-        const selectedVillageId = event.target.value
+        setSelectedVillage(event.target.value)
         const villageName =
             event.target.options[event.target.selectedIndex].text
-        setSelectedVillage(selectedVillageId)
         setSelectedVillageName(villageName)
+    }
+
+    const handleUpdate = async (e) => {
+        e.preventDefault()
+        const formData = new FormData()
+        formData.append('fullname', fullName)
+        formData.append('province', selectedProvinceName)
+        formData.append('city', selectedCityName)
+        formData.append('district', selectedDistrictName)
+        formData.append('village', selectedVillageName)
+        formData.append('postal_code', postalCode)
+        formData.append('address', address)
+        formData.append('no_hp', noHp)
+        formData.append('image', image)
+        try {
+            const response = await updateUser(formData)
+            Swal.fire({
+                icon: 'success',
+                title: `${response.message}`,
+                showConfirmButton: true,
+                timer: 1500,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    setOpenEditMenu(false)
+                    fetcUser()
+                }
+            })
+        } catch (error) {
+            SetErrorMessage(error.message)
+        }
+    }
+
+    const loadImage = (e) => {
+        const file = e.target.files[0]
+        setImage(file)
+        setPreviewImg(URL.createObjectURL(file))
     }
 
     return (
@@ -250,18 +178,18 @@ const DashboardProfile = () => {
             <div className='px-6 pt-6'>
                 <div className='flex items-center'>
                     <h1 className='text-3xl font-semibold text-primary'>
-                        Profil Saya
+                        My Profile
                     </h1>
                 </div>
                 {openEditMenu === false ? (
                     <div className='pb-4 mt-5'>
                         <div className='flex flex-col max-w-full mt-10'>
                             <div className='container px-4 py-8 mx-auto'>
-                                <div className='w-[75%] mx-auto bg-white rounded-lg shadow-md'>
+                                <div className='w-full mx-auto bg-white rounded-lg shadow-md'>
                                     <div className='justify-between md:flex'>
                                         <div className='px-4 py-8'>
                                             <img
-                                                className='object-cover w-full h-48 md:w-48'
+                                                className='object-cover w-full h-48 md:w-48 rounded-full'
                                                 src={previewImg}
                                                 alt='Profil'
                                             />
@@ -273,13 +201,16 @@ const DashboardProfile = () => {
                                                 </h2>
                                                 <p className='mt-2 text-gray-600'>
                                                     Role: {user?.role}
+                                                </p>{' '}
+                                                <p className='mt-2 text-gray-600'>
+                                                    Email: {user?.email}
                                                 </p>
                                                 <p className='mt-2 text-gray-600'>
                                                     Phone: {user?.no_hp}
                                                 </p>
                                                 <p className='mt-2 text-gray-600'>
                                                     Address:{' '}
-                                                    {`${user?.address}, ${user?.district}, ${user?.city}, ${user?.province}, ${user?.postal_code}`}
+                                                    {`${user?.address}, ${user?.village} ${user?.district}, ${user?.city}, ${user?.province}, ${user?.postal_code}`}
                                                 </p>
                                             </div>
                                             <div className='ml-auto'>
@@ -568,6 +499,29 @@ const DashboardProfile = () => {
                                                     />
                                                 </div>
                                             </div>
+                                            <div className='mb-6'>
+                                                <label
+                                                    htmlFor='image'
+                                                    className='block mb-2 text-sm font-bold text-slate-700'>
+                                                    Image Profile
+                                                </label>
+                                                <div className='relative inline-block'>
+                                                    <input
+                                                        type='file'
+                                                        className='file:absolute file:right-0 file:bg-primary bg-white py-2 px-4 rounded-full file:text-white file:border-0  file:rounded-full'
+                                                        onChange={loadImage}
+                                                    />
+                                                </div>
+                                            </div>
+                                            {previewImg && (
+                                                <div className='my-4'>
+                                                    <img
+                                                        src={previewImg}
+                                                        className='w-[250px] h-[250px] px-2 py-2 bg-transparent rounded-full'
+                                                        alt='Preview Product'
+                                                    />
+                                                </div>
+                                            )}
                                             <div className='flex justify-end mt-6'>
                                                 <button
                                                     onClick={handleUpdate}
@@ -596,4 +550,4 @@ const DashboardProfile = () => {
     )
 }
 
-export default DashboardProfile
+export default DashboardProfilePage

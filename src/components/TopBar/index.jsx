@@ -26,18 +26,9 @@ const TopBar = () => {
                     <FaRegBell></FaRegBell>
                 </div>
                 <div className='flex items-center gap-3'>
-                    <p>{user?.fullname}</p>
-                    <div className='w-[40px] h-[40px] rounded-full  flex items-center justify-center relative bg-primary '>
-                        <img
-                            src={
-                                user?.url_image
-                                    ? user?.url_image
-                                    : defaultProfileImg
-                            }
-                            className='rounded-full'
-                            alt='image-profile'
-                        />
-                    </div>
+                    <p className='font-bold tracking-widest'>
+                        {user?.fullname}
+                    </p>
                 </div>
             </div>
         </div>

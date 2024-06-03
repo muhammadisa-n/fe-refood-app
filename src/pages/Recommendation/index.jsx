@@ -147,7 +147,7 @@ const RecommendationPage = () => {
                 ) : (
                     <div className='mx-10 my-10 md:grid-cols-4'>
                         <h5 className='text-center text-slate-400 text-4xl'>
-                            Product Not Found
+                            No Data Product
                         </h5>
                     </div>
                 )}
