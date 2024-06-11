@@ -61,9 +61,9 @@ const SellerProductsPage = () => {
                         </Link>
                     </div>
                 </div>
-                <div className='mt-5 basis-[85%]  '>
+                <div className='mt-5 basis-[85%] '>
                     <div className='relative overflow-x-auto'>
-                        <table className='w-full text-sm text-left text-white rtl:text-right'>
+                        <table className='w-full text-sm text-left text-white rtl:text-right border'>
                             <thead className='text-xs text-black uppercase bg-white '>
                                 <tr>
                                     <th scope='col' className='px-6 py-3'>
@@ -74,9 +74,6 @@ const SellerProductsPage = () => {
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
                                         Price
-                                    </th>
-                                    <th scope='col' className='px-6 py-3'>
-                                        Stock
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
                                         Status
@@ -109,12 +106,9 @@ const SellerProductsPage = () => {
                                                     {product.price}
                                                 </td>
                                                 <td className='px-6 py-4'>
-                                                    {product.stock}
-                                                </td>
-                                                <td className='px-6 py-4'>
-                                                    {product.is_valid
-                                                        ? 'Valid'
-                                                        : 'Invalid'}
+                                                    {product.is_active
+                                                        ? 'Active'
+                                                        : 'Not Active'}
                                                 </td>
                                                 <td className='px-6 py-4'>
                                                     <Link

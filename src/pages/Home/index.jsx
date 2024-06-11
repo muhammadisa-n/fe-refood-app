@@ -1,66 +1,44 @@
 import React, { useEffect, useState } from 'react'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
+import MainLayout from '@layouts/MainLayout'
 import Banner from '@components/Banner'
-import foodImg1 from '@assets/fast.png'
-import foodImg2 from '@assets/foodhome.png'
-
-import CardCategory from '@components/CardCategory'
 import CardProduct from '@components/CardProduct'
 import { getAllProducts } from '@utils/services/productServices.js'
-import { useCart } from '@context/CartContext'
 const HomePage = () => {
-    const { addToCart, refreshCart } = useCart()
     const [products, setProducts] = useState([])
-
+    const [take, setTake] = useState(8)
+    const [skip, setSkip] = useState(0)
+    const [cursor, setCursor] = useState('')
+    const [totalProducts, setTotalProducts] = useState()
+    const [isLoading, setIsLoading] = useState(false)
+    const [page, setPage] = useState(1)
     useEffect(() => {
         const fetchProduct = async () => {
-            const response = await getAllProducts()
-            setProducts(response)
+            setIsLoading(true)
+            const response = await getAllProducts(take, skip)
+            setProducts(response.products)
+            setTotalProducts(response.totalProduct)
+            setCursor(response.cursor)
         }
         fetchProduct()
-    }, [])
+    }, [take, skip])
 
-    const handleAddCart = async (id) => {
-        try {
-            await addToCart(id)
-            await refreshCart()
-        } catch (error) {
-            console.error(error)
+    const handlePrev = () => {
+        if (skip > 0) {
+            setCursor(products[0].id)
+            setSkip(skip - take)
+            setPage(page - 1)
         }
     }
-
-    const categories = [
-        {
-            title: 'Fast Food',
-            imgSrc: foodImg1,
-            linkHref: '/category',
-        },
-        {
-            title: 'Home Food',
-            imgSrc: foodImg2,
-            linkHref: '/category',
-        },
-    ]
-
+    const handleNext = () => {
+        if (totalProducts > products.length) {
+            setSkip(skip + take)
+            setPage(page + 1)
+        }
+    }
     return (
-        <>
-            <Header />
+        <MainLayout>
             <Banner />
             <div className='flex flex-col max-w-full min-h-screen mt-10'>
-                <div className='flex items-center w-40 px-4 mx-2 md:mx-[70px] text-center text-white rounded-md h-11 bg-primary'>
-                    <p className='font-semibold'>Food Category</p>
-                </div>
-                <div className='grid grid-cols-2 mx-10 my-10 md:grid-cols-2'>
-                    {categories.map((item, index) => (
-                        <CardCategory
-                            key={index}
-                            imgSrc={item.imgSrc}
-                            title={item.title}
-                            linkHref={item.linkHref}
-                        />
-                    ))}
-                </div>
                 <div className='mt-10 text-center '>
                     <p className='text-3xl font-bold text-primary'>All Foods</p>
                 </div>
@@ -68,12 +46,9 @@ const HomePage = () => {
                     <form action='#'>
                         <input
                             type='text'
-                            className='w-[75%] px-2 py-4 text-primary font-normal focus:ring-primary focus:ring-1 focus:outline-none rounded-lg'
+                            className='w-[75%] px-2 py-4 text-primary border font-normal focus:ring-primary focus:ring-1 focus:outline-none rounded-lg'
                             placeholder='Search Food...'
                         />
-                        <button className='px-5 py-3 mx-2 text-lg font-semibold text-white rounded-lg bg-primary'>
-                            Search
-                        </button>
                     </form>
                 </div>
 
@@ -87,25 +62,42 @@ const HomePage = () => {
                     </>
                 ) : (
                     <>
-                        <div className='grid grid-cols-3 mx-10 my-10 md:grid-cols-4'>
+                        <div className='grid grid-cols-2 mx-10 my-10 md:grid-cols-4'>
                             {products.map((product, index) => (
                                 <CardProduct
                                     key={index}
                                     id={product.id}
                                     name={product.name}
+                                    productCategory={product.Category.name}
                                     description={product.description}
                                     price={product.price}
-                                    onClick={() => handleAddCart(product.id)}
-                                    imgSrc={product.url_image}
+                                    imgSrc={product.image_url}
                                 />
                             ))}
                         </div>
                     </>
                 )}
             </div>
+            <div className='mb-20 text-center space-x-5'>
+                {skip > 0 && (
+                    <button
+                        className='bg-primary text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md'
+                        onClick={() => handlePrev()}>
+                        Prev
+                    </button>
+                )}
+                {totalProducts > 8 && <span>{page}</span>}
 
-            <Footer />
-        </>
+                {totalProducts > products.length &&
+                    skip + take < totalProducts && (
+                        <button
+                            className='bg-primary text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md'
+                            onClick={() => handleNext()}>
+                            Next
+                        </button>
+                    )}
+            </div>
+        </MainLayout>
     )
 }
 

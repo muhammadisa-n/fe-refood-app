@@ -12,7 +12,7 @@ export const getAllProducts = async () => {
 export const changeStatusProduct = async (id, status) => {
     try {
         const response = axiosJWT.patch(`admin/products/change-status/${id}`, {
-            is_valid: status,
+            is_active: status,
         })
         return response.data
     } catch (error) {

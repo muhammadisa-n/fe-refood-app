@@ -11,7 +11,7 @@ const Button = (props) => {
         <>
             <button
                 disabled={disabled}
-                className={`h-10 px-2 font-semibold text-white rounded-md ${classname} `}
+                className={`h-10 px-2 font-semibold text-white rounded-md  ${classname} `}
                 onClick={onClick}>
                 {children}
             </button>

@@ -13,20 +13,20 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
     const [carts, setCart] = useState([])
-    const [token, setToken] = useState(localStorage.getItem('access_token'))
+    const token = localStorage.getItem('access_token') || ''
     const refreshCart = async () => {
-        if (token) {
+        if (token !== '') {
             const response = await getAllCarts([])
             setCart(response)
         }
     }
 
-    const addToCart = async (productId) => {
+    const addToCart = async (data) => {
         try {
-            if (token) {
-                const response = await addCart(productId)
+            if (token !== '') {
+                const response = await addCart(data)
+                await refreshCart()
                 return response
-                getAllCart()
             }
         } catch (error) {
             console.error(error.message)
@@ -34,7 +34,7 @@ export const CartProvider = ({ children }) => {
     }
 
     const removeCart = async (productId) => {
-        if (token) {
+        if (token !== '') {
             const response = await deleteCart(productId)
             await refreshCart()
             return response

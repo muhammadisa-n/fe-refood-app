@@ -4,7 +4,7 @@ const AuthLayout = ({ children, title, subtitle, margin = 'mt-0' }) => {
     return (
         <div
             className={`flex items-center justify-center min-h-screen ${margin}  `}>
-            <div className='w-full max-w-xl px-4 py-16 bg-white'>
+            <div className='w-full max-w-xl px-4 py-16 bg-white border shadow-md mb-10'>
                 <h1 className='mb-2 text-3xl font-semibold text-center text-primary '>
                     {title}
                 </h1>

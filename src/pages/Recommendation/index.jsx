@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
+import MainLayout from '@layouts/MainLayout'
 import CardProduct from '../../components/CardProduct'
 import Product1Img from '@assets/product1.png'
 import Product2Img from '@assets/product2.png'
@@ -65,26 +64,22 @@ const RecommendationPage = () => {
     ]
 
     return (
-        <>
-            <Header />
+        <MainLayout>
             <div className='flex flex-col max-w-full min-h-screen mt-10'>
-                <div className='grid grid-cols-4'>
+                <div className='grid grid-cols-3'>
                     <div className='px-4 mt-10 text-center mx-10'>
                         <select
                             name='option1'
                             id='option1'
                             className='w-full px-3 py-3 text-sm border rounded-lg text-white font-semibold bg-primary'>
                             <option value='' id='option1'>
-                                Bahan Makanan
+                                Kategori Makanan
                             </option>
-                            <option value='' id='option1'>
-                                Daging
+                            <option value='' id='option2'>
+                                Makanan Cepat Saji
                             </option>
-                            <option value='' id='option1'>
-                                Sayuran
-                            </option>
-                            <option value='' id='option1'>
-                                Ikan
+                            <option value='' id='option2'>
+                                Makanan Rumahan
                             </option>
                         </select>
                     </div>
@@ -107,22 +102,7 @@ const RecommendationPage = () => {
                             </option>
                         </select>
                     </div>
-                    <div className='px-4 mt-10 text-center mx-10'>
-                        <select
-                            name='option3'
-                            id='option3'
-                            className='w-full px-3 py-3 text-sm border  text-white font-semibold bg-primary rounded-lg'>
-                            <option value='' id='option2'>
-                                Jenis Makanan
-                            </option>
-                            <option value='' id='option2'>
-                                Makanan Cepat Saji
-                            </option>
-                            <option value='' id='option2'>
-                                Makanan Rumahan
-                            </option>
-                        </select>
-                    </div>
+
                     <div className='px-4 mt-10 text-center mx-10'>
                         <button
                             className='w-full px-3 py-3 text-sm border rounded-lg text-white font-semibold bg-primary'
@@ -152,8 +132,7 @@ const RecommendationPage = () => {
                     </div>
                 )}
             </div>
-            <Footer />
-        </>
+        </MainLayout>
     )
 }
 

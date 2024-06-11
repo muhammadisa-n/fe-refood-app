@@ -9,9 +9,9 @@ export const getAllCarts = async () => {
     }
 }
 
-export const addCart = async (productId) => {
+export const addCart = async (data) => {
     try {
-        const response = await axiosJWT.post('cart', { productId: productId })
+        const response = await axiosJWT.post('cart', data)
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error

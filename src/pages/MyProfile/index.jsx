@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
 import ImgDefault from '@assets/userdefault.png'
 import { getUser, updateUser } from '@utils/services/userServices.js'
 import {
@@ -12,13 +10,14 @@ import {
 import Swal from 'sweetalert2'
 import AlertMessage from '@components/AlertMessage'
 import InputForm from '@components/InputForm'
+import MainLayout from '@layouts/MainLayout'
 
 const MyProfilePage = () => {
     const [token, setToken] = useState(localStorage.getItem('access_token'))
     const [openEditMenu, setOpenEditMenu] = useState(false)
     const [user, setUser] = useState()
     const [errorMessage, SetErrorMessage] = useState('')
-    const [fullName, setFullName] = useState('')
+    const [name, setName] = useState('')
     const [selectedProvince, setSelectedProvince] = useState('')
     const [selectedProvinceName, setSelectedProvinceName] = useState('')
     const [selectedCity, setSelectedCity] = useState('')
@@ -29,7 +28,6 @@ const MyProfilePage = () => {
     const [selectedVillageName, setSelectedVillageName] = useState('')
     const [postalCode, setPostalCode] = useState('')
     const [address, setAddress] = useState('')
-    const [selectedRole, setSelectedRole] = useState('')
     const [noHp, setNoHp] = useState('')
     const [provinces, setProvinces] = useState([])
     const [cities, setCities] = useState([])
@@ -41,17 +39,16 @@ const MyProfilePage = () => {
     const fetcUser = async () => {
         const userdata = await getUser()
         setUser(userdata)
-        setFullName(userdata.fullname)
+        setName(userdata.name)
         setNoHp(userdata.no_hp)
         setAddress(userdata.address)
         setPostalCode(userdata.postal_code)
-        setSelectedRole(userdata.role)
         setSelectedProvinceName(userdata.province)
         setSelectedCityName(userdata.city)
         setSelectedDistrictName(userdata.district)
         setSelectedVillageName(userdata.village)
-        if (userdata.url_image) {
-            setPreviewImg(userdata.url_image)
+        if (userdata.ava_image_url) {
+            setPreviewImg(userdata.ava_image_url)
         } else {
             setPreviewImg(ImgDefault)
         }
@@ -141,7 +138,7 @@ const MyProfilePage = () => {
     const handleUpdate = async (e) => {
         e.preventDefault()
         const formData = new FormData()
-        formData.append('fullname', fullName)
+        formData.append('name', name)
         formData.append('province', selectedProvinceName)
         formData.append('city', selectedCityName)
         formData.append('district', selectedDistrictName)
@@ -174,14 +171,13 @@ const MyProfilePage = () => {
         setPreviewImg(URL.createObjectURL(file))
     }
     return (
-        <>
-            <Header />
+        <MainLayout>
             <div className='px-6 pt-2 min-h-screen'>
                 {openEditMenu === false ? (
                     <div className='pb-4 mt-5'>
                         <div className='flex flex-col max-w-full mt-10'>
                             <div className='container px-4 py-8 mx-auto'>
-                                <div className='w-full mx-auto bg-white rounded-lg shadow-md'>
+                                <div className='w-full mx-auto bg-white rounded-lg shadow-md border'>
                                     <div className='justify-between md:flex'>
                                         <div className='px-4 py-8'>
                                             <img
@@ -192,12 +188,9 @@ const MyProfilePage = () => {
                                         </div>
                                         <div className='flex items-start px-4 py-8'>
                                             <div>
-                                                <h2 className='text-xl font-semibold text-gray-800'>
-                                                    {user?.fullname}
+                                                <h2 className='text-2xl font-semibold text-gray-800'>
+                                                    {user?.name}
                                                 </h2>
-                                                <p className='mt-2 text-gray-600'>
-                                                    Role: {user?.role}
-                                                </p>{' '}
                                                 <p className='mt-2 text-gray-600'>
                                                     Email: {user?.email}
                                                 </p>
@@ -206,7 +199,7 @@ const MyProfilePage = () => {
                                                 </p>
                                                 <p className='mt-2 text-gray-600'>
                                                     Address:{' '}
-                                                    {`${user?.address}, ${user?.village} ${user?.district}, ${user?.city}, ${user?.province}, ${user?.postal_code}`}
+                                                    {`${user?.address}, ${user?.village}, ${user?.district}, ${user?.city}, ${user?.province}, ${user?.postal_code}`}
                                                 </p>
                                             </div>
                                             <div className='ml-auto'>
@@ -228,9 +221,9 @@ const MyProfilePage = () => {
                     </div>
                 ) : (
                     <div className='pb-4 mt-5'>
-                        <div className='flex flex-col max-w-full mt-10'>
-                            <div className='container px-4 py-8 mx-auto'>
-                                <div className='w-[75%] mx-auto bg-white rounded-lg shadow-md'>
+                        <div className='flex flex-col max-w-full mt-10 '>
+                            <div className='container px-4 py-8 mx-auto '>
+                                <div className='w-[75%] mx-auto bg-white rounded-lg shadow-md border'>
                                     <div className=''>
                                         <div className='px-4 py-8'>
                                             {errorMessage && (
@@ -244,39 +237,20 @@ const MyProfilePage = () => {
                                                 </AlertMessage>
                                             )}
                                             <div className='flex w-full flex-col gap-2'>
-                                                {selectedRole === 'Seller' ? (
-                                                    <div className='w-full'>
-                                                        <InputForm
-                                                            label='Name Merchant'
-                                                            name='fullname'
-                                                            placeholder='Name Merchant...'
-                                                            type='text'
-                                                            value={fullName}
-                                                            OnChange={(e) =>
-                                                                setFullName(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
-                                                ) : (
-                                                    <div className='w-full'>
-                                                        <InputForm
-                                                            label='Full Name'
-                                                            name='fullname'
-                                                            placeholder='Your FullName...'
-                                                            type='text'
-                                                            value={fullName}
-                                                            OnChange={(e) =>
-                                                                setFullName(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
-                                                )}
+                                                <div className='w-full'>
+                                                    <InputForm
+                                                        label='Full Name'
+                                                        name='fullname'
+                                                        placeholder='Your FullName...'
+                                                        type='text'
+                                                        value={name}
+                                                        OnChange={(e) =>
+                                                            setName(
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
                                                 <div className='flex w-full gap-2'>
                                                     <div className='w-1/2'>
                                                         <label
@@ -513,8 +487,8 @@ const MyProfilePage = () => {
                                                 <div className='my-4'>
                                                     <img
                                                         src={previewImg}
-                                                        className='w-[250px] h-[250px] px-2 py-2 bg-transparent rounded-full'
-                                                        alt='Preview Product'
+                                                        className='w-[250px] h-[250px] px-2 py-2 bg-transparent rounded-full object-cover'
+                                                        alt='Preview Profile'
                                                     />
                                                 </div>
                                             )}
@@ -542,9 +516,7 @@ const MyProfilePage = () => {
                     </div>
                 )}
             </div>
-
-            <Footer />
-        </>
+        </MainLayout>
     )
 }
 

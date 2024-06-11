@@ -61,7 +61,7 @@ const AdminCategoryPage = () => {
                 </div>
                 <div className='mt-5 basis-[85%]  '>
                     <div className='relative overflow-x-auto'>
-                        <table className='w-full text-sm text-left text-white rtl:text-right'>
+                        <table className='w-full text-sm text-left text-white rtl:text-right border'>
                             <thead className='text-xs text-black uppercase bg-white '>
                                 <tr>
                                     <th scope='col' className='px-6 py-3'>

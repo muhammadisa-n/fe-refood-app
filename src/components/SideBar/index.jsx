@@ -9,7 +9,9 @@ import { CiLogout } from 'react-icons/ci'
 import { logout } from '@utils/services/authServices.js'
 import { jwtDecode } from 'jwt-decode'
 const SideBar = () => {
-    const [token, setToken] = useState(localStorage.getItem('access_token'))
+    const [token, setToken] = useState(
+        localStorage.getItem('access_token') || ''
+    )
     const navigate = useNavigate()
     const decoded = jwtDecode(token)
     const HandleLogout = async () => {
@@ -20,7 +22,7 @@ const SideBar = () => {
     }
 
     return (
-        <div className='hidden h-screen px-6 md:block bg-primary'>
+        <div className=' h-screen px-6  bg-primary'>
             <div className='flex items-center justify-center px-4 border-b py-7'>
                 <h1 className='text-xl font-extrabold leading-6 text-center text-white cursor-pointer'>
                     My Dashboard

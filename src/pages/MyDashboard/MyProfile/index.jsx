@@ -17,7 +17,7 @@ const DashboardProfilePage = () => {
     const [openEditMenu, setOpenEditMenu] = useState(false)
     const [user, setUser] = useState()
     const [errorMessage, SetErrorMessage] = useState('')
-    const [fullName, setFullName] = useState('')
+    const [name, setName] = useState('')
     const [selectedProvince, setSelectedProvince] = useState('')
     const [selectedProvinceName, setSelectedProvinceName] = useState('')
     const [selectedCity, setSelectedCity] = useState('')
@@ -40,17 +40,16 @@ const DashboardProfilePage = () => {
     const fetcUser = async () => {
         const userdata = await getUser()
         setUser(userdata)
-        setFullName(userdata.fullname)
+        setName(userdata.name)
         setNoHp(userdata.no_hp)
         setAddress(userdata.address)
         setPostalCode(userdata.postal_code)
-        setSelectedRole(userdata.role)
         setSelectedProvinceName(userdata.province)
         setSelectedCityName(userdata.city)
         setSelectedDistrictName(userdata.district)
         setSelectedVillageName(userdata.village)
-        if (userdata.url_image) {
-            setPreviewImg(userdata.url_image)
+        if (userdata.ava_url_image) {
+            setPreviewImg(userdata.ava_url_image)
         } else {
             setPreviewImg(ImgDefault)
         }
@@ -140,7 +139,7 @@ const DashboardProfilePage = () => {
     const handleUpdate = async (e) => {
         e.preventDefault()
         const formData = new FormData()
-        formData.append('fullname', fullName)
+        formData.append('name', name)
         formData.append('province', selectedProvinceName)
         formData.append('city', selectedCityName)
         formData.append('district', selectedDistrictName)
@@ -148,7 +147,7 @@ const DashboardProfilePage = () => {
         formData.append('postal_code', postalCode)
         formData.append('address', address)
         formData.append('no_hp', noHp)
-        formData.append('image', image)
+        formData.append('ava_image', image)
         try {
             const response = await updateUser(formData)
             Swal.fire({
@@ -196,12 +195,9 @@ const DashboardProfilePage = () => {
                                         </div>
                                         <div className='flex items-start px-4 py-8'>
                                             <div>
-                                                <h2 className='text-xl font-semibold text-gray-800'>
-                                                    {user?.fullname}
+                                                <h2 className='text-2xl font-semibold text-gray-800'>
+                                                    {user?.name}
                                                 </h2>
-                                                <p className='mt-2 text-gray-600'>
-                                                    Role: {user?.role}
-                                                </p>{' '}
                                                 <p className='mt-2 text-gray-600'>
                                                     Email: {user?.email}
                                                 </p>
@@ -248,39 +244,21 @@ const DashboardProfilePage = () => {
                                                 </AlertMessage>
                                             )}
                                             <div className='flex w-full flex-col gap-2'>
-                                                {selectedRole === 'Seller' ? (
-                                                    <div className='w-full'>
-                                                        <InputForm
-                                                            label='Name Merchant'
-                                                            name='fullname'
-                                                            placeholder='Name Merchant...'
-                                                            type='text'
-                                                            value={fullName}
-                                                            OnChange={(e) =>
-                                                                setFullName(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
-                                                ) : (
-                                                    <div className='w-full'>
-                                                        <InputForm
-                                                            label='Full Name'
-                                                            name='fullname'
-                                                            placeholder='Your FullName...'
-                                                            type='text'
-                                                            value={fullName}
-                                                            OnChange={(e) =>
-                                                                setFullName(
-                                                                    e.target
-                                                                        .value
-                                                                )
-                                                            }
-                                                        />
-                                                    </div>
-                                                )}
+                                                <div className='w-full'>
+                                                    <InputForm
+                                                        label='Name Merchant'
+                                                        name='name'
+                                                        placeholder='Name Merchant...'
+                                                        type='text'
+                                                        value={name}
+                                                        OnChange={(e) =>
+                                                            setName(
+                                                                e.target.value
+                                                            )
+                                                        }
+                                                    />
+                                                </div>
+
                                                 <div className='flex w-full gap-2'>
                                                     <div className='w-1/2'>
                                                         <label
@@ -299,9 +277,13 @@ const DashboardProfilePage = () => {
                                                                     handleProvinceChange
                                                                 }
                                                                 className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
-                                                                <option value=''>
-                                                                    Choose
-                                                                    Province
+                                                                <option
+                                                                    value={
+                                                                        selectedProvinceName
+                                                                    }>
+                                                                    {
+                                                                        selectedProvinceName
+                                                                    }
                                                                 </option>
                                                                 {provinces.map(
                                                                     (
@@ -340,8 +322,13 @@ const DashboardProfilePage = () => {
                                                                     handleCityChange
                                                                 }
                                                                 className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
-                                                                <option value=''>
-                                                                    Choose City
+                                                                <option
+                                                                    value={
+                                                                        selectedCityName
+                                                                    }>
+                                                                    {
+                                                                        selectedCityName
+                                                                    }
                                                                 </option>
                                                                 {cities.map(
                                                                     (city) => (
@@ -380,9 +367,13 @@ const DashboardProfilePage = () => {
                                                                     handleDistrictChange
                                                                 }
                                                                 className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
-                                                                <option value=''>
-                                                                    Choose
-                                                                    District
+                                                                <option
+                                                                    value={
+                                                                        selectedDistrictName
+                                                                    }>
+                                                                    {
+                                                                        selectedDistrictName
+                                                                    }
                                                                 </option>
                                                                 {districts.map(
                                                                     (
@@ -421,9 +412,13 @@ const DashboardProfilePage = () => {
                                                                     handleVillageChange
                                                                 }
                                                                 className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
-                                                                <option value=''>
-                                                                    Choose
-                                                                    Village
+                                                                <option
+                                                                    value={
+                                                                        selectedVillageName
+                                                                    }>
+                                                                    {
+                                                                        selectedVillageName
+                                                                    }
                                                                 </option>
                                                                 {villages.map(
                                                                     (
@@ -518,7 +513,7 @@ const DashboardProfilePage = () => {
                                                     <img
                                                         src={previewImg}
                                                         className='w-[250px] h-[250px] px-2 py-2 bg-transparent rounded-full'
-                                                        alt='Preview Product'
+                                                        alt='Preview Profile'
                                                     />
                                                 </div>
                                             )}

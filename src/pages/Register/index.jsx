@@ -13,7 +13,7 @@ import {
     fetchVillages,
 } from '@utils/services/locationServices.js'
 const RegisterPage = () => {
-    const [fullName, setFullName] = useState('')
+    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confPassword, setConfPassword] = useState('')
@@ -27,7 +27,7 @@ const RegisterPage = () => {
     const [selectedVillageName, setSelectedVillageName] = useState('')
     const [postalCode, setPostalCode] = useState('')
     const [address, setAddress] = useState('')
-    const [selectedRole, setSelectedRole] = useState('')
+    const [selectedRole, setSelectedRole] = useState('Customer')
     const [noHp, setNoHp] = useState('')
     const [provinces, setProvinces] = useState([])
     const [cities, setCities] = useState([])
@@ -40,7 +40,7 @@ const RegisterPage = () => {
         e.preventDefault()
         setIsLoading(true)
         const data = {
-            fullname: fullName,
+            name: name,
             email: email,
             password: password,
             confPassword: confPassword,
@@ -153,47 +153,46 @@ const RegisterPage = () => {
                 </AlertMessage>
             )}
             {/* end alert */}
-            <form onSubmit={HandleRegister}>
-                <div className='flex w-full gap-2'>
-                    <div className='w-full mb-5'>
-                        <label
-                            htmlFor='role'
-                            className='block mb-2 text-sm font-bold text-slate-700'>
-                            Register As
-                        </label>
-                        <select
-                            name='role'
-                            onChange={(e) => setSelectedRole(e.target.value)}
-                            value={selectedRole}
-                            id='role'
-                            className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
-                            <option value=''>Choose Role</option>
-                            <option value='Customer'>Customer</option>
-                            <option value='Seller'>Seller</option>
-                        </select>
-                    </div>
+            <div className='flex w-full gap-2'>
+                <div className='w-full mb-5'>
+                    <label
+                        htmlFor='role'
+                        className='block mb-2 text-sm font-bold text-slate-700'>
+                        Register As
+                    </label>
+                    <select
+                        name='role'
+                        onChange={(e) => setSelectedRole(e.target.value)}
+                        value={selectedRole}
+                        id='role'
+                        className='w-full px-2 py-2 text-sm border rounded text-slate-700'>
+                        <option value='Customer'>Customer</option>
+                        <option value='Seller'>Seller</option>
+                    </select>
                 </div>
+            </div>
+            <form onSubmit={HandleRegister}>
                 <div className='flex w-full gap-2'>
                     {selectedRole === 'Seller' ? (
                         <div className='w-1/2'>
                             <InputForm
                                 label='Name Merchant'
-                                name='fullname'
+                                name='name'
                                 placeholder='Name Merchant...'
                                 type='text'
-                                value={fullName}
-                                OnChange={(e) => setFullName(e.target.value)}
+                                value={name}
+                                OnChange={(e) => setName(e.target.value)}
                             />
                         </div>
                     ) : (
                         <div className='w-1/2'>
                             <InputForm
                                 label='Full Name'
-                                name='fullname'
+                                name='name'
                                 placeholder='Your FullName...'
                                 type='text'
-                                value={fullName}
-                                OnChange={(e) => setFullName(e.target.value)}
+                                value={name}
+                                OnChange={(e) => setName(e.target.value)}
                             />
                         </div>
                     )}

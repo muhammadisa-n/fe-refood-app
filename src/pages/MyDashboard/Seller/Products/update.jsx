@@ -16,7 +16,6 @@ const SellerUpdateProductPage = () => {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
-    const [stock, setStock] = useState('')
     const [selectedCategory, setSelectedCategory] = useState()
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
@@ -30,11 +29,10 @@ const SellerUpdateProductPage = () => {
                 const product = await getDetailProduct(id)
                 setName(product.name)
                 setPrice(product.price)
-                setStock(product.stock)
-                setSelectedCategory(product.categoryId)
+                setSelectedCategory(product.category_id)
                 setDescription(product.description)
-                if (product.url_image) {
-                    setPreviewImg(product.url_image)
+                if (product.product_url_image) {
+                    setPreviewImg(product.product_url_image)
                 }
             } catch (error) {
                 if (error.status_code === 404) {
@@ -62,9 +60,8 @@ const SellerUpdateProductPage = () => {
         formData.append('name', name)
         formData.append('description', description)
         formData.append('price', price)
-        formData.append('stock', stock)
-        formData.append('categoryId', selectedCategory)
-        formData.append('image', image)
+        formData.append('category_id', selectedCategory)
+        formData.append('product_image', image)
         try {
             const response = await updateProduct(id, formData)
             Swal.fire({
@@ -147,14 +144,6 @@ const SellerUpdateProductPage = () => {
                                     type='number'
                                     value={price}
                                     OnChange={(e) => setPrice(e.target.value)}
-                                />
-                                <InputForm
-                                    label='Stock'
-                                    name='stock'
-                                    placeholder='100'
-                                    type='number'
-                                    value={stock}
-                                    OnChange={(e) => setStock(e.target.value)}
                                 />
                                 <div className='mb-6'>
                                     <label

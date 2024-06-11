@@ -25,8 +25,7 @@ const SellerCreateProductPage = () => {
         formData.append('name', name)
         formData.append('description', description)
         formData.append('price', price)
-        formData.append('stock', stock)
-        formData.append('categoryId', selectedCategory)
+        formData.append('category_id', selectedCategory)
         formData.append('image', image)
         try {
             const response = await createProduct(formData)
@@ -102,14 +101,7 @@ const SellerCreateProductPage = () => {
                                 value={price}
                                 OnChange={(e) => setPrice(e.target.value)}
                             />
-                            <InputForm
-                                label='Stock'
-                                name='stock'
-                                placeholder='100'
-                                type='number'
-                                value={stock}
-                                OnChange={(e) => setStock(e.target.value)}
-                            />
+
                             <div className='mb-6'>
                                 <label
                                     htmlFor='category'

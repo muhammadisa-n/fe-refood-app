@@ -9,34 +9,17 @@ const DropdownButton = ({ menuItems, nameUser, profileImage }) => {
     }
 
     return (
-        <div className='relative inline-block text-left'>
-            <button
-                type='button'
-                className='inline-flex items-center justify-center w-full px-4 py-2 text-sm font-medium text-white border rounded-md shadow-sm border-secondary bg-primary hover:bg-secondary '
-                onClick={toggleDropdown}>
-                <img
-                    className='w-6 h-6 mr-2 rounded-full object-cover'
-                    src={profileImage}
-                    alt='Profile'
-                />
-                <span>{nameUser}</span>
-                <svg
-                    className='w-2.5 h-2.5 ms-3'
-                    aria-hidden='true'
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
-                    viewBox='0 0 10 6'>
-                    <path
-                        stroke='currentColor'
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        strokeWidth='2'
-                        d='m1 1 4 4 4-4'
-                    />
-                </svg>
-            </button>
+        <div
+            className='items-center justify-center w-full px-1x border border-primary text-sm font-medium text-white  rounded-full shadow-sm inline-block cursor-pointer relative'
+            onClick={toggleDropdown}>
+            <img
+                className='w-[50px] h-[50px]  rounded-full object-cover '
+                src={profileImage}
+                alt='Profile'
+            />
+
             {isOpen && (
-                <div className='absolute right-0 w-48 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 '>
+                <div className='absolute right-0 w-48 mt- origin-top-right bg-white rounded-md shadow-lg border  '>
                     {menuItems.map((item, index) => (
                         <MenuItem
                             key={index}

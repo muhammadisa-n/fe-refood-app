@@ -1,20 +1,17 @@
 import React from 'react'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
+import MainLayout from '@layouts/MainLayout'
 
 const MyOrderPage = () => {
     return (
-        <>
-            <Header />
-            <div className='flex items-center justify-center max-w-full min-h-screen bg-light'>
+        <MainLayout>
+            <div className='flex items-center justify-center max-w-full min-h-screen '>
                 <div>
-                    <h1 className='text-3xl font-semibold text-primary font-inter'>
-                        Ini My Order Page
-                    </h1>
+                    <h5 className='text-center text-slate-400 text-4xl'>
+                        Your Orders is Empty
+                    </h5>
                 </div>
             </div>
-            <Footer />
-        </>
+        </MainLayout>
     )
 }
 

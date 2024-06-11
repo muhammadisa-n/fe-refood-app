@@ -23,7 +23,7 @@ const AdminProductsPage = () => {
             setProducts(
                 products.map((product) =>
                     product.id === productId
-                        ? { ...product, is_valid: newStatus }
+                        ? { ...product, is_active: newStatus }
                         : product
                 )
             )
@@ -48,26 +48,23 @@ const AdminProductsPage = () => {
                 </div>
                 <div className='mt-5 basis-[85%]  '>
                     <div className='relative overflow-x-auto'>
-                        <table className='w-full text-sm text-left text-white rtl:text-right'>
+                        <table className='w-full text-sm text-left text-white rtl:text-right border'>
                             <thead className='text-xs text-black uppercase bg-white '>
                                 <tr>
                                     <th scope='col' className='px-6 py-3'>
                                         Product name
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
-                                        Description
+                                        Category
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
                                         Price
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
-                                        Stock
+                                        Status
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
                                         Action
-                                    </th>
-                                    <th scope='col' className='px-6 py-3'>
-                                        Status
                                     </th>
                                 </tr>
                             </thead>
@@ -88,17 +85,16 @@ const AdminProductsPage = () => {
                                                     {product.name}
                                                 </td>
                                                 <td className='px-6 py-4 '>
-                                                    {product.description}
+                                                    {product.Category.name}
                                                 </td>
                                                 <td className='px-6 py-4'>
                                                     {product.price}
                                                 </td>
                                                 <td className='px-6 py-4'>
-                                                    {product.stock}
-                                                </td>
-                                                <td className='px-6 py-4'>
                                                     <select
-                                                        value={product.is_valid}
+                                                        value={
+                                                            product.is_active
+                                                        }
                                                         onChange={(event) =>
                                                             handleUpdateStatus(
                                                                 product.id,
@@ -108,12 +104,12 @@ const AdminProductsPage = () => {
                                                                 )
                                                             )
                                                         }
-                                                        className='bg-white text-black'>
+                                                        className='bg-white text-black border py-2'>
                                                         <option value={true}>
-                                                            Valid
+                                                            Active
                                                         </option>
                                                         <option value={false}>
-                                                            Not Valid
+                                                            Not Active
                                                         </option>
                                                     </select>
                                                 </td>

@@ -4,12 +4,17 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import DropdownButton from '@components/DropdownButton'
 import profileImage from '@assets/userdefault.png'
 import { FaShoppingCart } from 'react-icons/fa'
+import { IoIosNotifications } from 'react-icons/io'
 import { logout } from '@utils/services/authServices.js'
 import { getUser } from '@utils/services/userServices.js'
 import { useCart } from '@context/CartContext'
+import { jwtDecode } from 'jwt-decode'
 const Header = () => {
     const { carts, refreshCart } = useCart()
-    const [token, setToken] = useState(localStorage.getItem('access_token'))
+    const [token, setToken] = useState(
+        localStorage.getItem('access_token') || ''
+    )
+    const [role, setRole] = useState()
     const [isOpenNavMobile, setIsOpenNavMobile] = useState(false)
     const [user, setUser] = useState([])
     const navigate = useNavigate()
@@ -22,6 +27,7 @@ const Header = () => {
         await logout()
         localStorage.removeItem('access_token')
         setToken(null)
+        setRole(null)
         setUser(null)
         navigate('/')
     }
@@ -65,6 +71,8 @@ const Header = () => {
             }
         }
         if (token) {
+            const data = jwtDecode(token)
+            setRole(data.user_role)
             fetchUser()
         }
     }, [token])
@@ -73,14 +81,14 @@ const Header = () => {
     }, [])
     return (
         <>
-            <nav className='sticky top-0 px-4 py-4 bg-white '>
+            <nav className='sticky  top-0 px-4 py-4  border-b-2 bg-white  z-50'>
                 <div className='container mx-auto'>
                     <div className='flex justify-between'>
-                        <NavLink
-                            to='/'
+                        <a
+                            href='/'
                             className='text-[26px] font-semibold font-inter'>
                             Refood App
-                        </NavLink>
+                        </a>
                         <div className='items-center justify-between hidden gap-3 md:flex'>
                             {!token && (
                                 <>
@@ -94,7 +102,7 @@ const Header = () => {
                                     </NavLink>
                                 </>
                             )}
-                            {token && user.role === 'Customer' && (
+                            {token && role === 'Customer' && (
                                 <>
                                     <NavLink to='/' className={setActive}>
                                         Home
@@ -104,7 +112,26 @@ const Header = () => {
                                         className={setActive}>
                                         Recommendation
                                     </NavLink>
-                                    <NavLink to='/carts' className='relative'>
+                                </>
+                            )}
+                        </div>
+                        <div className='items-center justify-between hidden gap-2 md:flex '>
+                            {token && role === 'Customer' && (
+                                <>
+                                    <NavLink
+                                        to='/carts'
+                                        className='relative mx-2'>
+                                        <IoIosNotifications
+                                            size={20}
+                                            className='hover:text-primary'
+                                        />
+                                        <span className='absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-primary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center'>
+                                            1
+                                        </span>
+                                    </NavLink>
+                                    <NavLink
+                                        to='/carts'
+                                        className='relative mx-3'>
                                         <FaShoppingCart
                                             size={20}
                                             className='hover:text-primary'
@@ -115,17 +142,10 @@ const Header = () => {
                                             </span>
                                         )}
                                     </NavLink>
-                                </>
-                            )}
-                        </div>
-                        <div className='items-center justify-between hidden gap-2 md:flex '>
-                            {token && user.role === 'Customer' && (
-                                <>
                                     <DropdownButton
-                                        nameUser={user.fullname}
                                         profileImage={
-                                            user.url_image
-                                                ? user.url_image
+                                            user.ava_url_image
+                                                ? user.ava_url_image
                                                 : profileImage
                                         }
                                         menuItems={
@@ -133,10 +153,9 @@ const Header = () => {
                                         }></DropdownButton>
                                 </>
                             )}
-                            {token && user.role !== 'Customer' && (
+                            {token && role !== 'Customer' && (
                                 <>
                                     <DropdownButton
-                                        nameUser={user.fullname}
                                         profileImage={profileImage}
                                         menuItems={menuItems}></DropdownButton>
                                 </>

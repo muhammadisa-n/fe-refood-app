@@ -26,7 +26,7 @@ const VerificationEmailPage = () => {
             {!token || errorMessage ? (
                 <div className='flex items-center justify-center max-w-xl min-h-screen mx-auto '>
                     <div className='flex flex-col items-center justify-center gap-4 '>
-                        <MdError size={32} className='text-red-500' />
+                        <MdError size={100} className='text-red-500' />
                         <h3 className='text-3xl font-bold text-primary'>
                             {errorMessage}
                         </h3>
@@ -40,12 +40,12 @@ const VerificationEmailPage = () => {
             ) : (
                 <div className='flex items-center justify-center max-w-xl min-h-screen mx-auto '>
                     <div className='flex flex-col items-center justify-center gap-4 '>
-                        <MdVerified size={32} className='text-green-500' />
+                        <MdVerified size={100} className='text-green-500' />
                         <h3 className='text-3xl font-bold text-primary'>
                             {message}
                         </h3>
                         <button
-                            className='underline transition-all text-primary hover:text-secondary '
+                            className='underline transition-all text-primary hover:text-secondary'
                             onClick={() => navigate('/login')}>
                             Go To Login
                         </button>

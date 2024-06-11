@@ -10,16 +10,14 @@ import { createCategory } from '@utils/services/adminServices.js'
 const AdminCreateCategoryPage = () => {
     const [name, setName] = useState('')
     const [errorMessage, SetErrorMessage] = useState('')
-    const [image, setImage] = useState('')
-    const [previewImg, setPreviewImg] = useState('')
     const navigate = useNavigate()
     const handleSave = async (e) => {
         e.preventDefault()
-        const formData = new FormData()
-        formData.append('name', name)
-        formData.append('image', image)
+        const data = {
+            name: name,
+        }
         try {
-            const response = await createCategory(formData)
+            const response = await createCategory(data)
             Swal.fire({
                 icon: 'success',
                 title: `${response.message}`,
@@ -33,11 +31,6 @@ const AdminCreateCategoryPage = () => {
         } catch (error) {
             SetErrorMessage(error.message)
         }
-    }
-    const loadImage = (e) => {
-        const image = e.target.files[0]
-        setImage(image)
-        setPreviewImg(URL.createObjectURL(image))
     }
     return (
         <>
@@ -73,29 +66,6 @@ const AdminCreateCategoryPage = () => {
                                 value={name}
                                 OnChange={(e) => setName(e.target.value)}
                             />
-                            <div className='mb-6'>
-                                <label
-                                    htmlFor='image'
-                                    className='block mb-2 text-sm font-bold text-slate-700'>
-                                    Image Category
-                                </label>
-                                <div className='relative inline-block'>
-                                    <input
-                                        type='file'
-                                        className='file:absolute file:right-0 file:bg-primary bg-white py-2 px-4 rounded-full file:text-white file:border-0  file:rounded-full'
-                                        onChange={loadImage}
-                                    />
-                                </div>
-                            </div>
-                            {previewImg && (
-                                <div className='my-4'>
-                                    <img
-                                        src={previewImg}
-                                        className='w-[100px] h-[100px] px-2 py-2 bg-white'
-                                        alt='Preview Category'
-                                    />
-                                </div>
-                            )}
 
                             <Button classname='w-[30%] bg-primary rounded-lg'>
                                 Add Category

@@ -1,30 +1,37 @@
-import React, { useEffect } from 'react'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
+import React, { useEffect, useState } from 'react'
 import { useCart } from '@context/CartContext'
-
+import CartItem from '@components/CartItem/index.jsx'
+import MainLayout from '@layouts/MainLayout'
 const CartsPage = () => {
     const { carts, refreshCart } = useCart()
     useEffect(() => {
         refreshCart()
     }, [])
     return (
-        <>
-            <Header />
-            <div className='flex items-center justify-center max-w-full min-h-screen bg-light'>
-                <div>
-                    <h1 className='text-3xl font-semibold text-primary font-inter'>
-                        Ini Carts Page
-                        {carts?.map((cart, index) => (
-                            <>
-                                <p key={index}>cart.productId</p>
-                            </>
-                        ))}
-                    </h1>
+        <MainLayout>
+            {carts.length === 0 ? (
+                <div className='flex items-center justify-center max-w-full min-h-screen'>
+                    <div>
+                        <h5 className='text-center text-slate-400 text-4xl'>
+                            Your Cart is Empty
+                        </h5>
+                    </div>
                 </div>
-            </div>
-            <Footer />
-        </>
+            ) : (
+                <div className='grid grid-cols-2 mx-10 my-10 md:grid-cols-5'>
+                    {carts?.map((cart) => (
+                        <CartItem
+                            key={cart.id}
+                            productId={cart.product_id}
+                            imgSrc={cart.Product.product_url_image}
+                            name={cart.Product.name}
+                            totalPrice={cart.total_price}
+                            quantity={cart.total_product}
+                        />
+                    ))}
+                </div>
+            )}
+        </MainLayout>
     )
 }
 
