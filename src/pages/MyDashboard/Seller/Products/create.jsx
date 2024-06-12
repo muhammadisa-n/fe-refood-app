@@ -12,15 +12,17 @@ const SellerCreateProductPage = () => {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
-    const [stock, setStock] = useState('')
     const [selectedCategory, setSelectedCategory] = useState()
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
     const [errorMessage, SetErrorMessage] = useState('')
     const [image, setImage] = useState('')
     const [previewImg, setPreviewImg] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
+
     const handleSave = async (e) => {
         e.preventDefault()
+        setIsLoading(true)
         const formData = new FormData()
         formData.append('name', name)
         formData.append('description', description)
@@ -29,18 +31,17 @@ const SellerCreateProductPage = () => {
         formData.append('image', image)
         try {
             const response = await createProduct(formData)
-            Swal.fire({
+            await Swal.fire({
                 icon: 'success',
                 title: `${response.message}`,
                 showConfirmButton: true,
-                timer: 1500,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    navigate('/my-dashboard/seller/products')
-                }
+                timer: 2000,
             })
+            navigate('/my-dashboard/seller/products')
         } catch (error) {
             SetErrorMessage(error.message)
+        } finally {
+            setIsLoading(false)
         }
     }
     useEffect(() => {
@@ -91,6 +92,7 @@ const SellerCreateProductPage = () => {
                                 placeholder='Name Product...'
                                 type='text'
                                 value={name}
+                                disabled={isLoading}
                                 OnChange={(e) => setName(e.target.value)}
                             />
                             <InputForm
@@ -99,6 +101,7 @@ const SellerCreateProductPage = () => {
                                 placeholder='10000'
                                 type='number'
                                 value={price}
+                                disabled={isLoading}
                                 OnChange={(e) => setPrice(e.target.value)}
                             />
 
@@ -115,7 +118,8 @@ const SellerCreateProductPage = () => {
                                     onChange={(e) =>
                                         setSelectedCategory(e.target.value)
                                     }
-                                    className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
+                                    disabled={isLoading}
+                                    className={`w-full px-3 py-2 text-sm border rounded text-slate-700 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
                                     <option value=''>Choose Category</option>
                                     {categories.map((category) => (
                                         <option
@@ -135,7 +139,8 @@ const SellerCreateProductPage = () => {
                                 <textarea
                                     rows={6}
                                     name='description'
-                                    className='w-full px-3 py-2 text-sm border rounded text-slate-700 placeholder:opacity-50'
+                                    disabled={isLoading}
+                                    className={`w-full px-3 py-2 text-sm border rounded text-slate-700 placeholder:opacity-50  ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}
                                     value={description}
                                     onChange={(e) =>
                                         setDescription(e.target.value)
@@ -151,7 +156,8 @@ const SellerCreateProductPage = () => {
                                 <div className='relative inline-block'>
                                     <input
                                         type='file'
-                                        className='file:absolute file:right-0 file:bg-primary bg-white py-2 px-4 rounded-full file:text-white file:border-0  file:rounded-full'
+                                        disabled={isLoading}
+                                        className={`file:absolute file:right-0 file:bg-primary bg-white py-2 px-4 rounded-full file:text-white file:border-0  file:rounded-full ${isLoading ? 'bg-gray-200 ' : ''}`}
                                         onChange={loadImage}
                                     />
                                 </div>
@@ -166,8 +172,16 @@ const SellerCreateProductPage = () => {
                                 </div>
                             )}
 
-                            <Button classname='w-[30%] bg-primary rounded-lg'>
-                                Add Product
+                            <Button
+                                disabled={isLoading}
+                                classname={`w-[30%] bg-primary relative ${isLoading ? 'opacity-50' : ''}`}>
+                                {isLoading ? (
+                                    <div className='absolute inset-0 flex items-center justify-center'>
+                                        <div className='animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white'></div>
+                                    </div>
+                                ) : (
+                                    'Add Product'
+                                )}
                             </Button>
                         </form>
                     </div>

@@ -17,7 +17,7 @@ const TopBar = () => {
                     <p className='font-bold tracking-widest'>{user?.name}</p>
                     <img
                         src={
-                            user.ava_image_url
+                            user?.ava_image_url
                                 ? user.ava_image_url
                                 : defaultProfileImg
                         }

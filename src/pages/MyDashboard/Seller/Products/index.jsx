@@ -9,6 +9,7 @@ import {
 const SellerProductsPage = () => {
     const [products, setProducts] = useState([])
     const [token, setToken] = useState(localStorage.getItem('access_token'))
+    const [isLoading, setIsLoading] = useState(false)
     const fetchProducts = async () => {
         try {
             const response = await getAllProducts()
@@ -33,6 +34,7 @@ const SellerProductsPage = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
+                    setIsLoading(true)
                     const response = await deleteProduct(id)
                     Swal.fire({
                         title: 'Deleted!',
@@ -42,6 +44,8 @@ const SellerProductsPage = () => {
                     fetchProducts()
                 } catch (error) {
                     console.error('Error Delete Product', error)
+                } finally {
+                    setIsLoading(false)
                 }
             }
         })
@@ -114,16 +118,17 @@ const SellerProductsPage = () => {
                                                     <Link
                                                         type='button'
                                                         to={`/my-dashboard/seller/products/update/${product.id}`}
-                                                        className='p-1 mx-2 text-white rounded-lg bg-sky-600 hover:bg-sky-700'>
+                                                        className={`p-1 mx-2 text-white rounded-lg bg-sky-600 hover:bg-sky-700 ${isLoading ? 'opacity-50' : ''}`}>
                                                         Update
                                                     </Link>
                                                     <button
+                                                        disabled={isLoading}
                                                         onClick={() =>
                                                             handleDelete(
                                                                 product.id
                                                             )
                                                         }
-                                                        className='p-1 text-white bg-red-600 rounded-lg hover:bg-red-700'>
+                                                        className={`p-1 text-white bg-red-600 rounded-lg hover:bg-red-700 ${isLoading ? 'opacity-50' : ''}`}>
                                                         Delete
                                                     </button>
                                                 </td>

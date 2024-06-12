@@ -23,6 +23,7 @@ const SellerUpdateProductPage = () => {
     const [image, setImage] = useState('')
     const [previewImg, setPreviewImg] = useState('')
     const [productNotFound, setProductNotFound] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     useEffect(() => {
         const fetchProduct = async () => {
             try {
@@ -31,8 +32,8 @@ const SellerUpdateProductPage = () => {
                 setPrice(product.price)
                 setSelectedCategory(product.category_id)
                 setDescription(product.description)
-                if (product.product_url_image) {
-                    setPreviewImg(product.product_url_image)
+                if (product.image_url) {
+                    setPreviewImg(product.image_url)
                 }
             } catch (error) {
                 if (error.status_code === 404) {
@@ -56,26 +57,26 @@ const SellerUpdateProductPage = () => {
 
     const handleUpdate = async (e) => {
         e.preventDefault()
+        setIsLoading(true)
         const formData = new FormData()
         formData.append('name', name)
         formData.append('description', description)
         formData.append('price', price)
         formData.append('category_id', selectedCategory)
-        formData.append('product_image', image)
+        formData.append('image', image)
         try {
             const response = await updateProduct(id, formData)
-            Swal.fire({
+            await Swal.fire({
                 icon: 'success',
                 title: `${response.message}`,
                 showConfirmButton: true,
-                timer: 1500,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    navigate('/my-dashboard/seller/products')
-                }
+                timer: 2000,
             })
+            navigate('/my-dashboard/seller/products')
         } catch (error) {
             SetErrorMessage(error.message)
+        } finally {
+            setIsLoading(false)
         }
     }
     const loadImage = (e) => {
@@ -135,6 +136,7 @@ const SellerUpdateProductPage = () => {
                                     placeholder='Name Product...'
                                     type='text'
                                     value={name}
+                                    disabled={isLoading}
                                     OnChange={(e) => setName(e.target.value)}
                                 />
                                 <InputForm
@@ -143,6 +145,7 @@ const SellerUpdateProductPage = () => {
                                     placeholder='10000'
                                     type='number'
                                     value={price}
+                                    disabled={isLoading}
                                     OnChange={(e) => setPrice(e.target.value)}
                                 />
                                 <div className='mb-6'>
@@ -158,7 +161,8 @@ const SellerUpdateProductPage = () => {
                                         onChange={(e) =>
                                             setSelectedCategory(e.target.value)
                                         }
-                                        className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
+                                        disabled={isLoading}
+                                        className={`w-full px-3 py-2 text-sm border rounded text-slate-700 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
                                         {categories.map((category) => (
                                             <option
                                                 key={category.id}
@@ -177,7 +181,8 @@ const SellerUpdateProductPage = () => {
                                     <textarea
                                         rows={6}
                                         name='description'
-                                        className='w-full px-3 py-2 text-sm border rounded text-slate-700 placeholder:opacity-50'
+                                        disabled={isLoading}
+                                        className={`w-full px-3 py-2 text-sm border rounded text-slate-700 placeholder:opacity-50  ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}
                                         value={description}
                                         onChange={(e) =>
                                             setDescription(e.target.value)
@@ -193,7 +198,8 @@ const SellerUpdateProductPage = () => {
                                     <div className='relative inline-block'>
                                         <input
                                             type='file'
-                                            className='file:absolute file:right-0 file:bg-primary bg-white py-2 px-4 rounded-full file:text-white file:border-0  file:rounded-full'
+                                            disabled={isLoading}
+                                            className={`file:absolute file:right-0 file:bg-primary bg-white py-2 px-4 rounded-full file:text-white file:border-0  file:rounded-full ${isLoading ? 'bg-gray-200 ' : ''}`}
                                             onChange={loadImage}
                                         />
                                     </div>
@@ -208,8 +214,16 @@ const SellerUpdateProductPage = () => {
                                     </div>
                                 )}
 
-                                <Button classname='w-[30%] bg-primary rounded-lg'>
-                                    Update Product
+                                <Button
+                                    disabled={isLoading}
+                                    classname={`w-[30%] bg-primary relative ${isLoading ? 'opacity-50' : ''}`}>
+                                    {isLoading ? (
+                                        <div className='absolute inset-0 flex items-center justify-center'>
+                                            <div className='animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white'></div>
+                                        </div>
+                                    ) : (
+                                        'Update Product'
+                                    )}
                                 </Button>
                             </form>
                         )}

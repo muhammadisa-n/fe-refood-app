@@ -7,7 +7,6 @@ const HomePage = () => {
     const [products, setProducts] = useState([])
     const [take, setTake] = useState(8)
     const [skip, setSkip] = useState(0)
-    const [cursor, setCursor] = useState('')
     const [totalProducts, setTotalProducts] = useState()
     const [isLoading, setIsLoading] = useState(false)
     const [page, setPage] = useState(1)
@@ -17,14 +16,12 @@ const HomePage = () => {
             const response = await getAllProducts(take, skip)
             setProducts(response.products)
             setTotalProducts(response.totalProduct)
-            setCursor(response.cursor)
         }
         fetchProduct()
     }, [take, skip])
 
     const handlePrev = () => {
         if (skip > 0) {
-            setCursor(products[0].id)
             setSkip(skip - take)
             setPage(page - 1)
         }
