@@ -1,8 +1,7 @@
 import React from 'react'
-import Button from '@components/Button/index.jsx'
 import { MdRemoveShoppingCart } from 'react-icons/md'
 import { useCart } from '@context/CartContext.jsx'
-import { CiCircleRemove } from 'react-icons/ci'
+import { deleteCart } from '@utils/services/cartServices.js'
 
 const CartItem = ({
     cartId,
@@ -13,10 +12,10 @@ const CartItem = ({
     categoryName,
     quantity,
 }) => {
-    const { removeCart, refreshCart } = useCart()
+    const { refreshCart } = useCart()
 
     const handleRemove = async () => {
-        const response = await removeCart(productId)
+        await deleteCart(productId)
         refreshCart()
     }
     return (

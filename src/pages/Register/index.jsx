@@ -165,7 +165,8 @@ const RegisterPage = () => {
                         onChange={(e) => setSelectedRole(e.target.value)}
                         value={selectedRole}
                         id='role'
-                        className='w-full px-2 py-2 text-sm border rounded text-slate-700'>
+                        disabled={isLoading}
+                        className={`w-full px-3 py-2 text-sm border rounded text-slate-700 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
                         <option value='Customer'>Customer</option>
                         <option value='Seller'>Seller</option>
                     </select>
@@ -173,30 +174,25 @@ const RegisterPage = () => {
             </div>
             <form onSubmit={HandleRegister}>
                 <div className='flex w-full gap-2'>
-                    {selectedRole === 'Seller' ? (
-                        <div className='w-1/2'>
-                            <InputForm
-                                label='Name Merchant'
-                                name='name'
-                                placeholder='Name Merchant...'
-                                type='text'
-                                value={name}
-                                OnChange={(e) => setName(e.target.value)}
-                            />
-                        </div>
-                    ) : (
-                        <div className='w-1/2'>
-                            <InputForm
-                                label='Full Name'
-                                name='name'
-                                placeholder='Your FullName...'
-                                type='text'
-                                value={name}
-                                OnChange={(e) => setName(e.target.value)}
-                            />
-                        </div>
-                    )}
-
+                    <div className='w-1/2'>
+                        <InputForm
+                            label={
+                                selectedRole === 'Customer'
+                                    ? 'Name'
+                                    : 'Name Merchant'
+                            }
+                            name='name'
+                            placeholder={
+                                selectedRole === 'Customer'
+                                    ? 'Name...'
+                                    : 'Name Merchant...'
+                            }
+                            type='text'
+                            value={name}
+                            disabled={isLoading}
+                            OnChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
                     <div className='w-1/2'>
                         <InputForm
                             label='Email'
@@ -204,6 +200,7 @@ const RegisterPage = () => {
                             placeholder='example@mail.com'
                             type='email'
                             value={email}
+                            disabled={isLoading}
                             OnChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
@@ -216,6 +213,7 @@ const RegisterPage = () => {
                             placeholder='********'
                             type='password'
                             value={password}
+                            disabled={isLoading}
                             OnChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
@@ -226,6 +224,7 @@ const RegisterPage = () => {
                             placeholder='********'
                             type='password'
                             value={confPassword}
+                            disabled={isLoading}
                             OnChange={(e) => setConfPassword(e.target.value)}
                         />
                     </div>
@@ -243,7 +242,8 @@ const RegisterPage = () => {
                                 id='province'
                                 value={selectedProvince}
                                 onChange={handleProvinceChange}
-                                className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
+                                disabled={isLoading}
+                                className={`w-full px-3 py-2 text-sm border rounded text-slate-700 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
                                 <option value=''>Choose Province</option>
                                 {provinces.map((province) => (
                                     <option
@@ -268,7 +268,8 @@ const RegisterPage = () => {
                                     id='city'
                                     value={selectedCity}
                                     onChange={handleCityChange}
-                                    className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
+                                    disabled={isLoading}
+                                    className={`w-full px-3 py-2 text-sm border rounded text-slate-700 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
                                     <option value=''>Choose City</option>
                                     {cities.map((city) => (
                                         <option key={city.id} value={city.id}>
@@ -291,11 +292,6 @@ const RegisterPage = () => {
                                     onChange={handleCityChange}
                                     className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
                                     <option value=''>Choose City</option>
-                                    {cities.map((city) => (
-                                        <option key={city.id} value={city.id}>
-                                            {city.name}
-                                        </option>
-                                    ))}
                                 </select>
                             </div>
                         )}
@@ -315,7 +311,8 @@ const RegisterPage = () => {
                                     id='district'
                                     value={selectedDistrict}
                                     onChange={handleDistrictChange}
-                                    className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
+                                    disabled={isLoading}
+                                    className={`w-full px-3 py-2 text-sm border rounded text-slate-700 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
                                     <option value=''>Choose District</option>
                                     {districts.map((district) => (
                                         <option
@@ -340,13 +337,6 @@ const RegisterPage = () => {
                                     onChange={handleDistrictChange}
                                     className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
                                     <option value=''>Choose District</option>
-                                    {districts.map((district) => (
-                                        <option
-                                            key={district.id}
-                                            value={district.id}>
-                                            {district.name}
-                                        </option>
-                                    ))}
                                 </select>
                             </div>
                         )}
@@ -364,7 +354,8 @@ const RegisterPage = () => {
                                     id='village'
                                     value={selectedVillage}
                                     onChange={handleVillageChange}
-                                    className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
+                                    disabled={isLoading}
+                                    className={`w-full px-3 py-2 text-sm border rounded text-slate-700 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
                                     <option value=''>Choose Village</option>
                                     {villages.map((village) => (
                                         <option
@@ -389,13 +380,6 @@ const RegisterPage = () => {
                                     onChange={handleVillageChange}
                                     className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
                                     <option value=''>Choose Village</option>
-                                    {villages.map((village) => (
-                                        <option
-                                            key={village.id}
-                                            value={village.id}>
-                                            {village.name}
-                                        </option>
-                                    ))}
                                 </select>
                             </div>
                         )}
@@ -408,6 +392,7 @@ const RegisterPage = () => {
                             name='postal_code'
                             placeholder='Postal Code.....'
                             type='text'
+                            disabled={isLoading}
                             value={postalCode}
                             OnChange={(e) => setPostalCode(e.target.value)}
                         />
@@ -419,19 +404,27 @@ const RegisterPage = () => {
                             placeholder='08xxxxxxxxxx'
                             type='text'
                             value={noHp}
+                            disabled={isLoading}
                             OnChange={(e) => setNoHp(e.target.value)}
                         />
                     </div>
                 </div>
                 <div className='flex w-full gap-2'>
                     <div className='w-full'>
-                        <InputForm
-                            label='Address / Street'
+                        <label
+                            htmlFor='address'
+                            className='block mb-2 text-sm font-bold text-slate-700'>
+                            Address / Street
+                        </label>
+                        <textarea
+                            rows={3}
                             name='address'
-                            placeholder='Address.....'
-                            type='text'
+                            id='address'
+                            placeholder='Your Address...'
                             value={address}
-                            OnChange={(e) => setAddress(e.target.value)}
+                            disabled={isLoading}
+                            onChange={(e) => setAddress(e.target.value)}
+                            className={`w-full px-3 py-2 text-sm border rounded text-slate-700  ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}
                         />
                     </div>
                 </div>
@@ -447,7 +440,7 @@ const RegisterPage = () => {
                 </div>
                 <Button
                     disabled={isLoading}
-                    classname={`w-full bg-primary relative ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}>
+                    classname={`w-full bg-primary relative ${isLoading ? 'opacity-50' : ''}`}>
                     {isLoading ? (
                         <div className='absolute inset-0 flex items-center justify-center'>
                             <div className='animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white'></div>

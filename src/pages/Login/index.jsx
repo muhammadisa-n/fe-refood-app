@@ -28,9 +28,9 @@ const LoginPage = () => {
             localStorage.setItem('access_token', response.access_token)
             const decodedData = jwtDecode(response.access_token)
             if (decodedData.user_role !== 'Customer') {
-                navigate('/my-dashboard')
+                window.location.href = '/my-dashboard'
             } else {
-                navigate('/')
+                window.location.href = '/'
             }
         } catch (error) {
             setErrorMessage(error.message)
@@ -66,6 +66,7 @@ const LoginPage = () => {
                     placeholder='example@mail.com'
                     type='email'
                     value={email}
+                    disabled={isLoading}
                     OnChange={(e) => setEmail(e.target.value)}
                 />
                 <InputForm
@@ -74,6 +75,7 @@ const LoginPage = () => {
                     placeholder='********'
                     type='password'
                     value={password}
+                    disabled={isLoading}
                     OnChange={(e) => setPassword(e.target.value)}
                 />
                 <div className='w-full mb-2 text-center'>
@@ -95,7 +97,7 @@ const LoginPage = () => {
                 </div>
                 <Button
                     disabled={isLoading}
-                    classname={`w-full bg-primary relative ${isLoading ? 'opacity-50 pointer-events-none' : ''}`}>
+                    classname={`w-full bg-primary relative ${isLoading ? 'opacity-50' : ''}`}>
                     {isLoading ? (
                         <div className='absolute inset-0 flex items-center justify-center'>
                             <div className='animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white'></div>

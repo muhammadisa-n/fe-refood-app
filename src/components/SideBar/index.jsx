@@ -8,12 +8,13 @@ import { CgProfile } from 'react-icons/cg'
 import { CiLogout } from 'react-icons/ci'
 import { logout } from '@utils/services/authServices.js'
 import { jwtDecode } from 'jwt-decode'
+import { useUser } from '@context/userContext.jsx'
 const SideBar = () => {
+    const { role } = useUser()
     const [token, setToken] = useState(
         localStorage.getItem('access_token') || ''
     )
     const navigate = useNavigate()
-    const decoded = jwtDecode(token)
     const HandleLogout = async () => {
         await logout()
         localStorage.removeItem('access_token')
@@ -34,7 +35,7 @@ const SideBar = () => {
                 <FaTachometerAlt />
                 <p className='text-base leading-5 text-white '>Dashboard</p>
             </Link>
-            {decoded.user_role === 'Admin' ? (
+            {role === 'Admin' ? (
                 <>
                     <div className='pt-4 border-b border-white/40'>
                         <p className='text-xs leading-4 uppercase text-white/40 font-extralight '>
@@ -97,23 +98,23 @@ const SideBar = () => {
                             </Link>
                         </div>
                     </div>
-                    <div className='pt-4 border-b border-white/40'>
-                        <p className='text-xs leading-4 uppercase text-white/40 font-extralight '>
-                            Profile
-                        </p>
-                        <div className='flex items-center justify-between gap-3 py-4 cursor-pointer'>
-                            <Link
-                                to='/my-dashboard/profile'
-                                className='flex items-center gap-3'>
-                                <CgProfile className='text-white' />
-                                <p className='text-base leading-5 text-white'>
-                                    My Profile
-                                </p>
-                            </Link>
-                        </div>
-                    </div>
                 </>
             )}
+            <div className='pt-4 border-b border-white/40'>
+                <p className='text-xs leading-4 uppercase text-white/40 font-extralight '>
+                    Profile
+                </p>
+                <div className='flex items-center justify-between gap-3 py-4 cursor-pointer'>
+                    <Link
+                        to='/my-dashboard/profile'
+                        className='flex items-center gap-3'>
+                        <CgProfile className='text-white' />
+                        <p className='text-base leading-5 text-white'>
+                            My Profile
+                        </p>
+                    </Link>
+                </div>
+            </div>
             <div className='pt-4 border-b border-white/40'>
                 <div className='flex items-center justify-between gap-3 py-4 cursor-pointer'>
                     <button

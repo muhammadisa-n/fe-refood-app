@@ -4,10 +4,11 @@ import { getProductById } from '@utils/services/productServices.js'
 import { useCart } from '@context/CartContext.jsx'
 import { addCart } from '@utils/services/cartServices.js'
 import MainLayout from '@layouts/MainLayout'
+import { useUser } from '@context/userContext.jsx'
 
 const DetailProductPage = () => {
     const { refreshCart } = useCart()
-    const navigate = useNavigate()
+    const { role } = useUser()
     const token = localStorage.getItem('access_token')
     const { id } = useParams()
     const [product, setProduct] = useState([])
@@ -86,7 +87,7 @@ const DetailProductPage = () => {
                             Rp. {product.price}
                         </span>
                     </div>
-                    {token && (
+                    {token && role === 'Customer' && (
                         <div className='flex flex-col mt-8 md:flex-row'>
                             <div className=' w-[100%] flex justify-around md:justify-center items-center space-x-10 bg-lightGrayishBlue rounded-lg p-3 md:p-2 md:mr-4 md:w-[150px]'>
                                 <button

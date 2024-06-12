@@ -6,17 +6,15 @@ import profileImage from '@assets/userdefault.png'
 import { FaShoppingCart } from 'react-icons/fa'
 import { IoIosNotifications } from 'react-icons/io'
 import { logout } from '@utils/services/authServices.js'
-import { getUser } from '@utils/services/userServices.js'
 import { useCart } from '@context/CartContext'
-import { jwtDecode } from 'jwt-decode'
+import { useUser } from '@context/userContext.jsx'
 const Header = () => {
+    const { user, role, refreshUser } = useUser()
     const { carts, refreshCart } = useCart()
     const [token, setToken] = useState(
         localStorage.getItem('access_token') || ''
     )
-    const [role, setRole] = useState()
     const [isOpenNavMobile, setIsOpenNavMobile] = useState(false)
-    const [user, setUser] = useState([])
     const navigate = useNavigate()
     const setActive = ({ isActive }) =>
         isActive
@@ -27,8 +25,6 @@ const Header = () => {
         await logout()
         localStorage.removeItem('access_token')
         setToken(null)
-        setRole(null)
-        setUser(null)
         navigate('/')
     }
     const menuItemsCustomer = [
@@ -51,33 +47,16 @@ const Header = () => {
             to: `/my-dashboard`,
         },
         {
-            title: 'My Profile',
-            to: '/my-profile',
-        },
-        {
             title: 'Logout',
             onClick: HandleLogout,
         },
     ]
 
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await getUser()
-                setUser(response)
-            } catch (error) {
-                setUser(null)
-                console.error('Error Fetch User', error)
-            }
-        }
         if (token) {
-            const data = jwtDecode(token)
-            setRole(data.user_role)
-            fetchUser()
+            refreshCart()
+            refreshUser()
         }
-    }, [token])
-    useEffect(() => {
-        refreshCart()
     }, [])
     return (
         <>
@@ -144,8 +123,8 @@ const Header = () => {
                                     </NavLink>
                                     <DropdownButton
                                         profileImage={
-                                            user.ava_url_image
-                                                ? user.ava_url_image
+                                            user.ava_image_url
+                                                ? user.ava_image_url
                                                 : profileImage
                                         }
                                         menuItems={
@@ -156,7 +135,11 @@ const Header = () => {
                             {token && role !== 'Customer' && (
                                 <>
                                     <DropdownButton
-                                        profileImage={profileImage}
+                                        profileImage={
+                                            user.ava_image_url
+                                                ? user.ava_image_url
+                                                : profileImage
+                                        }
                                         menuItems={menuItems}></DropdownButton>
                                 </>
                             )}

@@ -11,11 +11,12 @@ import Swal from 'sweetalert2'
 import AlertMessage from '@components/AlertMessage'
 import InputForm from '@components/InputForm'
 import MainLayout from '@layouts/MainLayout'
+import { useUser } from '@context/userContext.jsx'
 
 const MyProfilePage = () => {
     const [token, setToken] = useState(localStorage.getItem('access_token'))
+    const { refreshUser, user } = useUser()
     const [openEditMenu, setOpenEditMenu] = useState(false)
-    const [user, setUser] = useState()
     const [errorMessage, SetErrorMessage] = useState('')
     const [name, setName] = useState('')
     const [selectedProvince, setSelectedProvince] = useState('')
@@ -35,10 +36,10 @@ const MyProfilePage = () => {
     const [villages, setVillages] = useState([])
     const [image, setImage] = useState(null)
     const [previewImg, setPreviewImg] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
-    const fetcUser = async () => {
+    const fetchUser = async () => {
         const userdata = await getUser()
-        setUser(userdata)
         setName(userdata.name)
         setNoHp(userdata.no_hp)
         setAddress(userdata.address)
@@ -56,7 +57,7 @@ const MyProfilePage = () => {
 
     useEffect(() => {
         if (token) {
-            fetcUser()
+            fetchUser()
         }
     }, [])
 
@@ -137,6 +138,7 @@ const MyProfilePage = () => {
 
     const handleUpdate = async (e) => {
         e.preventDefault()
+        setIsLoading(true)
         const formData = new FormData()
         formData.append('name', name)
         formData.append('province', selectedProvinceName)
@@ -149,19 +151,18 @@ const MyProfilePage = () => {
         formData.append('image', image)
         try {
             const response = await updateUser(formData)
-            Swal.fire({
+            await Swal.fire({
                 icon: 'success',
                 title: `${response.message}`,
                 showConfirmButton: true,
-                timer: 1500,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    setOpenEditMenu(false)
-                    fetcUser()
-                }
+                timer: 2000,
             })
+            refreshUser()
+            setOpenEditMenu(false)
         } catch (error) {
             SetErrorMessage(error.message)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -244,6 +245,7 @@ const MyProfilePage = () => {
                                                         placeholder='Your FullName...'
                                                         type='text'
                                                         value={name}
+                                                        disabled={isLoading}
                                                         OnChange={(e) =>
                                                             setName(
                                                                 e.target.value
@@ -268,10 +270,17 @@ const MyProfilePage = () => {
                                                                 onChange={
                                                                     handleProvinceChange
                                                                 }
-                                                                className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
-                                                                <option value=''>
-                                                                    Choose
-                                                                    Province
+                                                                disabled={
+                                                                    isLoading
+                                                                }
+                                                                className={`w-full px-3 py-2 text-sm border rounded text-slate-700 placeholder-opacity-50 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
+                                                                <option
+                                                                    value={
+                                                                        selectedProvinceName
+                                                                    }>
+                                                                    {
+                                                                        selectedProvinceName
+                                                                    }
                                                                 </option>
                                                                 {provinces.map(
                                                                     (
@@ -306,12 +315,20 @@ const MyProfilePage = () => {
                                                                 value={
                                                                     selectedCity
                                                                 }
+                                                                disabled={
+                                                                    isLoading
+                                                                }
                                                                 onChange={
                                                                     handleCityChange
                                                                 }
-                                                                className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
-                                                                <option value=''>
-                                                                    Choose City
+                                                                className={`w-full px-3 py-2 text-sm border rounded text-slate-700 placeholder-opacity-50 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
+                                                                <option
+                                                                    value={
+                                                                        selectedCityName
+                                                                    }>
+                                                                    {
+                                                                        selectedCityName
+                                                                    }
                                                                 </option>
                                                                 {cities.map(
                                                                     (city) => (
@@ -343,16 +360,23 @@ const MyProfilePage = () => {
                                                             <select
                                                                 name='district'
                                                                 id='district'
+                                                                disabled={
+                                                                    isLoading
+                                                                }
                                                                 value={
                                                                     selectedDistrict
                                                                 }
                                                                 onChange={
                                                                     handleDistrictChange
                                                                 }
-                                                                className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
-                                                                <option value=''>
-                                                                    Choose
-                                                                    District
+                                                                className={`w-full px-3 py-2 text-sm border rounded text-slate-700 placeholder-opacity-50 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
+                                                                <option
+                                                                    value={
+                                                                        selectedDistrictName
+                                                                    }>
+                                                                    {
+                                                                        selectedDistrictName
+                                                                    }
                                                                 </option>
                                                                 {districts.map(
                                                                     (
@@ -384,16 +408,23 @@ const MyProfilePage = () => {
                                                             <select
                                                                 name='village'
                                                                 id='village'
+                                                                disabled={
+                                                                    isLoading
+                                                                }
                                                                 value={
                                                                     selectedVillage
                                                                 }
                                                                 onChange={
                                                                     handleVillageChange
                                                                 }
-                                                                className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
-                                                                <option value=''>
-                                                                    Choose
-                                                                    Village
+                                                                className={`w-full px-3 py-2 text-sm border rounded text-slate-700 placeholder-opacity-50 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-00' : ''}`}>
+                                                                <option
+                                                                    value={
+                                                                        selectedVillageName
+                                                                    }>
+                                                                    {
+                                                                        selectedVillageName
+                                                                    }
                                                                 </option>
                                                                 {villages.map(
                                                                     (
@@ -421,8 +452,10 @@ const MyProfilePage = () => {
                                                         <InputForm
                                                             label='Postal Code'
                                                             name='postal_code'
+                                                            disa
                                                             placeholder='Postal Code...'
                                                             type='text'
+                                                            disabled={isLoading}
                                                             value={postalCode}
                                                             OnChange={(e) =>
                                                                 setPostalCode(
@@ -439,6 +472,7 @@ const MyProfilePage = () => {
                                                             placeholder='Phone Number...'
                                                             type='text'
                                                             value={noHp}
+                                                            disabled={isLoading}
                                                             OnChange={(e) =>
                                                                 setNoHp(
                                                                     e.target
@@ -456,16 +490,18 @@ const MyProfilePage = () => {
                                                         Address
                                                     </label>
                                                     <textarea
+                                                        rows={4}
                                                         name='address'
                                                         id='address'
                                                         placeholder='Your Address...'
                                                         value={address}
+                                                        disabled={isLoading}
                                                         onChange={(e) =>
                                                             setAddress(
                                                                 e.target.value
                                                             )
                                                         }
-                                                        className='w-full px-3 py-2 text-sm border rounded text-slate-700'
+                                                        className={`w-full px-3 py-2 text-sm border rounded text-slate-700  ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}
                                                     />
                                                 </div>
                                             </div>
@@ -478,7 +514,8 @@ const MyProfilePage = () => {
                                                 <div className='relative inline-block'>
                                                     <input
                                                         type='file'
-                                                        className='file:absolute file:right-0 file:bg-primary bg-white py-2 px-4 rounded-full file:text-white file:border-0  file:rounded-full'
+                                                        disabled={isLoading}
+                                                        className={`file:absolute file:right-0 file:bg-primary bg-white py-2 px-4 rounded-full file:text-white file:border-0  file:rounded-full ${isLoading ? 'bg-gray-200 ' : ''}`}
                                                         onChange={loadImage}
                                                     />
                                                 </div>
@@ -494,17 +531,25 @@ const MyProfilePage = () => {
                                             )}
                                             <div className='flex justify-end mt-6'>
                                                 <button
+                                                    disabled={isLoading}
                                                     onClick={handleUpdate}
-                                                    className='px-4 py-2 text-white rounded bg-primary hover:bg-secondary focus:outline-none'>
-                                                    Update
+                                                    className={`px-4 py-2 text-white rounded bg-primary hover:bg-secondary focus:outline-none relative ${isLoading ? 'opacity-50 hover:opacity-50' : ''}`}>
+                                                    {isLoading ? (
+                                                        <div className='absolute inset-0 flex items-center justify-center'>
+                                                            <div className='animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white'></div>
+                                                        </div>
+                                                    ) : (
+                                                        'Save'
+                                                    )}
                                                 </button>
                                                 <button
+                                                    disabled={isLoading}
                                                     onClick={() =>
                                                         setOpenEditMenu(
                                                             !openEditMenu
                                                         )
                                                     }
-                                                    className='ml-4 px-4 py-2 text-white rounded bg-red-500 hover:bg-secondary focus:outline-none'>
+                                                    className={`ml-4 px-4 py-2 text-white rounded bg-red-500 hover:bg-secondary focus:outline-none ${isLoading ? 'opacity-50 hover:opacity-50' : ''}`}>
                                                     Close
                                                 </button>
                                             </div>

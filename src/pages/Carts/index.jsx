@@ -23,7 +23,7 @@ const CartsPage = () => {
                         <CartItem
                             key={cart.id}
                             productId={cart.product_id}
-                            imgSrc={cart.Product.product_url_image}
+                            imgSrc={cart.Product.image_url}
                             name={cart.Product.name}
                             totalPrice={cart.total_price}
                             quantity={cart.total_product}

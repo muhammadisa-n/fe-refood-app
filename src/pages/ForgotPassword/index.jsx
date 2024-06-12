@@ -48,6 +48,7 @@ const ForgotPasswordPage = () => {
                     name='email'
                     placeholder='example@mail.com'
                     type='email'
+                    disabled={isLoading}
                     value={email}
                     OnChange={(e) => setEmail(e.target.value)}
                 />
