@@ -42,7 +42,7 @@ const CartItem = ({
                     <button
                         className='h-12 px-2 text-white rounded-md bg-primary font-semibold '
                         onClick={() => alert('success')}>
-                        Create Order
+                        Order
                     </button>
                 </div>
                 <button

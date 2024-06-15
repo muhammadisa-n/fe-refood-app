@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { AiOutlineMenu } from 'react-icons/ai'
-import DropdownButton from '@components/DropdownButton'
+import DropdownMenu from '@components/Header/DropdownMenu.jsx'
 import profileImage from '@assets/userdefault.png'
+import { AiOutlineMenu } from 'react-icons/ai'
 import { FaShoppingCart } from 'react-icons/fa'
 import { IoIosNotifications } from 'react-icons/io'
 import { logout } from '@utils/services/authServices.js'
@@ -10,11 +10,11 @@ import { useCart } from '@context/CartContext'
 import { useUser } from '@context/userContext.jsx'
 const Header = () => {
     const { user, role, refreshUser } = useUser()
+    const [isOpen, setIsOpen] = useState(false)
     const { carts, refreshCart } = useCart()
     const [token, setToken] = useState(
         localStorage.getItem('access_token') || ''
     )
-    const [isOpenNavMobile, setIsOpenNavMobile] = useState(false)
     const navigate = useNavigate()
     const setActive = ({ isActive }) =>
         isActive
@@ -41,7 +41,51 @@ const Header = () => {
             onClick: HandleLogout,
         },
     ]
+    const menuItemsCustomerMobile = [
+        {
+            title: 'Home',
+            to: '/',
+        },
+        {
+            title: 'Recommendation',
+            to: '/recommendation',
+        },
+        {
+            title: 'Carts',
+            to: '/carts',
+        },
+        {
+            title: 'My Orders',
+            to: '/my-orders',
+        },
+        {
+            title: 'My Profile',
+            to: '/my-profile',
+        },
+        {
+            title: 'Logout',
+            onClick: HandleLogout,
+        },
+    ]
     const menuItems = [
+        {
+            title: 'My Dashboard',
+            to: `/my-dashboard`,
+        },
+        {
+            title: 'Logout',
+            onClick: HandleLogout,
+        },
+    ]
+    const menuItemsMobile = [
+        {
+            title: 'Home',
+            to: '/',
+        },
+        {
+            title: 'Recommendation',
+            to: '/recommendation',
+        },
         {
             title: 'My Dashboard',
             to: `/my-dashboard`,
@@ -59,8 +103,8 @@ const Header = () => {
         }
     }, [])
     return (
-        <>
-            <nav className='sticky  top-0 px-4 py-4  border-b-2 bg-white  z-50'>
+        <header className='sticky  top-0 px-4 py-4  border-b-2 bg-white  z-50'>
+            <nav>
                 <div className='container mx-auto'>
                     <div className='flex justify-between'>
                         <a
@@ -75,7 +119,7 @@ const Header = () => {
                                         Home
                                     </NavLink>
                                     <NavLink
-                                        to='/recomendation'
+                                        to='/recommendation'
                                         className={setActive}>
                                         Recommendation
                                     </NavLink>
@@ -87,7 +131,7 @@ const Header = () => {
                                         Home
                                     </NavLink>
                                     <NavLink
-                                        to='/recomendation'
+                                        to='/recommendation'
                                         className={setActive}>
                                         Recommendation
                                     </NavLink>
@@ -95,7 +139,7 @@ const Header = () => {
                             )}
                         </div>
                         <div className='items-center justify-between hidden gap-2 md:flex '>
-                            {token && role === 'Customer' && (
+                            {token && role === 'Customer' ? (
                                 <>
                                     <NavLink
                                         to='/carts'
@@ -121,7 +165,7 @@ const Header = () => {
                                             </span>
                                         )}
                                     </NavLink>
-                                    <DropdownButton
+                                    <DropdownMenu
                                         profileImage={
                                             user.ava_image_url
                                                 ? user.ava_image_url
@@ -129,19 +173,16 @@ const Header = () => {
                                         }
                                         menuItems={
                                             menuItemsCustomer
-                                        }></DropdownButton>
+                                        }></DropdownMenu>
                                 </>
-                            )}
-                            {token && role !== 'Customer' && (
-                                <>
-                                    <DropdownButton
-                                        profileImage={
-                                            user.ava_image_url
-                                                ? user.ava_image_url
-                                                : profileImage
-                                        }
-                                        menuItems={menuItems}></DropdownButton>
-                                </>
+                            ) : (
+                                <DropdownMenu
+                                    profileImage={
+                                        user.ava_image_url
+                                            ? user.ava_image_url
+                                            : profileImage
+                                    }
+                                    menuItems={menuItems}></DropdownMenu>
                             )}
                             {!token && (
                                 <>
@@ -158,50 +199,84 @@ const Header = () => {
                                 </>
                             )}
                         </div>
+                        {/*Nav Mobile */}
                         <div className='items-center justify-between gap-2 lg:hidden md:hidden '>
-                            <AiOutlineMenu
-                                size={35}
-                                onClick={() =>
-                                    setIsOpenNavMobile(!isOpenNavMobile)
-                                }
-                                className='fixed bg-transparent  top-4 right-4 z-[99] md:hidden text-dark '
-                            />
+                            {!token ? (
+                                <>
+                                    <AiOutlineMenu
+                                        size={35}
+                                        onClick={() => setIsOpen(!isOpen)}
+                                        className='relative bg-transparent  top-0  z-[99] md:hidden text-dark'
+                                    />
+                                    {isOpen && (
+                                        <div className='absolute w-[150px] right-0 bg-white px-4 py-4'>
+                                            <NavLink
+                                                to='/login'
+                                                className='flex items-center justify-center h-8 px-4 font-semibold text-white transition ease-in-out rounded-sm bg-primary hover:bg-secondary hover:text-primary my-2'>
+                                                Log In
+                                            </NavLink>
+                                            <NavLink
+                                                to='/register'
+                                                className='flex items-center justify-center h-8 px-4 font-semibold rounded-sm text-primary bg-secondary hover:bg-primary hover:text-white  my-2'>
+                                                Sign Up
+                                            </NavLink>
+                                        </div>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    {token && role === 'Customer' ? (
+                                        <div className='flex'>
+                                            <div className='relative mx-3 top-4'>
+                                                <IoIosNotifications
+                                                    size={20}
+                                                    className='hover:text-primary'
+                                                />
+                                                <span className='absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-primary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center'>
+                                                    1
+                                                </span>
+                                            </div>
+                                            <NavLink
+                                                to='/carts'
+                                                className='relative mx-3 top-4'>
+                                                <FaShoppingCart
+                                                    size={20}
+                                                    className='hover:text-primary'
+                                                />
+                                                {carts && carts.length > 0 && (
+                                                    <span className='absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-primary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center'>
+                                                        {carts.length}
+                                                    </span>
+                                                )}
+                                            </NavLink>
+                                            <DropdownMenu
+                                                profileImage={
+                                                    user.ava_image_url
+                                                        ? user.ava_image_url
+                                                        : profileImage
+                                                }
+                                                menuItems={
+                                                    menuItemsCustomerMobile
+                                                }></DropdownMenu>
+                                        </div>
+                                    ) : (
+                                        <DropdownMenu
+                                            profileImage={
+                                                user.ava_image_url
+                                                    ? user.ava_image_url
+                                                    : profileImage
+                                            }
+                                            menuItems={
+                                                menuItemsMobile
+                                            }></DropdownMenu>
+                                    )}
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
-                {isOpenNavMobile && (
-                    <>
-                        <div className='fixed left-0 z-20 flex flex-col items-center justify-center w-full h-screen bg-white/90 '>
-                            <NavLink
-                                to='/'
-                                className='w-[75%] flex justify-center items-center  shadow-lg bg-light shadow-secondary dark:shadow-light m-2 p-2 cursor-pointer hover:scale-110 ease-in duration-200 rounded-full font-semibold'>
-                                <span className='pl-4'>Home</span>
-                            </NavLink>
-                            <NavLink
-                                to='/recomendation'
-                                className='w-[75%] flex justify-center items-center  shadow-lg bg-light shadow-secondary dark:shadow-light m-2 p-2 cursor-pointer hover:scale-110 ease-in duration-200 rounded-full font-semibold'>
-                                <span className='pl-4'>Recommendation</span>
-                            </NavLink>
-                            <NavLink
-                                to='/carts'
-                                className='w-[75%] flex justify-center items-center  shadow-lg bg-light shadow-secondary dark:shadow-light m-2 p-2 cursor-pointer hover:scale-110 ease-in duration-200 rounded-full font-semibold'>
-                                <span className='pl-4'>Carts</span>
-                            </NavLink>
-                            <NavLink
-                                to='/login'
-                                className='w-[75%] flex justify-center items-center  shadow-lg bg-light shadow-secondary dark:shadow-light m-2 p-2 cursor-pointer hover:scale-110 ease-in duration-200 rounded-full font-semibold'>
-                                <span className='pl-4'>Log In</span>
-                            </NavLink>
-                            <NavLink
-                                to='/register'
-                                className='w-[75%] flex justify-center items-center  shadow-lg bg-light shadow-secondary dark:shadow-light m-2 p-2 cursor-pointer hover:scale-110 ease-in duration-200 rounded-full font-semibold'>
-                                <span className='pl-4'>Sign Up</span>
-                            </NavLink>
-                        </div>
-                    </>
-                )}
             </nav>
-        </>
+        </header>
     )
 }
 

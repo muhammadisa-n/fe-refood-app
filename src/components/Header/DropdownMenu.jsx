@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import MenuItem from './MenuItem'
+import MenuItem from './MenuItem.jsx'
 
-const DropdownButton = ({ menuItems, nameUser, profileImage }) => {
+const DropdownMenu = ({ menuItems, profileImage }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleDropdown = () => {
@@ -33,4 +33,4 @@ const DropdownButton = ({ menuItems, nameUser, profileImage }) => {
     )
 }
 
-export default DropdownButton
+export default DropdownMenu

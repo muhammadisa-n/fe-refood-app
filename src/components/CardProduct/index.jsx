@@ -15,8 +15,7 @@ const CardProduct = ({
                     src={imgSrc}
                     alt='product-image'
                     title={name}
-                    loading='lazy'
-                    className='p-4 rounded-lg h-[250px] w-full object-fill '
+                    className='p-2 mx-auto rounded-lg md:h-[200px]   w-[200px] object-cover '
                 />
                 <div className='px-2 pb-2'>
                     <span className='text-xs font-bold text-gray-600'>
@@ -26,9 +25,9 @@ const CardProduct = ({
                         <h5 className='text-xl font-semibold text-black'>
                             {name}
                         </h5>
-                        <div className='h-16'>
+                        <div className='md:h-16'>
                             <p className='text-sm text-gray-400'>
-                                {description.substring(0, 100)}
+                                {description.substring(0, 75)}
                                 {'...'}
                             </p>
                         </div>

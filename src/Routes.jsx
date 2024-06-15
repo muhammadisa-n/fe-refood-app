@@ -1,5 +1,5 @@
-import React, { useLayoutEffect } from 'react'
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import React from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import IsAdmin from '@utils/middleware/IsAdmin'
 import IsLoggedIn from '@utils/middleware/IsLoggedIn'
 import IsSeller from '@utils/middleware/IsSeller'
@@ -41,7 +41,10 @@ const RoutesPage = () => {
                     path='/product/detail/:id'
                     element={<DetailProductPage />}
                 />
-                <Route path='/recomendation' element={<RecommendationPage />} />
+                <Route
+                    path='/recommendation'
+                    element={<RecommendationPage />}
+                />
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/register' element={<RegisterPage />} />
                 <Route

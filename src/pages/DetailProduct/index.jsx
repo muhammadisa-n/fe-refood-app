@@ -60,9 +60,9 @@ const DetailProductPage = () => {
                     </div>
                 </div>
             ) : (
-                <div className=' flex flex-col md:flex-row md:px-[200px] md:py-[100px] '>
+                <div className=' flex flex-col md:flex-row md:px-[200px] md:py-[100px] mt-24 '>
                     <div className='md:basis-1/2 md:flex md:flex-col md:justify-between'>
-                        <div className='hidden md:block large-image'>
+                        <div className='hidden md:block '>
                             <img
                                 className='object-cover cursor-pointer rounded-xl w-[400px] h-[400px]'
                                 src={product.image_url}
@@ -72,8 +72,8 @@ const DetailProductPage = () => {
                         <div className='md:hidden'>
                             <img
                                 className='w-[100%] h-[300px] object-cover mt-10 rounded-2xl mx-2 my-5'
-                                src={product.url_image}
-                                alt='snekers-photo'
+                                src={product.image_url}
+                                alt='product-image'
                             />
                         </div>
                     </div>

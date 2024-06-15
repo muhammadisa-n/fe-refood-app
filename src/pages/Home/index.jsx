@@ -35,7 +35,7 @@ const HomePage = () => {
     return (
         <MainLayout>
             <Banner />
-            <div className='flex flex-col max-w-full min-h-screen mt-10'>
+            <div className='flex flex-col max-w-full mx-auto min-h-screen mt-10'>
                 <div className='mt-10 text-center '>
                     <p className='text-3xl font-bold text-primary'>All Foods</p>
                 </div>
@@ -59,7 +59,7 @@ const HomePage = () => {
                     </>
                 ) : (
                     <>
-                        <div className='grid grid-cols-2 mx-10 my-10 md:grid-cols-4'>
+                        <div className=' grid grid-cols-2 mx-36 my-10 md:grid-cols-4'>
                             {products.map((product, index) => (
                                 <CardProduct
                                     key={index}
