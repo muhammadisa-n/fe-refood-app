@@ -19,6 +19,7 @@ const DashboardProfilePage = () => {
     const [openEditMenu, setOpenEditMenu] = useState(false)
     const [errorMessage, SetErrorMessage] = useState('')
     const [name, setName] = useState('')
+    const [description, setDescription] = useState('')
     const [selectedProvince, setSelectedProvince] = useState('')
     const [selectedProvinceName, setSelectedProvinceName] = useState('')
     const [selectedCity, setSelectedCity] = useState('')
@@ -48,6 +49,9 @@ const DashboardProfilePage = () => {
         setSelectedCityName(userdata.city)
         setSelectedDistrictName(userdata.district)
         setSelectedVillageName(userdata.village)
+        if (userdata.description) {
+            setDescription(userdata.description)
+        }
         if (userdata.ava_image_url) {
             setPreviewImg(userdata.ava_image_url)
         } else {
@@ -141,6 +145,7 @@ const DashboardProfilePage = () => {
         setIsLoading(true)
         const formData = new FormData()
         formData.append('name', name)
+        formData.append('description', description)
         formData.append('province', selectedProvinceName)
         formData.append('city', selectedCityName)
         formData.append('district', selectedDistrictName)
@@ -272,6 +277,30 @@ const DashboardProfilePage = () => {
                                                         }
                                                     />
                                                 </div>
+                                                {role === 'Seller' && (
+                                                    <div className='w-full'>
+                                                        <label
+                                                            htmlFor='description'
+                                                            className='block mb-2 text-sm font-bold text-slate-700'>
+                                                            Description Merchant
+                                                        </label>
+                                                        <textarea
+                                                            rows={4}
+                                                            name='description'
+                                                            id='description'
+                                                            disabled={isLoading}
+                                                            placeholder='Description Merchant...'
+                                                            value={description}
+                                                            onChange={(e) =>
+                                                                setDescription(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                            className={`w-full px-3 py-2 text-sm border rounded text-slate-700  ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}
+                                                        />
+                                                    </div>
+                                                )}
                                                 {role === 'Seller' && (
                                                     <>
                                                         <div className='flex w-full gap-2'>
@@ -524,6 +553,7 @@ const DashboardProfilePage = () => {
                                                                 Address
                                                             </label>
                                                             <textarea
+                                                                rows={4}
                                                                 name='address'
                                                                 id='address'
                                                                 disabled={

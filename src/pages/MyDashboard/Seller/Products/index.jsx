@@ -6,14 +6,22 @@ import {
     deleteProduct,
     getAllProducts,
 } from '@utils/services/sellerServices.js'
+import { useDebounce } from 'use-debounce'
 const SellerProductsPage = () => {
     const [products, setProducts] = useState([])
+    const [size, setSize] = useState(8)
+    const [totalPage, setTotalPage] = useState()
+    const [search, setSearch] = useState('')
+    const [page, setPage] = useState(1)
+    const [searchValue] = useDebounce(search, 1000)
     const [token, setToken] = useState(localStorage.getItem('access_token'))
     const [isLoading, setIsLoading] = useState(false)
     const fetchProducts = async () => {
         try {
-            const response = await getAllProducts()
-            setProducts(response)
+            const response = await getAllProducts(page, size, searchValue)
+            setProducts(response.products)
+            setPage(response.paging.current_page)
+            setTotalPage(response.paging.total_page)
         } catch (error) {
             console.error('Error Fetching Product', error)
         }
@@ -22,7 +30,7 @@ const SellerProductsPage = () => {
         if (token) {
             fetchProducts()
         }
-    }, [token])
+    }, [token, page, size])
     const handleDelete = async (id) => {
         Swal.fire({
             title: 'Are you sure?',

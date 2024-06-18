@@ -1,11 +1,10 @@
-import axiosJWT from '@utils/services/axiosJWT.js'
 import axios from 'axios'
 
-export const getAllProducts = async (take, skip) => {
+export const getAllProducts = async (page, size, search) => {
     try {
         const response = await axios.get(
             `${import.meta.env.VITE_API_URL}` + 'products',
-            { params: { take, skip } }
+            { params: { page, size, search } }
         )
         return response.data
     } catch (error) {

@@ -1,9 +1,11 @@
 import axiosJWT from '@utils/services/axiosJWT.js'
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (page, size, search) => {
     try {
-        const response = await axiosJWT.get('seller/products')
-        return response.data.product
+        const response = await axiosJWT.get('seller/products', {
+            params: { page, size, search },
+        })
+        return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
     }
@@ -46,8 +48,8 @@ export const deleteProduct = async (id) => {
 
 export const countProduct = async () => {
     try {
-        const response = await axiosJWT.get('seller/products')
-        return response.data.amount
+        const response = await axiosJWT.get('seller/products/count')
+        return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
     }

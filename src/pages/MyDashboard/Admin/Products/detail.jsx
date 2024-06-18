@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getProductById } from '@utils/services/productServices.js'
 import DashboardLayout from '@layouts/DashboardLayout'
 const AdminDetailProductPage = () => {
@@ -31,7 +31,7 @@ const AdminDetailProductPage = () => {
                     <div className='lg:w-4/5 mx-auto flex flex-wrap'>
                         <img
                             className='lg:w-1/3 w-full object-cover object-center rounded-lg border border-gray-200'
-                            src={`${product.url_image}`}
+                            src={`${product.image_url}`}
                         />
                         <div className='lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0'>
                             <h2 className='text-sm title-font text-gray-500 tracking-widest'>

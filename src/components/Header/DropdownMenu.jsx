@@ -17,7 +17,6 @@ const DropdownMenu = ({ menuItems, profileImage }) => {
                 src={profileImage}
                 alt='Profile'
             />
-
             {isOpen && (
                 <div className='absolute right-0 w-48 mt- origin-top-right bg-white rounded-md shadow-lg border  '>
                     {menuItems.map((item, index) => (

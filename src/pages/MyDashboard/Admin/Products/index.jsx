@@ -5,13 +5,21 @@ import {
     changeStatusProduct,
 } from '@utils/services/adminServices.js'
 import { Link } from 'react-router-dom'
+import { useDebounce } from 'use-debounce'
 const AdminProductsPage = () => {
     const [products, setProducts] = useState([])
+    const [size, setSize] = useState(8)
+    const [totalPage, setTotalPage] = useState()
+    const [search, setSearch] = useState('')
+    const [page, setPage] = useState(1)
+    const [searchValue] = useDebounce(search, 1000)
     const [token, setToken] = useState(localStorage.getItem('access_token'))
     const fetchProducts = async () => {
         try {
-            const response = await getAllProducts()
-            setProducts(response)
+            const response = await getAllProducts(page, size, searchValue)
+            setProducts(response.products)
+            setPage(response.paging.current_page)
+            setTotalPage(response.paging.total_page)
         } catch (error) {
             console.error('Error Fetching Product', error)
         }
@@ -36,7 +44,7 @@ const AdminProductsPage = () => {
         if (token) {
             fetchProducts()
         }
-    }, [token])
+    }, [token, page, size])
 
     return (
         <DashboardLayout>

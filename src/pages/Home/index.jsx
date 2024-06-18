@@ -3,35 +3,40 @@ import MainLayout from '@layouts/MainLayout'
 import Banner from '@components/Banner'
 import CardProduct from '@components/CardProduct'
 import { getAllProducts } from '@utils/services/productServices.js'
+import { useDebounce } from 'use-debounce'
 const HomePage = () => {
     const [products, setProducts] = useState([])
-    const [take, setTake] = useState(8)
-    const [skip, setSkip] = useState(0)
-    const [totalProducts, setTotalProducts] = useState()
-    const [isLoading, setIsLoading] = useState(false)
+    const [size, setSize] = useState(8)
+    const [totalPage, setTotalPage] = useState()
+    const [search, setSearch] = useState('')
     const [page, setPage] = useState(1)
-    useEffect(() => {
-        const fetchProduct = async () => {
-            setIsLoading(true)
-            const response = await getAllProducts(take, skip)
+    const [searchValue] = useDebounce(search, 1000)
+
+    const fetchProduct = async () => {
+        try {
+            const response = await getAllProducts(page, size, searchValue)
             setProducts(response.products)
-            setTotalProducts(response.totalProduct)
+            setPage(response.paging.current_page)
+            setTotalPage(response.paging.total_page)
+        } catch (error) {
+            console.error('Failed to fetch products:', error)
         }
+    }
+    useEffect(() => {
         fetchProduct()
-    }, [take, skip])
+    }, [page, size, searchValue])
 
     const handlePrev = () => {
-        if (skip > 0) {
-            setSkip(skip - take)
+        if (page > 1) {
             setPage(page - 1)
         }
     }
     const handleNext = () => {
-        if (totalProducts > products.length) {
-            setSkip(skip + take)
+        if (page < totalPage) {
             setPage(page + 1)
         }
     }
+
     return (
         <MainLayout>
             <Banner />
@@ -40,15 +45,17 @@ const HomePage = () => {
                     <p className='text-3xl font-bold text-primary'>All Foods</p>
                 </div>
                 <div className='px-4 mt-10 text-center'>
-                    <form action='#'>
+                    <form action=''>
                         <input
                             type='text'
                             className='w-[75%] px-2 py-4 text-primary border font-normal focus:ring-primary focus:ring-1 focus:outline-none rounded-lg'
                             placeholder='Search Food...'
+                            onChange={(e) => {
+                                setSearch(e.target.value)
+                            }}
                         />
                     </form>
                 </div>
-
                 {products.length === 0 ? (
                     <>
                         <div className='mx-10 my-10 md:grid-cols-4'>
@@ -76,23 +83,21 @@ const HomePage = () => {
                 )}
             </div>
             <div className='mb-20 text-center space-x-5'>
-                {skip > 0 && (
-                    <button
-                        className='bg-primary text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md'
-                        onClick={() => handlePrev()}>
-                        Prev
-                    </button>
-                )}
-                {totalProducts > 8 && <span>{page}</span>}
+                <button
+                    className='bg-primary text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md disabled:bg-orange-700'
+                    onClick={() => handlePrev()}
+                    disabled={page === 1}>
+                    Prev
+                </button>
 
-                {totalProducts > products.length &&
-                    skip + take < totalProducts && (
-                        <button
-                            className='bg-primary text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md'
-                            onClick={() => handleNext()}>
-                            Next
-                        </button>
-                    )}
+                <span>{page}</span>
+
+                <button
+                    className='bg-primary text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md disabled:bg-orange-700'
+                    onClick={() => handleNext()}
+                    disabled={page === totalPage}>
+                    Next
+                </button>
             </div>
         </MainLayout>
     )

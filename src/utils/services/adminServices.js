@@ -1,9 +1,11 @@
 import axiosJWT from '@utils/services/axiosJWT.js'
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (page, size, search) => {
     try {
-        const response = await axiosJWT.get('admin/products')
-        return response.data.product
+        const response = await axiosJWT.get('admin/products', {
+            params: { page, size, search },
+        })
+        return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
     }
@@ -22,24 +24,24 @@ export const changeStatusProduct = async (id, status) => {
 
 export const countProduct = async () => {
     try {
-        const response = await axiosJWT.get('admin/products')
-        return response.data.amount
+        const response = await axiosJWT.get('admin/count-products')
+        return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
     }
 }
 export const countSeller = async () => {
     try {
-        const response = await axiosJWT.get('admin/count-seller')
-        return response.data.amount
+        const response = await axiosJWT.get('admin/count-sellers')
+        return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
     }
 }
 export const countCustomer = async () => {
     try {
-        const response = await axiosJWT.get('admin/count-customer')
-        return response.data.amount
+        const response = await axiosJWT.get('admin/count-customers')
+        return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
     }

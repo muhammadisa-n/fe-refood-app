@@ -51,10 +51,6 @@ const Header = () => {
             to: '/recommendation',
         },
         {
-            title: 'Carts',
-            to: '/carts',
-        },
-        {
             title: 'My Orders',
             to: '/my-orders',
         },
@@ -113,30 +109,12 @@ const Header = () => {
                             Refood App
                         </a>
                         <div className='items-center justify-between hidden gap-3 md:flex'>
-                            {!token && (
-                                <>
-                                    <NavLink to='/' className={setActive}>
-                                        Home
-                                    </NavLink>
-                                    <NavLink
-                                        to='/recommendation'
-                                        className={setActive}>
-                                        Recommendation
-                                    </NavLink>
-                                </>
-                            )}
-                            {token && role === 'Customer' && (
-                                <>
-                                    <NavLink to='/' className={setActive}>
-                                        Home
-                                    </NavLink>
-                                    <NavLink
-                                        to='/recommendation'
-                                        className={setActive}>
-                                        Recommendation
-                                    </NavLink>
-                                </>
-                            )}
+                            <NavLink to='/' className={setActive}>
+                                Home
+                            </NavLink>
+                            <NavLink to='/recommendation' className={setActive}>
+                                Recommendation
+                            </NavLink>
                         </div>
                         <div className='items-center justify-between hidden gap-2 md:flex '>
                             {token && role === 'Customer' ? (
@@ -176,13 +154,21 @@ const Header = () => {
                                         }></DropdownMenu>
                                 </>
                             ) : (
-                                <DropdownMenu
-                                    profileImage={
-                                        user.ava_image_url
-                                            ? user.ava_image_url
-                                            : profileImage
-                                    }
-                                    menuItems={menuItems}></DropdownMenu>
+                                <>
+                                    {token && role !== 'Customer' ? (
+                                        <DropdownMenu
+                                            profileImage={
+                                                user.ava_image_url
+                                                    ? user.ava_image_url
+                                                    : profileImage
+                                            }
+                                            menuItems={
+                                                menuItems
+                                            }></DropdownMenu>
+                                    ) : (
+                                        <></>
+                                    )}
+                                </>
                             )}
                             {!token && (
                                 <>

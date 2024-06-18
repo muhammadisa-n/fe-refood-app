@@ -4,7 +4,6 @@ import { FaUsers } from 'react-icons/fa'
 import { PiUsersThreeBold } from 'react-icons/pi'
 import { MdOutlineFoodBank } from 'react-icons/md'
 import DashboardLayout from '@layouts/DashboardLayout'
-import { getUser } from '@utils/services/userServices.js'
 import { countProduct as countProductSeller } from '@utils/services/sellerServices.js'
 import {
     countProduct as countProductAdmin,
@@ -16,7 +15,6 @@ import { jwtDecode } from 'jwt-decode'
 const MyDashboardPage = () => {
     const [token, setToken] = useState(localStorage.getItem('access_token'))
     const decoded = jwtDecode(token)
-    const [user, setUser] = useState([])
     const [countProduct, setCountProduct] = useState(0)
     const [countSellerText, setCountSellerText] = useState(0)
     const [countCustomerText, setCountCustomerText] = useState(0)
@@ -25,20 +23,20 @@ const MyDashboardPage = () => {
         const decoded = jwtDecode(token)
         if (decoded.user_role === 'Admin') {
             const response = await countProductAdmin()
-            setCountProduct(response)
+            setCountProduct(response.total_product)
         } else {
             const response = await countProductSeller()
-            setCountProduct(response)
+            setCountProduct(response.total_product)
         }
     }
     const amountSellerAndCustomer = async () => {
         try {
             const decoded = jwtDecode(token)
             if (decoded.user_role === 'Admin') {
-                const countSel = await countSeller()
-                const countCus = await countCustomer()
-                setCountSellerText(countSel)
-                setCountCustomerText(countCus)
+                const dataSeller = await countSeller()
+                const dataCustomer = await countCustomer()
+                setCountSellerText(dataSeller.total_seller)
+                setCountCustomerText(dataCustomer.total_customer)
             }
         } catch (error) {
             console.error('Error : ', error)
