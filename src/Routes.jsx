@@ -26,10 +26,12 @@ import SellerOrdersPage from '@pages/MyDashboard/Seller/Orders'
 import AdminProductsPage from '@pages/MyDashboard/Admin/Products'
 import AdminDetailProductPage from '@pages/MyDashboard/Admin/Products/detail'
 import DetailProductPage from '@pages/DetailProduct'
-import AdminCategoryPage from '@pages/MyDashboard/Admin/Category/index.jsx'
+import AdminCategoryPage from '@pages/MyDashboard/Admin/Category'
 import AdminCreateCategoryPage from '@pages/MyDashboard/Admin/Category/create'
 import AdminUpdateCategoryPage from '@pages/MyDashboard/Admin/Category/update'
-import ScrollToTop from '@utils/ScrollToTop/index.jsx'
+import ScrollToTop from '@utils/ScrollToTop'
+import VerificationSellerPage from '@pages/MyDashboard/Seller/VerificationSeller'
+import AdminSellerListPage from '@pages/MyDashboard/Admin/User/Seller'
 const RoutesPage = () => {
     return (
         <BrowserRouter>
@@ -115,6 +117,10 @@ const RoutesPage = () => {
                         element={<SellerCreateProductPage />}
                     />
                     <Route
+                        path='/my-dashboard/seller/activate'
+                        element={<VerificationSellerPage />}
+                    />
+                    <Route
                         path='/my-dashboard/seller/products/update/:id'
                         element={<SellerUpdateProductPage />}
                     />
@@ -134,6 +140,14 @@ const RoutesPage = () => {
                     element={
                         <IsAdmin>
                             <AdminProductsPage />
+                        </IsAdmin>
+                    }
+                />
+                <Route
+                    path='/my-dashboard/admin/sellers'
+                    element={
+                        <IsAdmin>
+                            <AdminSellerListPage />
                         </IsAdmin>
                     }
                 />

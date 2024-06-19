@@ -15,7 +15,6 @@ import { useUser } from '@context/userContext.jsx'
 
 const DashboardProfilePage = () => {
     const { refreshUser, user, role } = useUser()
-    const [token, setToken] = useState(localStorage.getItem('access_token'))
     const [openEditMenu, setOpenEditMenu] = useState(false)
     const [errorMessage, SetErrorMessage] = useState('')
     const [name, setName] = useState('')
@@ -60,9 +59,7 @@ const DashboardProfilePage = () => {
     }
 
     useEffect(() => {
-        if (token) {
-            fetchUser()
-        }
+        fetchUser()
     }, [])
 
     useEffect(() => {

@@ -54,3 +54,11 @@ export const countProduct = async () => {
         throw error.response ? error.response.data : error
     }
 }
+export const verifySeller = async (data) => {
+    try {
+        const response = await axiosJWT.post('seller/activate', data)
+        return response.data
+    } catch (error) {
+        throw error.response ? error.response.data : error
+    }
+}

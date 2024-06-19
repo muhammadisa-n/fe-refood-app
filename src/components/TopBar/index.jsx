@@ -8,7 +8,7 @@ const TopBar = () => {
         refreshUser()
     }, [])
     return (
-        <div className='hidden md:flex items-center justify-end h-[70px] px-6 shadow-lg '>
+        <div className='flex  items-center justify-end h-[70px] px-6 shadow-lg '>
             <div className='relative flex items-center gap-4'>
                 <div className='flex items-center gap-3 pr-6 border-r-[1px] border-white'>
                     <IoIosNotifications></IoIosNotifications>

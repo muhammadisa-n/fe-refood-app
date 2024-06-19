@@ -5,10 +5,10 @@ import TopBar from '@components/TopBar'
 const DashboardLayout = ({ children }) => {
     return (
         <div className='flex'>
-            <div className='basis-[12%]  h-[100vh]'>
+            <div className='hidden md:basis-[12%] md:block  h-[100vh]'>
                 <SideBar />
             </div>
-            <div className='basis-[88%]  h-[100vh] overflow-scroll'>
+            <div className='basis-[100%] md:basis-[88%]  h-[100vh] overflow-scroll'>
                 <TopBar />
                 {/* Content here */}
                 {children}

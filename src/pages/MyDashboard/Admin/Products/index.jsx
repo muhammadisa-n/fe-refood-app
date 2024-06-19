@@ -2,18 +2,17 @@ import React, { useEffect, useState } from 'react'
 import DashboardLayout from '@layouts/DashboardLayout'
 import {
     getAllProducts,
-    changeStatusProduct,
+    activateProduct,
 } from '@utils/services/adminServices.js'
 import { Link } from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
 const AdminProductsPage = () => {
     const [products, setProducts] = useState([])
-    const [size, setSize] = useState(8)
+    const [size, setSize] = useState(10)
     const [totalPage, setTotalPage] = useState()
     const [search, setSearch] = useState('')
     const [page, setPage] = useState(1)
     const [searchValue] = useDebounce(search, 1000)
-    const [token, setToken] = useState(localStorage.getItem('access_token'))
     const fetchProducts = async () => {
         try {
             const response = await getAllProducts(page, size, searchValue)
@@ -27,7 +26,7 @@ const AdminProductsPage = () => {
 
     const handleUpdateStatus = async (productId, newStatus) => {
         try {
-            await changeStatusProduct(productId, newStatus)
+            await activateProduct(productId, newStatus)
             setProducts(
                 products.map((product) =>
                     product.id === productId
@@ -41,11 +40,19 @@ const AdminProductsPage = () => {
     }
 
     useEffect(() => {
-        if (token) {
-            fetchProducts()
-        }
-    }, [token, page, size])
+        fetchProducts()
+    }, [page, size, searchValue])
 
+    const handlePrev = () => {
+        if (page > 1) {
+            setPage(page - 1)
+        }
+    }
+    const handleNext = () => {
+        if (page < totalPage) {
+            setPage(page + 1)
+        }
+    }
     return (
         <DashboardLayout>
             <div className='px-6 pt-6 '>
@@ -53,6 +60,16 @@ const AdminProductsPage = () => {
                     <h1 className='text-3xl font-semibold text-primary'>
                         List Products
                     </h1>
+                    <div className='my-4 flex justify-between'>
+                        <input
+                            type='text'
+                            className='w-[20%] px-1 py-1 text-black border-2 font-light  rounded-lg '
+                            placeholder='Search...'
+                            onChange={(e) => {
+                                setSearch(e.target.value)
+                            }}
+                        />
+                    </div>
                 </div>
                 <div className='mt-5 basis-[85%]  '>
                     <div className='relative overflow-x-auto'>
@@ -135,6 +152,25 @@ const AdminProductsPage = () => {
                                 )}
                             </tbody>
                         </table>
+                        <div className='mt-4 text-right space-x-3'>
+                            <button
+                                className='bg-primary text-white font-semibold px-2 py-1 hover:bg-secondary rounded-md disabled:bg-orange-700'
+                                onClick={() => handlePrev()}
+                                disabled={page === 1}>
+                                Prev
+                            </button>
+
+                            <span>{page}</span>
+
+                            <button
+                                className={`bg-primary mb-2 text-white font-semibold px-2 py-1 hover:bg-secondary rounded-md  disabled:bg-orange-700`}
+                                onClick={() => handleNext()}
+                                disabled={
+                                    page === totalPage || page > totalPage
+                                }>
+                                Next
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

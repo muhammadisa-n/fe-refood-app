@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FaTachometerAlt } from 'react-icons/fa'
 import { MdOutlineFoodBank } from 'react-icons/md'
+import { FaUsers } from 'react-icons/fa'
+import { PiUsersThreeBold } from 'react-icons/pi'
 import { BiFoodMenu } from 'react-icons/bi'
 import { BiCategory } from 'react-icons/bi'
 import { CgProfile } from 'react-icons/cg'
 import { CiLogout } from 'react-icons/ci'
 import { logout } from '@utils/services/authServices.js'
-import { jwtDecode } from 'jwt-decode'
 import { useUser } from '@context/userContext.jsx'
 const SideBar = () => {
     const { role } = useUser()
@@ -23,7 +24,7 @@ const SideBar = () => {
     }
 
     return (
-        <div className=' h-screen px-6  bg-primary'>
+        <div className='h-screen px-6 bg-primary'>
             <div className='flex items-center justify-center px-4 border-b py-7'>
                 <h1 className='text-xl font-extrabold leading-6 text-center text-white cursor-pointer'>
                     My Dashboard
@@ -37,30 +38,43 @@ const SideBar = () => {
             </Link>
             {role === 'Admin' ? (
                 <>
-                    <div className='pt-4 border-b border-white/40'>
-                        <p className='text-xs leading-4 uppercase text-white/40 font-extralight '>
+                    <div className='pt-4  border-white/40'>
+                        <p className='text-xs leading-4 uppercase text-white/70 font-extralight '>
                             Products
                         </p>
-                        <div className='flex items-center justify-between gap-3 py-4 cursor-pointer'>
+                        <div className='flex items-center justify-between py-4 cursor-pointer border-b'>
                             <Link
                                 to='/my-dashboard/admin/products'
                                 className='flex items-center gap-3'>
                                 <MdOutlineFoodBank className='text-white' />
                                 <p className='text-base leading-5 text-white'>
-                                    List Products
+                                    Products
                                 </p>
                             </Link>
                         </div>
-                        <p className='text-xs leading-4 uppercase text-white/40 font-extralight '>
+                        <p className='text-xs leading-4 uppercase text-white/70 font-extralight mt-2'>
                             Category
                         </p>
-                        <div className='flex items-center justify-between gap-3 py-4 cursor-pointer'>
+                        <div className='flex items-center justify-between py-4 cursor-pointer border-b'>
                             <Link
                                 to='/my-dashboard/admin/category'
                                 className='flex items-center gap-3'>
                                 <BiCategory className='text-white' />
                                 <p className='text-base leading-5 text-white'>
-                                    List Category
+                                    Category
+                                </p>
+                            </Link>
+                        </div>
+                        <p className='text-xs leading-4 uppercase text-white/70 font-extralight mt-2'>
+                            User Management
+                        </p>
+                        <div className='flex items-center justify-between  py-4 cursor-pointer border-b'>
+                            <Link
+                                to='/my-dashboard/admin/sellers'
+                                className='flex items-center gap-3'>
+                                <FaUsers className='text-white' />
+                                <p className='text-base leading-5 text-white'>
+                                    Seller
                                 </p>
                             </Link>
                         </div>
@@ -72,7 +86,7 @@ const SideBar = () => {
                         <p className='text-xs leading-4 uppercase text-white/40 font-extralight '>
                             Products
                         </p>
-                        <div className='flex items-center justify-between gap-3 py-4 cursor-pointer'>
+                        <div className='flex items-center justify-between  py-4 cursor-pointer'>
                             <Link
                                 to='/my-dashboard/seller/products'
                                 className='flex items-center gap-3'>
@@ -87,7 +101,7 @@ const SideBar = () => {
                         <p className='text-xs leading-4 uppercase text-white/40 font-extralight '>
                             Orders
                         </p>
-                        <div className='flex items-center justify-between gap-3 py-4 cursor-pointer'>
+                        <div className='flex items-center justify-between  py-4 cursor-pointer'>
                             <Link
                                 to='/my-dashboard/seller/orders'
                                 className='flex items-center gap-3'>
@@ -104,7 +118,7 @@ const SideBar = () => {
                 <p className='text-xs leading-4 uppercase text-white/40 font-extralight '>
                     Profile
                 </p>
-                <div className='flex items-center justify-between gap-3 py-4 cursor-pointer'>
+                <div className='flex items-center justify-between  py-4 cursor-pointer'>
                     <Link
                         to='/my-dashboard/profile'
                         className='flex items-center gap-3'>
@@ -116,7 +130,7 @@ const SideBar = () => {
                 </div>
             </div>
             <div className='pt-4 border-b border-white/40'>
-                <div className='flex items-center justify-between gap-3 py-4 cursor-pointer'>
+                <div className='flex items-center justify-between py-4 cursor-pointer'>
                     <button
                         onClick={HandleLogout}
                         className='flex items-center gap-3'>

@@ -10,10 +10,40 @@ export const getAllProducts = async (page, size, search) => {
         throw error.response ? error.response.data : error
     }
 }
-
-export const changeStatusProduct = async (id, status) => {
+export const getAllSellers = async (page, size, search) => {
     try {
-        const response = axiosJWT.patch(`admin/products/change-status/${id}`, {
+        const response = await axiosJWT.get('admin/sellers', {
+            params: { page, size, search },
+        })
+        return response.data
+    } catch (error) {
+        throw error.response ? error.response.data : error
+    }
+}
+export const getAllCategory = async (page, size, search) => {
+    try {
+        const response = await axiosJWT.get('admin/category', {
+            params: { page, size, search },
+        })
+        return response.data
+    } catch (error) {
+        throw error.response ? error.response.data : error
+    }
+}
+
+export const activateProduct = async (id, status) => {
+    try {
+        const response = axiosJWT.patch(`admin/activate/products/${id}`, {
+            is_active: status,
+        })
+        return response.data
+    } catch (error) {
+        throw error.response ? error.response.data : error
+    }
+}
+export const activateSeller = async (id, status) => {
+    try {
+        const response = axiosJWT.patch(`admin/activate/sellers/${id}`, {
             is_active: status,
         })
         return response.data

@@ -45,16 +45,14 @@ const HomePage = () => {
                     <p className='text-3xl font-bold text-primary'>All Foods</p>
                 </div>
                 <div className='px-4 mt-10 text-center'>
-                    <form action=''>
-                        <input
-                            type='text'
-                            className='w-[75%] px-2 py-4 text-primary border font-normal focus:ring-primary focus:ring-1 focus:outline-none rounded-lg'
-                            placeholder='Search Food...'
-                            onChange={(e) => {
-                                setSearch(e.target.value)
-                            }}
-                        />
-                    </form>
+                    <input
+                        type='text'
+                        className='w-[75%] px-2 py-4 text-primary border font-normal focus:ring-primary focus:ring-1 focus:outline-none rounded-lg'
+                        placeholder='Search Food...'
+                        onChange={(e) => {
+                            setSearch(e.target.value)
+                        }}
+                    />
                 </div>
                 {products.length === 0 ? (
                     <>
@@ -93,9 +91,9 @@ const HomePage = () => {
                 <span>{page}</span>
 
                 <button
-                    className='bg-primary text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md disabled:bg-orange-700'
+                    className={`bg-primary mb-2 text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md  disabled:bg-orange-700`}
                     onClick={() => handleNext()}
-                    disabled={page === totalPage}>
+                    disabled={page === totalPage || page > totalPage}>
                     Next
                 </button>
             </div>

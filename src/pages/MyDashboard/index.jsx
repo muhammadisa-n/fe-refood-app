@@ -11,8 +11,11 @@ import {
     countCustomer,
 } from '@utils/services/adminServices.js'
 import { jwtDecode } from 'jwt-decode'
+import { NavLink } from 'react-router-dom'
+import { useUser } from '@context/userContext.jsx'
 
 const MyDashboardPage = () => {
+    const { user, refreshUser } = useUser()
     const [token, setToken] = useState(localStorage.getItem('access_token'))
     const decoded = jwtDecode(token)
     const [countProduct, setCountProduct] = useState(0)
@@ -45,6 +48,7 @@ const MyDashboardPage = () => {
 
     useEffect(() => {
         if (token) {
+            refreshUser()
             amountProduct()
             amountSellerAndCustomer()
         }
@@ -52,10 +56,62 @@ const MyDashboardPage = () => {
     return (
         <DashboardLayout>
             <div className='px-6 pt-6 '>
-                <div className='flex items-center'>
+                <div className='flex flex-col '>
                     <h1 className='text-3xl font-semibold text-primary'>
                         My Dashboard
                     </h1>
+                    {decoded.user_role === 'Seller' && (
+                        <>
+                            {user.link_map_merchant === null &&
+                                user.is_active === false && (
+                                    <div
+                                        className={`flex items-center p-4 mb-2  rounded-lg  text-red-800 bg-red-200 mt-3`}
+                                        role='alert'>
+                                        <svg
+                                            className='flex-shrink-0 w-4 h-4'
+                                            aria-hidden='true'
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            fill='currentColor'
+                                            viewBox='0 0 20 20'>
+                                            <path d='M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z' />
+                                        </svg>
+                                        <div className='text-sm font-medium ms-3'>
+                                            Your Account is not Active,{' '}
+                                            <NavLink
+                                                to='/my-dashboard/seller/activate'
+                                                className='text-blue-900 underline text-sm font-medium'>
+                                                Click this
+                                            </NavLink>{' '}
+                                            To Activate Your Account
+                                        </div>
+                                    </div>
+                                )}
+                            {user.link_map_merchant !== null &&
+                                user.is_active === false && (
+                                    <div
+                                        className={`flex items-center p-4 mb-2  rounded-lg  text-yellow-800 bg-yellow-200 mt-3`}
+                                        role='alert'>
+                                        <svg
+                                            className='flex-shrink-0 w-4 h-4'
+                                            aria-hidden='true'
+                                            xmlns='http://www.w3.org/2000/svg'
+                                            fill='currentColor'
+                                            viewBox='0 0 20 20'>
+                                            <path d='M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z' />
+                                        </svg>
+                                        <div className='text-sm font-medium ms-3'>
+                                            Your Verification On Process,{' '}
+                                            <NavLink
+                                                to='/my-dashboard/seller/activate'
+                                                className='text-blue-900 underline text-sm font-medium'>
+                                                Click This
+                                            </NavLink>{' '}
+                                            To Edit Your Activate Account
+                                        </div>
+                                    </div>
+                                )}
+                        </>
+                    )}
                 </div>
                 <div className='grid grid-cols-4 gap-5 pb-4 mt-5 '>
                     {/* card */}
