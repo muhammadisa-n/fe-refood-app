@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getProductById } from '@utils/services/productServices.js'
 import { useCart } from '@context/CartContext.jsx'
-import { addCart } from '@utils/services/cartServices.js'
+import { addCart } from '@utils/services/customerServices.js'
 import MainLayout from '@layouts/MainLayout'
 import { useUser } from '@context/userContext.jsx'
 

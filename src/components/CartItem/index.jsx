@@ -1,7 +1,7 @@
 import React from 'react'
 import { MdRemoveShoppingCart } from 'react-icons/md'
 import { useCart } from '@context/CartContext.jsx'
-import { deleteCart } from '@utils/services/cartServices.js'
+import { deleteCart } from '@utils/services/customerServices.js'
 
 const CartItem = ({
     cartId,

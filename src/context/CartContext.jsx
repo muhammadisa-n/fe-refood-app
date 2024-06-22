@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react'
-import { getAllCarts } from '@utils/services/cartServices.js'
+import { getAllCarts } from '@utils/services/customerServices.js'
 
 const CartContext = createContext()
 
