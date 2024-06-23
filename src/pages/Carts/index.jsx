@@ -4,6 +4,7 @@ import CartItem from '@components/CartItem/index.jsx'
 import MainLayout from '@layouts/MainLayout'
 const CartsPage = () => {
     const { carts, refreshCart } = useCart()
+    const [isOpen, setIsOpen] = useState(true)
     useEffect(() => {
         refreshCart()
     }, [])
@@ -26,7 +27,7 @@ const CartsPage = () => {
                             imgSrc={cart.Product.image_url}
                             name={cart.Product.name}
                             totalPrice={cart.total_price}
-                            quantity={cart.total_product}
+                            totalProduct={cart.total_product}
                         />
                     ))}
                 </div>

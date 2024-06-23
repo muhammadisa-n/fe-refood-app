@@ -1,9 +1,9 @@
 import axiosJWT from '@utils/services/axiosJWT.js'
 
-export const getAllProducts = async (page, size, search) => {
+export const getAllProducts = async (page, take, search) => {
     try {
         const response = await axiosJWT.get('seller/products', {
-            params: { page, size, search },
+            params: { page, take, search },
         })
         return response.data
     } catch (error) {

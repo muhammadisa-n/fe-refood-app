@@ -37,6 +37,12 @@ const CardProduct = ({
                     <span className='text-base font-bold text-black'>
                         Rp. {price}
                     </span>
+                    <Link
+                        to={`product/detail/${id}`}
+                        className=' h-10 px-1 py-2 font-semibold text-white rounded-md bg-primary items-center justify-center'
+                        text-center>
+                        Detail
+                    </Link>
                 </div>
             </div>
         </div>

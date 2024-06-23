@@ -1,29 +1,29 @@
 import axiosJWT from '@utils/services/axiosJWT.js'
 
-export const getAllProducts = async (page, size, search) => {
+export const getAllProducts = async (page, take, search) => {
     try {
         const response = await axiosJWT.get('admin/products', {
-            params: { page, size, search },
+            params: { page, take, search },
         })
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
     }
 }
-export const getAllSellers = async (page, size, search) => {
+export const getAllSellers = async (page, take, search) => {
     try {
         const response = await axiosJWT.get('admin/sellers', {
-            params: { page, size, search },
+            params: { page, take, search },
         })
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
     }
 }
-export const getAllCategory = async (page, size, search) => {
+export const getAllCategory = async (page, take, search) => {
     try {
-        const response = await axiosJWT.get('admin/category', {
-            params: { page, size, search },
+        const response = await axiosJWT.get('admin/categories', {
+            params: { page, take, search },
         })
         return response.data
     } catch (error) {
@@ -33,7 +33,7 @@ export const getAllCategory = async (page, size, search) => {
 
 export const activateProduct = async (id, status) => {
     try {
-        const response = axiosJWT.patch(`admin/activate/products/${id}`, {
+        const response = axiosJWT.patch(`admin/products/${id}/activate`, {
             is_active: status,
         })
         return response.data
@@ -43,7 +43,7 @@ export const activateProduct = async (id, status) => {
 }
 export const activateSeller = async (id, status) => {
     try {
-        const response = axiosJWT.patch(`admin/activate/sellers/${id}`, {
+        const response = axiosJWT.patch(`admin/sellers/${id}/activate`, {
             is_active: status,
         })
         return response.data
@@ -54,7 +54,7 @@ export const activateSeller = async (id, status) => {
 
 export const countProduct = async () => {
     try {
-        const response = await axiosJWT.get('admin/count-products')
+        const response = await axiosJWT.get('admin/products/count')
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
@@ -62,7 +62,7 @@ export const countProduct = async () => {
 }
 export const countSeller = async () => {
     try {
-        const response = await axiosJWT.get('admin/count-sellers')
+        const response = await axiosJWT.get('admin/sellers/count')
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
@@ -70,7 +70,7 @@ export const countSeller = async () => {
 }
 export const countCustomer = async () => {
     try {
-        const response = await axiosJWT.get('admin/count-customers')
+        const response = await axiosJWT.get('admin/customers/count')
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
@@ -78,7 +78,7 @@ export const countCustomer = async () => {
 }
 export const createCategory = async (data) => {
     try {
-        const response = await axiosJWT.post('admin/category', data)
+        const response = await axiosJWT.post('admin/categories', data)
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
@@ -86,7 +86,7 @@ export const createCategory = async (data) => {
 }
 export const getDetailCategory = async (id) => {
     try {
-        const response = await axiosJWT.get('admin/category/' + id)
+        const response = await axiosJWT.get('admin/categories/' + id)
         return response.data.category
     } catch (error) {
         throw error.response ? error.response.data : error
@@ -94,7 +94,7 @@ export const getDetailCategory = async (id) => {
 }
 export const updateCategory = async (id, data) => {
     try {
-        const response = await axiosJWT.put('admin/category/' + id, data)
+        const response = await axiosJWT.put('admin/categories/' + id, data)
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
@@ -102,7 +102,7 @@ export const updateCategory = async (id, data) => {
 }
 export const deleteCategory = async (id) => {
     try {
-        const response = await axiosJWT.delete('admin/category/' + id)
+        const response = await axiosJWT.delete('admin/categories/' + id)
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error

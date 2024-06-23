@@ -9,14 +9,14 @@ import {
 import { useDebounce } from 'use-debounce'
 const AdminCategoryPage = () => {
     const [categories, setCategories] = useState([])
-    const [size, setSize] = useState(8)
+    const [take, setTake] = useState(8)
     const [totalPage, setTotalPage] = useState()
     const [search, setSearch] = useState('')
     const [page, setPage] = useState(1)
     const [searchValue] = useDebounce(search, 1000)
     const fetchCategory = async () => {
         try {
-            const response = await getAllCategory(page, size, searchValue)
+            const response = await getAllCategory(page, take, searchValue)
             setCategories(response.categories)
             setPage(response.paging.current_page)
             setTotalPage(response.paging.total_page)
@@ -26,7 +26,7 @@ const AdminCategoryPage = () => {
     }
     useEffect(() => {
         fetchCategory()
-    }, [page, size, searchValue])
+    }, [page, take, searchValue])
     const handleDelete = async (id) => {
         Swal.fire({
             title: 'Are you sure?',

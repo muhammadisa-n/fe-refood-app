@@ -11,7 +11,7 @@ import { useUser } from '@context/userContext.jsx'
 const SellerProductsPage = () => {
     const { user, refreshUser } = useUser()
     const [products, setProducts] = useState([])
-    const [size, setSize] = useState(10)
+    const [take, setTake] = useState(10)
     const [totalPage, setTotalPage] = useState()
     const [search, setSearch] = useState('')
     const [page, setPage] = useState(1)
@@ -19,7 +19,7 @@ const SellerProductsPage = () => {
     const [searchValue] = useDebounce(search, 1000)
     const fetchProducts = async () => {
         try {
-            const response = await getAllProducts(page, size, searchValue)
+            const response = await getAllProducts(page, take, searchValue)
             setProducts(response.products)
             setPage(response.paging.current_page)
             setTotalPage(response.paging.total_page)
@@ -30,7 +30,7 @@ const SellerProductsPage = () => {
     useEffect(() => {
         refreshUser()
         fetchProducts()
-    }, [page, size, searchValue])
+    }, [page, take, searchValue])
     const handleDelete = async (id) => {
         Swal.fire({
             title: 'Are you sure?',

@@ -2,7 +2,7 @@ import axiosJWT from '@utils/services/axiosJWT.js'
 
 export const getUser = async () => {
     try {
-        const response = await axiosJWT.get('user/get')
+        const response = await axiosJWT.get('users/get')
         return response.data.user
     } catch (error) {
         throw error.response ? error.response.data : error
@@ -10,7 +10,7 @@ export const getUser = async () => {
 }
 export const updateUser = async (data) => {
     try {
-        const response = await axiosJWT.put('user/update', data)
+        const response = await axiosJWT.put('users/update', data)
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error

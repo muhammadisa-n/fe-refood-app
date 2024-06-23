@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
 const AdminSellerListPage = () => {
     const [sellers, setSellers] = useState([])
-    const [size, setSize] = useState(8)
+    const [take, setTake] = useState(10)
     const [totalPage, setTotalPage] = useState()
     const [search, setSearch] = useState('')
     const [page, setPage] = useState(1)
     const [searchValue] = useDebounce(search, 1000)
     const fetchSeller = async () => {
         try {
-            const response = await getAllSellers(page, size, searchValue)
+            const response = await getAllSellers(page, take, searchValue)
             setSellers(response.sellers)
             setPage(response.paging.current_page)
             setTotalPage(response.paging.total_page)
@@ -38,7 +38,7 @@ const AdminSellerListPage = () => {
 
     useEffect(() => {
         fetchSeller()
-    }, [page, size, searchValue])
+    }, [page, take, searchValue])
 
     const handlePrev = () => {
         if (page > 1) {

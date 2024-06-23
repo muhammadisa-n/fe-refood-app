@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-export const getAllProducts = async (page, size, search) => {
+export const getAllProducts = async (page, take, search) => {
     try {
         const response = await axios.get(
             `${import.meta.env.VITE_API_URL}` + 'products',
-            { params: { page, size, search } }
+            { params: { page, take, search } }
         )
         return response.data
     } catch (error) {

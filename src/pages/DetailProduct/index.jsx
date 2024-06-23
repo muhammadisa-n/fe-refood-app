@@ -60,7 +60,7 @@ const DetailProductPage = () => {
                     </div>
                 </div>
             ) : (
-                <div className=' flex flex-col md:flex-row md:px-[200px] md:py-[100px] mt-24 '>
+                <div className=' flex flex-col md:flex-row md:px-52 md:py-24 mt-4 '>
                     <div className='md:basis-1/2 md:flex md:flex-col md:justify-between'>
                         <div className='hidden md:block '>
                             <img
@@ -77,17 +77,17 @@ const DetailProductPage = () => {
                             />
                         </div>
                     </div>
-                    <div className='description p-6 md:basis-1/2 md:py-[40px]'>
-                        <p className='text-orange text-[14px] tracking-widest uppercase font-[700] mb-6'>
+                    <div className='description p-6 md:basis-1/2 md:py-10'>
+                        <p className='text-primary text-base tracking-widest uppercase font-semibold mb-6'>
                             {product.Category?.name}
                         </p>
-                        <h1 className='text-3xl md:text-4xl capitalize font-[700]'>
+                        <h1 className='text-3xl md:text-4xl capitalize font-semibold'>
                             {product.name}
                         </h1>
-                        <p className='hidden my-10 leading-7 md:block text-darkGrayishBlue'>
+                        <p className='hidden my-10 leading-7 md:block text-black'>
                             {product.description}
                         </p>
-                        <p className='my-6 leading-7 md:hidden text-darkGrayishBlue'>
+                        <p className='my-6 leading-7 md:hidden text-black'>
                             {product.description}
                         </p>
 
@@ -97,30 +97,45 @@ const DetailProductPage = () => {
                             </span>
                         </div>
                         {token && role === 'Customer' && (
-                            <div className='flex flex-col mt-8 md:flex-row'>
-                                <div className=' w-[100%] flex justify-around md:justify-center items-center space-x-10 bg-lightGrayishBlue rounded-lg p-3 md:p-2 md:mr-4 md:w-[150px]'>
-                                    <button
-                                        onClick={decrease}
-                                        className=' text-[24px] md:text-[20px] font-[700] text-primary transition-all hover:opacity-50 px-2 border'>
-                                        -
-                                    </button>
-                                    <p className='md:text-[14px] font-bold'>
-                                        {totalProduct}
-                                    </p>
-                                    <button
-                                        onClick={() =>
-                                            setTotalProduct((prev) => prev + 1)
-                                        }
-                                        className=' text-[24px] md:text-[20px] font-[700] text-primary border px-2 transition-all hover:opacity-50'>
-                                        +
-                                    </button>
+                            <>
+                                <div className='flex flex-col mt-8 md:flex-row'>
+                                    <div className=' w-[100%] flex justify-around md:justify-center items-center space-x-10 rounded-lg p-3 md:p-2 md:mr-4 md:w-[150px]'>
+                                        <button
+                                            onClick={decrease}
+                                            className=' text-2xl md:text-xl font-semibold text-primary transition-all hover:opacity-50 px-2 border'>
+                                            -
+                                        </button>
+                                        <p className='md:text-[14px] font-bold'>
+                                            {totalProduct}
+                                        </p>
+                                        <button
+                                            onClick={() =>
+                                                setTotalProduct(
+                                                    (prev) => prev + 1
+                                                )
+                                            }
+                                            className=' text-[24px] md:text-[20px] font-semibold text-primary border px-2 transition-all hover:opacity-50'>
+                                            +
+                                        </button>
+                                    </div>
                                 </div>
-                                <button
-                                    onClick={handleAddToCart}
-                                    className=' border-none bg-primary rounded-lg text-white font-[700] px-[70px] py-[18px] mt-4 md:mt-0 md:py-0 md:text-[14px] transition-all btn-shadow hover:opacity-50 shadow-xl'>
-                                    Add to cart
-                                </button>
-                            </div>
+                                <div className='flex flex-wrap justify-between   mt-4'>
+                                    <div className='px-4 md:px-0'>
+                                        <button
+                                            onClick={handleAddToCart}
+                                            className='  bg-primary rounded-lg text-white font-semibold px-12 py-3 mt-4 md:mt-0 md:py-3 md:text-base  hover:bg-secondary hover:text-primary shadow-xl'>
+                                            Add to cart
+                                        </button>
+                                    </div>
+                                    <div className='px-4'>
+                                        <button
+                                            onClick={handleAddToCart}
+                                            className=' border-none bg-secondary rounded-lg text-primary font-semibold px-12 py-3 mt-4 md:mt-0 md:py-3 md:text-base  hover:bg-primary hover:text-white shadow-xl'>
+                                            Order
+                                        </button>
+                                    </div>
+                                </div>
+                            </>
                         )}
                     </div>
                 </div>

@@ -10,7 +10,8 @@ const CartItem = ({
     name,
     totalPrice,
     categoryName,
-    quantity,
+    totalProduct,
+    OnClick,
 }) => {
     const { refreshCart } = useCart()
 
@@ -32,7 +33,7 @@ const CartItem = ({
                     </span>
                     <h5 className='text-xl font-semibold text-black'>{name}</h5>
                     <span className='text-xs font-semibold text-black'>
-                        Total Product : {quantity}
+                        Total Product : {totalProduct}
                     </span>
                 </div>
                 <div className='flex items-center justify-between px-5 pb-5'>
@@ -41,7 +42,7 @@ const CartItem = ({
                     </span>
                     <button
                         className='h-12 px-2 text-white rounded-md bg-primary font-semibold '
-                        onClick={() => alert('success')}>
+                        onClick={OnClick}>
                         Order
                     </button>
                 </div>

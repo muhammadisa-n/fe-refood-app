@@ -6,7 +6,7 @@ import { getAllProducts } from '@utils/services/productServices.js'
 import { useDebounce } from 'use-debounce'
 const HomePage = () => {
     const [products, setProducts] = useState([])
-    const [size, setSize] = useState(8)
+    const [take, setTake] = useState(8)
     const [totalPage, setTotalPage] = useState()
     const [search, setSearch] = useState('')
     const [page, setPage] = useState(1)
@@ -14,7 +14,7 @@ const HomePage = () => {
 
     const fetchProduct = async () => {
         try {
-            const response = await getAllProducts(page, size, searchValue)
+            const response = await getAllProducts(page, take, searchValue)
             setProducts(response.products)
             setPage(response.paging.current_page)
             setTotalPage(response.paging.total_page)
@@ -24,7 +24,7 @@ const HomePage = () => {
     }
     useEffect(() => {
         fetchProduct()
-    }, [page, size, searchValue])
+    }, [page, take, searchValue])
 
     const handlePrev = () => {
         if (page > 1) {
