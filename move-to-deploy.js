@@ -29,13 +29,13 @@ const copyRecursiveSync = (src, dest) => {
 
 // Clear the deploy directory while preserving certain folders and files
 fs.readdirSync(deployDir).forEach((file) => {
-    if (file !== '.git' && file !== '.github' && file !== 'README.md') {
+    if (file !== '.git' && file !== '.github') {
         fs.rmSync(path.join(deployDir, file), { recursive: true, force: true })
     }
 })
 
 // Function to preserve certain folders and files
-const preserveFilesAndFolders = ['.github', 'README.md']
+const preserveFilesAndFolders = ['.github']
 
 // Copy the build output to the deploy directory
 copyRecursiveSync(buildDir, deployDir)
