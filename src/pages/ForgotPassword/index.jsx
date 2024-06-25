@@ -23,9 +23,7 @@ const ForgotPasswordPage = () => {
         }
     }
     return (
-        <AuthLayout
-            title='Reset Password'
-            subtitle='Please Fill The Form To Reset Password'>
+        <AuthLayout title='Forgot Password'>
             {errorMessage && (
                 <AlertMessage
                     colorBg='text-red-800 bg-red-50'

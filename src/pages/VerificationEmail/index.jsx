@@ -6,8 +6,8 @@ import { MdError } from 'react-icons/md'
 const VerificationEmailPage = () => {
     const [message, setMessage] = useState('')
     const query = new URLSearchParams(useLocation().search)
-    const [errorMessage, setErrorMessage] = useState('')
     const token = query.get('token')
+    const [errorMessage, setErrorMessage] = useState('')
     const navigate = useNavigate()
     useEffect(() => {
         const verify = async () => {
@@ -23,11 +23,26 @@ const VerificationEmailPage = () => {
 
     return (
         <>
-            {!token || errorMessage ? (
+            {!token && (
                 <div className='flex items-center justify-center max-w-xl min-h-screen mx-auto '>
                     <div className='flex flex-col items-center justify-center gap-4 '>
                         <MdError size={100} className='text-red-500' />
-                        <h3 className='text-3xl font-bold text-primary'>
+                        <h3 className='text-3xl font-bold text-primary text-center'>
+                            Query Token Not Found
+                        </h3>
+                        <button
+                            className='underline transition-all text-primary hover:text-secondary '
+                            onClick={() => navigate('/')}>
+                            Back To Home
+                        </button>
+                    </div>
+                </div>
+            )}
+            {errorMessage ? (
+                <div className='flex items-center justify-center max-w-xl min-h-screen mx-auto '>
+                    <div className='flex flex-col items-center justify-center gap-4 '>
+                        <MdError size={100} className='text-red-500' />
+                        <h3 className='text-3xl font-bold text-primary text-center'>
                             {errorMessage}
                         </h3>
                         <button

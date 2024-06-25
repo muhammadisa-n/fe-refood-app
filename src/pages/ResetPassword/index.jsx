@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import AuthLayout from '@layouts/AuthLayout'
 import AlertMessage from '@components/AlertMessage'
@@ -6,20 +6,23 @@ import InputForm from '@components/InputForm'
 import Button from '@components/Button'
 import { verifyForgotPassword } from '@utils/services/authServices.js'
 import { MdError } from 'react-icons/md'
+import { jwtDecode } from 'jwt-decode'
 
 const ResetPasswordPage = () => {
     const [newPassword, setNewPassword] = useState('')
     const [confPassword, setConfPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+    const [tokenError, setTokenError] = useState(false)
     const query = new URLSearchParams(useLocation().search)
     const token = query.get('token')
     const navigate = useNavigate()
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         setIsLoading(true)
         const data = {
-            newPassword: newPassword,
+            password: newPassword,
             confPassword: confPassword,
         }
         try {
@@ -32,14 +35,43 @@ const ResetPasswordPage = () => {
             setIsLoading(false)
         }
     }
+    const getTokenError = () => {
+        try {
+            jwtDecode(token, (err) => {
+                if (err) {
+                    setTokenError(true)
+                }
+            })
+        } catch (error) {
+            setTokenError(true)
+        }
+    }
+    useEffect(() => {
+        getTokenError()
+    }, [token])
     return (
         <>
-            {!token ? (
+            {!token && (
                 <div className='flex items-center justify-center max-w-xl min-h-screen mx-auto '>
                     <div className='flex flex-col items-center justify-center gap-4 '>
                         <MdError size={32} className='text-red-500' />
-                        <h3 className='text-3xl font-bold text-primary'>
-                            Error
+                        <h3 className='text-3xl font-bold text-primary text-center'>
+                            Query Token Not Found
+                        </h3>
+                        <button
+                            className='underline transition-all text-primary hover:text-secondary '
+                            onClick={() => navigate('/')}>
+                            Back To Home
+                        </button>
+                    </div>
+                </div>
+            )}
+            {tokenError === true ? (
+                <div className='flex items-center justify-center max-w-xl min-h-screen mx-auto '>
+                    <div className='flex flex-col items-center justify-center gap-4 '>
+                        <MdError size={32} className='text-red-500' />
+                        <h3 className='text-3xl font-bold text-primary text-center'>
+                            Token Is Invalid or Expired
                         </h3>
                         <button
                             className='underline transition-all text-primary hover:text-secondary '
