@@ -52,7 +52,4 @@ preserveFilesAndFolders.forEach((item) => {
     }
 })
 
-// Remove the temp build directory
-fs.rmSync(buildDir, { recursive: true, force: true })
-
 console.log('Build moved to deploy directory successfully.')
