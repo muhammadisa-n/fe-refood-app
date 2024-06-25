@@ -16,7 +16,7 @@ import { useUser } from '@context/userContext.jsx'
 const DashboardProfilePage = () => {
     const { refreshUser, user, role } = useUser()
     const [openEditMenu, setOpenEditMenu] = useState(false)
-    const [errorMessage, SetErrorMessage] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [selectedProvince, setSelectedProvince] = useState('')
@@ -136,7 +136,9 @@ const DashboardProfilePage = () => {
             event.target.options[event.target.selectedIndex].text
         setSelectedVillageName(villageName)
     }
-
+    const handleEditMenu = () => {
+        setOpenEditMenu(!openEditMenu)
+    }
     const handleUpdate = async (e) => {
         e.preventDefault()
         setIsLoading(true)
@@ -162,9 +164,10 @@ const DashboardProfilePage = () => {
             refreshUser()
             setOpenEditMenu(false)
         } catch (error) {
-            SetErrorMessage(error.message)
+            setErrorMessage(error.message)
         } finally {
             setIsLoading(false)
+            fetchUser()
         }
     }
 
@@ -218,11 +221,7 @@ const DashboardProfilePage = () => {
                                             </div>
                                             <div className='md:absolute right-2 top-1'>
                                                 <button
-                                                    onClick={() =>
-                                                        setOpenEditMenu(
-                                                            !openEditMenu
-                                                        )
-                                                    }
+                                                    onClick={handleEditMenu}
                                                     className='px-4 py-2 text-white rounded bg-primary hover:bg-secondary focus:outline-none'>
                                                     Edit
                                                 </button>
@@ -244,7 +243,7 @@ const DashboardProfilePage = () => {
                                                 <AlertMessage
                                                     colorBg='text-red-800 bg-red-50'
                                                     onClick={() =>
-                                                        SetErrorMessage('')
+                                                        setErrorMessage('')
                                                     }
                                                     colorBtn='bg-red-50 text-red-500'>
                                                     {errorMessage}
@@ -609,11 +608,7 @@ const DashboardProfilePage = () => {
                                                 </button>
                                                 <button
                                                     disabled={isLoading}
-                                                    onClick={() =>
-                                                        setOpenEditMenu(
-                                                            !openEditMenu
-                                                        )
-                                                    }
+                                                    onClick={handleEditMenu}
                                                     className={`ml-4 px-4 py-2 text-white rounded bg-red-500 hover:bg-secondary focus:outline-none ${isLoading ? 'opacity-50 hover:opacity-50' : ''}`}>
                                                     Close
                                                 </button>

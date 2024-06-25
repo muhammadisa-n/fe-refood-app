@@ -7,6 +7,7 @@ const RecommendationPage = () => {
     const [products, setProducts] = useState([])
     const [size, setSize] = useState(8)
     const [totalPage, setTotalPage] = useState()
+    const [totalProduct, setTotalProduct] = useState()
     const [search, setSearch] = useState('')
     const [page, setPage] = useState(1)
     const [searchValue] = useDebounce(search, 1000)
@@ -15,6 +16,7 @@ const RecommendationPage = () => {
         try {
             const response = await getAllProducts(page, size, searchValue)
             setProducts(response.products)
+            setTotalProduct(response.total_product)
             setPage(response.paging.current_page)
             setTotalPage(response.paging.total_page)
         } catch (error) {
@@ -44,7 +46,7 @@ const RecommendationPage = () => {
                         Recommendation Menu
                     </p>
                 </div>
-                {products.length === 0 ? (
+                {totalProduct === 0 ? (
                     <>
                         <div className='mx-10 my-10 md:grid-cols-4'>
                             <h5 className='text-center text-slate-400 text-4xl'>

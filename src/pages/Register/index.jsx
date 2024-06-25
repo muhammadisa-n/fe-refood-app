@@ -234,7 +234,7 @@ const RegisterPage = () => {
                         <label
                             htmlFor='province'
                             className='block mb-2 text-sm font-bold text-slate-700'>
-                            Province
+                            Provinsi
                         </label>
                         <div className='mb-6'>
                             <select
@@ -244,7 +244,7 @@ const RegisterPage = () => {
                                 onChange={handleProvinceChange}
                                 disabled={isLoading}
                                 className={`w-full px-3 py-2 text-sm border rounded text-slate-700 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
-                                <option value=''>Choose Province</option>
+                                <option value=''>Pilih Provinsi</option>
                                 {provinces.map((province) => (
                                     <option
                                         key={province.id}
@@ -261,7 +261,7 @@ const RegisterPage = () => {
                                 <label
                                     htmlFor='city'
                                     className='block mb-2 text-sm font-bold text-slate-700'>
-                                    City
+                                    Kota
                                 </label>
                                 <select
                                     name='city'
@@ -270,7 +270,7 @@ const RegisterPage = () => {
                                     onChange={handleCityChange}
                                     disabled={isLoading}
                                     className={`w-full px-3 py-2 text-sm border rounded text-slate-700 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
-                                    <option value=''>Choose City</option>
+                                    <option value=''>Pilih Kota</option>
                                     {cities.map((city) => (
                                         <option key={city.id} value={city.id}>
                                             {city.name}
@@ -283,7 +283,7 @@ const RegisterPage = () => {
                                 <label
                                     htmlFor='city'
                                     className='block mb-2 text-sm font-bold text-slate-700'>
-                                    City
+                                    Kota
                                 </label>
                                 <select
                                     name='city'
@@ -291,7 +291,7 @@ const RegisterPage = () => {
                                     value=''
                                     onChange={handleCityChange}
                                     className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
-                                    <option value=''>Choose City</option>
+                                    <option value=''>Pilih Kota</option>
                                 </select>
                             </div>
                         )}
@@ -304,7 +304,7 @@ const RegisterPage = () => {
                                 <label
                                     htmlFor='district'
                                     className='block mb-2 text-sm font-bold text-slate-700'>
-                                    District
+                                    Kecamatan
                                 </label>
                                 <select
                                     name='district'
@@ -313,7 +313,7 @@ const RegisterPage = () => {
                                     onChange={handleDistrictChange}
                                     disabled={isLoading}
                                     className={`w-full px-3 py-2 text-sm border rounded text-slate-700 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
-                                    <option value=''>Choose District</option>
+                                    <option value=''>Pilih Kecamatan</option>
                                     {districts.map((district) => (
                                         <option
                                             key={district.id}
@@ -328,7 +328,7 @@ const RegisterPage = () => {
                                 <label
                                     htmlFor='district'
                                     className='block mb-2 text-sm font-bold text-slate-700'>
-                                    District
+                                    Kecamatan
                                 </label>
                                 <select
                                     name='district'
@@ -336,7 +336,7 @@ const RegisterPage = () => {
                                     value=''
                                     onChange={handleDistrictChange}
                                     className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
-                                    <option value=''>Choose District</option>
+                                    <option value=''>Pilih Kecamatan</option>
                                 </select>
                             </div>
                         )}
@@ -347,7 +347,7 @@ const RegisterPage = () => {
                                 <label
                                     htmlFor='village'
                                     className='block mb-2 text-sm font-bold text-slate-700'>
-                                    Village
+                                    Kelurahan / Desa
                                 </label>
                                 <select
                                     name='village'
@@ -356,7 +356,7 @@ const RegisterPage = () => {
                                     onChange={handleVillageChange}
                                     disabled={isLoading}
                                     className={`w-full px-3 py-2 text-sm border rounded text-slate-700 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
-                                    <option value=''>Choose Village</option>
+                                    <option value=''>Pilih Kelurahan</option>
                                     {villages.map((village) => (
                                         <option
                                             key={village.id}
@@ -371,7 +371,7 @@ const RegisterPage = () => {
                                 <label
                                     htmlFor='village'
                                     className='block mb-2 text-sm font-bold text-slate-700'>
-                                    Village
+                                    Kelurahan / Desa
                                 </label>
                                 <select
                                     name='village'
@@ -379,7 +379,7 @@ const RegisterPage = () => {
                                     value=''
                                     onChange={handleVillageChange}
                                     className='w-full px-3 py-2 text-sm border rounded text-slate-700'>
-                                    <option value=''>Choose Village</option>
+                                    <option value=''>Pilih Kelurahan</option>
                                 </select>
                             </div>
                         )}
@@ -399,7 +399,7 @@ const RegisterPage = () => {
                     </div>
                     <div className='w-1/2'>
                         <InputForm
-                            label='No Handphone'
+                            label='No Hp / Whatsapp'
                             name='no_hp'
                             placeholder='08xxxxxxxxxx'
                             type='text'
@@ -414,7 +414,7 @@ const RegisterPage = () => {
                         <label
                             htmlFor='address'
                             className='block mb-2 text-sm font-bold text-slate-700'>
-                            Address / Street
+                            Address / Street Name
                         </label>
                         <textarea
                             rows={3}

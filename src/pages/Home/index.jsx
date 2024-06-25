@@ -8,6 +8,7 @@ const HomePage = () => {
     const [products, setProducts] = useState([])
     const [take, setTake] = useState(8)
     const [totalPage, setTotalPage] = useState()
+    const [totalProduct, setTotalProduct] = useState()
     const [search, setSearch] = useState('')
     const [page, setPage] = useState(1)
     const [searchValue] = useDebounce(search, 1000)
@@ -16,6 +17,7 @@ const HomePage = () => {
         try {
             const response = await getAllProducts(page, take, searchValue)
             setProducts(response.products)
+            setTotalProduct(response.total_product)
             setPage(response.paging.current_page)
             setTotalPage(response.paging.total_page)
         } catch (error) {
@@ -54,7 +56,7 @@ const HomePage = () => {
                         }}
                     />
                 </div>
-                {products.length === 0 ? (
+                {totalProduct === 0 ? (
                     <>
                         <div className='mx-10 my-10 md:grid-cols-4'>
                             <h5 className='text-center text-slate-400 text-4xl'>
@@ -80,23 +82,27 @@ const HomePage = () => {
                     </>
                 )}
             </div>
-            <div className='mb-20 text-center space-x-5'>
-                <button
-                    className='bg-primary text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md disabled:bg-orange-700'
-                    onClick={() => handlePrev()}
-                    disabled={page === 1}>
-                    Prev
-                </button>
+            {totalPage > 1 && (
+                <>
+                    <div className='mb-20 text-center space-x-5'>
+                        <button
+                            className='bg-primary text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md disabled:bg-orange-700'
+                            onClick={() => handlePrev()}
+                            disabled={page === 1}>
+                            Prev
+                        </button>
 
-                <span>{page}</span>
+                        <span>{page}</span>
 
-                <button
-                    className={`bg-primary mb-2 text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md  disabled:bg-orange-700`}
-                    onClick={() => handleNext()}
-                    disabled={page === totalPage || page > totalPage}>
-                    Next
-                </button>
-            </div>
+                        <button
+                            className={`bg-primary mb-2 text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md  disabled:bg-orange-700`}
+                            onClick={() => handleNext()}
+                            disabled={page === totalPage || page > totalPage}>
+                            Next
+                        </button>
+                    </div>
+                </>
+            )}
         </MainLayout>
     )
 }

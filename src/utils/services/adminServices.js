@@ -106,5 +106,6 @@ export const deleteCategory = async (id) => {
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
+        console.error(error)
     }
 }

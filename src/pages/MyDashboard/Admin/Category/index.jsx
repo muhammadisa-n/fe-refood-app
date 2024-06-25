@@ -9,8 +9,9 @@ import {
 import { useDebounce } from 'use-debounce'
 const AdminCategoryPage = () => {
     const [categories, setCategories] = useState([])
-    const [take, setTake] = useState(8)
+    const [take, setTake] = useState(10)
     const [totalPage, setTotalPage] = useState()
+    const [totalCategory, setTotalCategory] = useState()
     const [search, setSearch] = useState('')
     const [page, setPage] = useState(1)
     const [searchValue] = useDebounce(search, 1000)
@@ -18,6 +19,7 @@ const AdminCategoryPage = () => {
         try {
             const response = await getAllCategory(page, take, searchValue)
             setCategories(response.categories)
+            setTotalCategory(response.total_category)
             setPage(response.paging.current_page)
             setTotalPage(response.paging.total_page)
         } catch (error) {
@@ -40,13 +42,17 @@ const AdminCategoryPage = () => {
                 try {
                     const response = await deleteCategory(id)
                     Swal.fire({
-                        title: 'Deleted!',
+                        title: 'Deleted',
                         text: `${response.message}`,
                         icon: 'success',
                     })
                     fetchCategory()
                 } catch (error) {
-                    console.error('Error Delete Category', error)
+                    Swal.fire({
+                        title: 'Error!',
+                        text: `${error.message}`,
+                        icon: 'error',
+                    })
                 }
             }
         })
@@ -75,18 +81,36 @@ const AdminCategoryPage = () => {
                             className='px-2 py-2 text-white rounded-lg bg-primary'>
                             Add Category
                         </Link>
-                        <input
-                            type='text'
-                            className='w-[20%] px-1 py-1 text-black border-2 font-light  rounded-lg '
-                            placeholder='Search...'
-                            onChange={(e) => {
-                                setSearch(e.target.value)
-                            }}
-                        />
                     </div>
                 </div>
                 <div className='mt-5 basis-[85%]  '>
-                    <div className='relative overflow-x-auto'>
+                    <div className=' overflow-x-auto'>
+                        <div className='flex justify-between w-full'>
+                            <div className='px-2'>
+                                <select
+                                    name='take'
+                                    id='take'
+                                    value={take}
+                                    onChange={(e) => setTake(e.target.value)}
+                                    className={` px-1 py-1 text-sm  rounded text-slate-700 bg-white mr-2 my-0 md:my-1 border`}>
+                                    <option value='10'>10</option>
+                                    <option value='25'>25</option>
+                                    <option value='50'>50</option>
+                                    <option value='100'>100</option>
+                                </select>
+                                <label htmlFor='take'>Data Per Page</label>
+                            </div>
+                            <div className='px-2 '>
+                                <input
+                                    type='text'
+                                    className='py-1 px-2 text-black border-2 font-light  rounded-lg w-52 md:w-full mb-2'
+                                    placeholder='Search...'
+                                    onChange={(e) => {
+                                        setSearch(e.target.value)
+                                    }}
+                                />
+                            </div>
+                        </div>
                         <table className='w-full text-sm text-left text-white rtl:text-right border'>
                             <thead className='text-xs text-black uppercase bg-white '>
                                 <tr>
@@ -102,7 +126,7 @@ const AdminCategoryPage = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {categories.length === 0 ? (
+                                {totalCategory === 0 ? (
                                     <tr className='text-black border-b'>
                                         <td className='px-6 py-4'>
                                             No Data Category
@@ -141,25 +165,30 @@ const AdminCategoryPage = () => {
                                 )}
                             </tbody>
                         </table>
-                        <div className='mt-4 text-right space-x-3'>
-                            <button
-                                className='bg-primary text-white font-semibold px-2 py-1 hover:bg-secondary rounded-md disabled:bg-orange-700'
-                                onClick={() => handlePrev()}
-                                disabled={page === 1}>
-                                Prev
-                            </button>
+                        {totalPage > 1 && (
+                            <>
+                                <div className='mt-4 text-right space-x-3'>
+                                    <button
+                                        className='bg-primary text-white font-semibold px-2 py-1 hover:bg-secondary rounded-md disabled:bg-orange-700'
+                                        onClick={() => handlePrev()}
+                                        disabled={page === 1}>
+                                        Prev
+                                    </button>
 
-                            <span>{page}</span>
+                                    <span>{page}</span>
 
-                            <button
-                                className={`bg-primary mb-2 text-white font-semibold px-2 py-1 hover:bg-secondary rounded-md  disabled:bg-orange-700`}
-                                onClick={() => handleNext()}
-                                disabled={
-                                    page === totalPage || page > totalPage
-                                }>
-                                Next
-                            </button>
-                        </div>
+                                    <button
+                                        className={`bg-primary mb-2 text-white font-semibold px-2 py-1 hover:bg-secondary rounded-md  disabled:bg-orange-700`}
+                                        onClick={() => handleNext()}
+                                        disabled={
+                                            page === totalPage ||
+                                            page > totalPage
+                                        }>
+                                        Next
+                                    </button>
+                                </div>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>

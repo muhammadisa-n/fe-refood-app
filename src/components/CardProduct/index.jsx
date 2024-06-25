@@ -39,8 +39,7 @@ const CardProduct = ({
                     </span>
                     <Link
                         to={`product/detail/${id}`}
-                        className=' h-10 px-1 py-2 font-semibold text-white rounded-md bg-primary items-center justify-center'
-                        text-center>
+                        className=' h-10 px-1 py-2 font-semibold text-white rounded-md bg-primary items-center justify-center'>
                         Detail
                     </Link>
                 </div>
