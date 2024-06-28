@@ -82,7 +82,7 @@ const SellerProductsPage = () => {
                     <h1 className='text-3xl font-semibold text-primary'>
                         My Products
                     </h1>
-                    <div className='my-4 flex justify-between'>
+                    <div className='flex justify-between my-4'>
                         <Link
                             to={
                                 user.is_active || isLoading
@@ -118,7 +118,7 @@ const SellerProductsPage = () => {
                             <div className='px-2 '>
                                 <input
                                     type='text'
-                                    className='py-1 px-2 text-black border-2 font-light  rounded-lg w-52 md:w-full mb-2'
+                                    className='px-2 py-1 mb-2 font-light text-black border-2 rounded-lg w-52 md:w-full'
                                     placeholder='Search...'
                                     onChange={(e) => {
                                         setSearch(e.target.value)
@@ -126,7 +126,7 @@ const SellerProductsPage = () => {
                                 />
                             </div>
                         </div>
-                        <table className='w-full text-sm text-left text-white rtl:text-right border'>
+                        <table className='w-full text-sm text-left text-white border rtl:text-right'>
                             <thead className='text-xs text-black uppercase bg-white '>
                                 <tr>
                                     <th scope='col' className='px-6 py-3'>
@@ -148,7 +148,7 @@ const SellerProductsPage = () => {
                             </thead>
                             <tbody>
                                 {totalProduct === 0 ? (
-                                    <tr className='text-black  border-b'>
+                                    <tr className='text-black border-b'>
                                         <td className='px-6 py-4'>
                                             No Data Product
                                         </td>
@@ -160,13 +160,13 @@ const SellerProductsPage = () => {
                                                 className='text-black bg-white border-b '
                                                 key={index}>
                                                 <td className='px-6 py-4'>
-                                                    {product.name}
+                                                    {product.nama}
                                                 </td>
                                                 <td className='px-6 py-4 '>
-                                                    {product.Category.name}
+                                                    {product.Category.nama}
                                                 </td>
                                                 <td className='px-6 py-4'>
-                                                    {product.price}
+                                                    {product.harga}
                                                 </td>
                                                 <td className='px-6 py-4'>
                                                     {product.is_active
@@ -206,9 +206,9 @@ const SellerProductsPage = () => {
                         </table>
                         {totalPage > 1 && (
                             <>
-                                <div className='mt-4 text-right space-x-3'>
+                                <div className='mt-4 space-x-3 text-right'>
                                     <button
-                                        className='bg-primary text-white font-semibold px-2 py-1 hover:bg-secondary rounded-md disabled:bg-orange-700'
+                                        className='px-2 py-1 font-semibold text-white rounded-md bg-primary hover:bg-secondary disabled:bg-orange-700'
                                         onClick={() => handlePrev()}
                                         disabled={page === 1}>
                                         Prev

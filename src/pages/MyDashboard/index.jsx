@@ -41,9 +41,7 @@ const MyDashboardPage = () => {
                 setCountSellerText(dataSeller.total_seller)
                 setCountCustomerText(dataCustomer.total_customer)
             }
-        } catch (error) {
-            console.error('Error : ', error)
-        }
+        } catch (error) {}
     }
 
     useEffect(() => {
@@ -62,7 +60,7 @@ const MyDashboardPage = () => {
                     </h1>
                     {decoded.user_role === 'Seller' && (
                         <>
-                            {user.link_map_merchant === null &&
+                            {user?.link_map_toko === null &&
                                 user.is_active === false && (
                                     <div
                                         className={`flex items-center p-4 mb-2  rounded-lg  text-red-800 bg-red-200 mt-3`}
@@ -79,14 +77,14 @@ const MyDashboardPage = () => {
                                             Your Account is not Active,{' '}
                                             <NavLink
                                                 to='/my-dashboard/seller/activate'
-                                                className='text-blue-900 underline text-sm font-medium'>
+                                                className='text-sm font-medium text-blue-900 underline'>
                                                 Click this
                                             </NavLink>{' '}
                                             To Activate Your Account
                                         </div>
                                     </div>
                                 )}
-                            {user.link_map_merchant !== null &&
+                            {user.link_map_toko !== null &&
                                 user.is_active === false && (
                                     <div
                                         className={`flex items-center p-4 mb-2  rounded-lg  text-yellow-800 bg-yellow-200 mt-3`}
@@ -103,7 +101,7 @@ const MyDashboardPage = () => {
                                             Your Verification On Process,{' '}
                                             <NavLink
                                                 to='/my-dashboard/seller/activate'
-                                                className='text-blue-900 underline text-sm font-medium'>
+                                                className='text-sm font-medium text-blue-900 underline'>
                                                 Click This
                                             </NavLink>{' '}
                                             To Edit Your Activate Account
@@ -122,7 +120,7 @@ const MyDashboardPage = () => {
                                     <h2 className='text-base font-bold leading-3 text-primary '>
                                         Total Products
                                     </h2>
-                                    <h1 className='text-xl font-bold text-gray-600 mt-2'>
+                                    <h1 className='mt-2 text-xl font-bold text-gray-600'>
                                         {countProduct}
                                     </h1>
                                 </div>
@@ -133,10 +131,10 @@ const MyDashboardPage = () => {
                             </div>
                             <div className='h-[100px] rounded-[8px] bg-white border-l-4 border-primary flex items-center justify-between px-7 hover:shadow-lg transform hover:scale-105 transition duration-300 ease-out '>
                                 <div>
-                                    <h2 className='text-base font-bold leading-3 text-primary  '>
+                                    <h2 className='text-base font-bold leading-3 text-primary '>
                                         Total Orders
                                     </h2>
-                                    <h1 className='text-xl font-bold text-gray-600 mt-2'>
+                                    <h1 className='mt-2 text-xl font-bold text-gray-600'>
                                         50
                                     </h1>
                                 </div>
@@ -153,7 +151,7 @@ const MyDashboardPage = () => {
                                     <h2 className='text-base font-bold leading-3 text-primary '>
                                         Total Products
                                     </h2>
-                                    <h1 className='text-xl font-bold text-gray-600 mt-2'>
+                                    <h1 className='mt-2 text-xl font-bold text-gray-600'>
                                         {countProduct}
                                     </h1>
                                 </div>

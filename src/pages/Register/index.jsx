@@ -37,19 +37,20 @@ const RegisterPage = () => {
     const navigate = useNavigate()
     const [isLoading, setIsLoading] = useState(false)
     const HandleRegister = async (e) => {
+        setErrorMessage('')
         e.preventDefault()
         setIsLoading(true)
         const data = {
-            name: name,
+            nama: name,
             email: email,
             password: password,
             confPassword: confPassword,
-            province: selectedProvinceName,
-            city: selectedCityName,
-            district: selectedDistrictName,
-            village: selectedVillageName,
-            postal_code: postalCode,
-            address: address,
+            provinsi: selectedProvinceName,
+            kota: selectedCityName,
+            kecamatan: selectedDistrictName,
+            kelurahan: selectedVillageName,
+            kode_pos: postalCode,
+            alamat: address,
             role: selectedRole,
             no_hp: noHp,
         }
@@ -388,9 +389,9 @@ const RegisterPage = () => {
                 <div className='flex w-full gap-2'>
                     <div className='w-1/2'>
                         <InputForm
-                            label='Postal Code'
+                            label='Kode Pos'
                             name='postal_code'
-                            placeholder='Postal Code.....'
+                            placeholder='Kode Pos.....'
                             type='text'
                             disabled={isLoading}
                             value={postalCode}
@@ -414,13 +415,13 @@ const RegisterPage = () => {
                         <label
                             htmlFor='address'
                             className='block mb-2 text-sm font-bold text-slate-700'>
-                            Address / Street Name
+                            Alamat
                         </label>
                         <textarea
                             rows={3}
                             name='address'
                             id='address'
-                            placeholder='Your Address...'
+                            placeholder='Alamat.....'
                             value={address}
                             disabled={isLoading}
                             onChange={(e) => setAddress(e.target.value)}
@@ -443,7 +444,7 @@ const RegisterPage = () => {
                     classname={`w-full bg-primary relative ${isLoading ? 'opacity-50' : ''}`}>
                     {isLoading ? (
                         <div className='absolute inset-0 flex items-center justify-center'>
-                            <div className='animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white'></div>
+                            <div className='w-4 h-4 border-t-2 border-b-2 border-white rounded-full animate-spin'></div>
                         </div>
                     ) : (
                         'Sign Up'

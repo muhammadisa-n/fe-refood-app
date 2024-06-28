@@ -24,9 +24,9 @@ const SellerCreateProductPage = () => {
         e.preventDefault()
         setIsLoading(true)
         const formData = new FormData()
-        formData.append('name', name)
-        formData.append('description', description)
-        formData.append('price', price)
+        formData.append('nama', name)
+        formData.append('deskripsi', description)
+        formData.append('harga', price)
         formData.append('category_id', selectedCategory)
         formData.append('image', image)
         try {
@@ -63,7 +63,7 @@ const SellerCreateProductPage = () => {
     return (
         <>
             <DashboardLayout>
-                <div className='px-6 pt-6  '>
+                <div className='px-6 pt-6 '>
                     <div className='flex items-center'>
                         <h1 className='text-3xl font-semibold text-primary'>
                             Add Product
@@ -72,7 +72,7 @@ const SellerCreateProductPage = () => {
                     <div className='my-4'>
                         <Link
                             to='/my-dashboard/seller/products'
-                            className='px-2 py-2 text-white rounded-lg bg-red-500'>
+                            className='px-2 py-2 text-white bg-red-500 rounded-lg'>
                             Back
                         </Link>
                     </div>
@@ -96,7 +96,7 @@ const SellerCreateProductPage = () => {
                                 OnChange={(e) => setName(e.target.value)}
                             />
                             <InputForm
-                                label='Price'
+                                label='Harga'
                                 name='price'
                                 placeholder='10000'
                                 type='number'
@@ -125,7 +125,7 @@ const SellerCreateProductPage = () => {
                                         <option
                                             key={category.id}
                                             value={category.id}>
-                                            {category.name}
+                                            {category.nama}
                                         </option>
                                     ))}
                                 </select>
@@ -134,7 +134,7 @@ const SellerCreateProductPage = () => {
                                 <label
                                     htmlFor='description'
                                     className='block mb-2 text-sm font-bold text-slate-700'>
-                                    Description Product
+                                    Deskripsi Produk
                                 </label>
                                 <textarea
                                     rows={6}
@@ -177,7 +177,7 @@ const SellerCreateProductPage = () => {
                                 classname={`w-[30%] bg-primary relative ${isLoading ? 'opacity-50' : ''}`}>
                                 {isLoading ? (
                                     <div className='absolute inset-0 flex items-center justify-center'>
-                                        <div className='animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white'></div>
+                                        <div className='w-4 h-4 border-t-2 border-b-2 border-white rounded-full animate-spin'></div>
                                     </div>
                                 ) : (
                                     'Add Product'

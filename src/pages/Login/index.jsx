@@ -17,6 +17,7 @@ const LoginPage = () => {
     const [errorMessage, setErrorMessage] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const HandleLogin = async (e) => {
+        setErrorMessage('')
         e.preventDefault()
         setIsLoading(true)
         const data = {
@@ -87,7 +88,7 @@ const LoginPage = () => {
                             Register Now
                         </NavLink>
                     </p>
-                    <p className='text-sm font-medium text-black my-2'>
+                    <p className='my-2 text-sm font-medium text-black'>
                         <NavLink
                             className='font-bold text-primary '
                             to='/forgot-password'>
@@ -100,7 +101,7 @@ const LoginPage = () => {
                     classname={`w-full bg-primary relative ${isLoading ? 'opacity-50' : ''}`}>
                     {isLoading ? (
                         <div className='absolute inset-0 flex items-center justify-center'>
-                            <div className='animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white'></div>
+                            <div className='w-4 h-4 border-t-2 border-b-2 border-white rounded-full animate-spin'></div>
                         </div>
                     ) : (
                         'Log In'

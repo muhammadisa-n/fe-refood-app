@@ -42,7 +42,7 @@ const HomePage = () => {
     return (
         <MainLayout>
             <Banner />
-            <div className='flex flex-col max-w-full mx-auto min-h-screen mt-10'>
+            <div className='flex flex-col max-w-full min-h-screen mx-auto mt-10'>
                 <div className='mt-10 text-center '>
                     <p className='text-3xl font-bold text-primary'>All Foods</p>
                 </div>
@@ -59,22 +59,22 @@ const HomePage = () => {
                 {totalProduct === 0 ? (
                     <>
                         <div className='mx-10 my-10 md:grid-cols-4'>
-                            <h5 className='text-center text-slate-400 text-4xl'>
+                            <h5 className='text-4xl text-center text-slate-400'>
                                 No Data Product
                             </h5>
                         </div>
                     </>
                 ) : (
                     <>
-                        <div className=' grid grid-cols-2 mx-36 my-10 md:grid-cols-4'>
+                        <div className='grid grid-cols-2 my-10 mx-36 md:grid-cols-4'>
                             {products.map((product, index) => (
                                 <CardProduct
                                     key={index}
                                     id={product.id}
-                                    name={product.name}
-                                    productCategory={product.Category.name}
-                                    description={product.description}
-                                    price={product.price}
+                                    name={product.nama}
+                                    productCategory={product.Category.nama}
+                                    description={product.deskripsi}
+                                    price={product.harga}
                                     imgSrc={product.image_url}
                                 />
                             ))}
@@ -84,9 +84,9 @@ const HomePage = () => {
             </div>
             {totalPage > 1 && (
                 <>
-                    <div className='mb-20 text-center space-x-5'>
+                    <div className='mb-20 space-x-5 text-center'>
                         <button
-                            className='bg-primary text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md disabled:bg-orange-700'
+                            className='px-3 py-2 font-semibold text-white rounded-md bg-primary hover:bg-secondary disabled:bg-orange-700'
                             onClick={() => handlePrev()}
                             disabled={page === 1}>
                             Prev

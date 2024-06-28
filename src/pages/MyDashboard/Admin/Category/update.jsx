@@ -20,7 +20,7 @@ const AdminUpdateCategoryPage = () => {
         const fetchCategory = async () => {
             try {
                 const category = await getDetailCategory(id)
-                setName(category.name)
+                setName(category.nama)
             } catch (error) {
                 if (error.status_code === 404) {
                     setCategoryNotFound(true)
@@ -33,7 +33,7 @@ const AdminUpdateCategoryPage = () => {
     const handleUpdate = async (e) => {
         e.preventDefault()
         const data = {
-            name: name,
+            nama: name,
         }
         try {
             const response = await updateCategory(id, data)
@@ -54,7 +54,7 @@ const AdminUpdateCategoryPage = () => {
     return (
         <>
             <DashboardLayout>
-                <div className='px-6 pt-6  '>
+                <div className='px-6 pt-6 '>
                     <div className='flex items-center'>
                         <h1 className='text-3xl font-semibold text-primary'>
                             Update Category
@@ -63,7 +63,7 @@ const AdminUpdateCategoryPage = () => {
                     <div className='my-4'>
                         <Link
                             to='/my-dashboard/admin/category'
-                            className='px-2 py-2 text-white rounded-lg bg-red-500'>
+                            className='px-2 py-2 text-white bg-red-500 rounded-lg'>
                             Back
                         </Link>
                     </div>

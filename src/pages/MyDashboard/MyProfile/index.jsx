@@ -40,16 +40,16 @@ const DashboardProfilePage = () => {
 
     const fetchUser = async () => {
         const userdata = await getUser()
-        setName(userdata.name)
+        setName(userdata.nama)
         setNoHp(userdata.no_hp)
-        setAddress(userdata.address)
-        setPostalCode(userdata.postal_code)
-        setSelectedProvinceName(userdata.province)
-        setSelectedCityName(userdata.city)
-        setSelectedDistrictName(userdata.district)
-        setSelectedVillageName(userdata.village)
-        if (userdata.description) {
-            setDescription(userdata.description)
+        setAddress(userdata.alamat)
+        setPostalCode(userdata.kode_pos)
+        setSelectedProvinceName(userdata.provinsi)
+        setSelectedCityName(userdata.kota)
+        setSelectedDistrictName(userdata.kecamatan)
+        setSelectedVillageName(userdata.kelurahan)
+        if (userdata.deskripsi) {
+            setDescription(userdata.deskripsi)
         }
         if (userdata.ava_image_url) {
             setPreviewImg(userdata.ava_image_url)
@@ -143,14 +143,14 @@ const DashboardProfilePage = () => {
         e.preventDefault()
         setIsLoading(true)
         const formData = new FormData()
-        formData.append('name', name)
-        formData.append('description', description)
-        formData.append('province', selectedProvinceName)
-        formData.append('city', selectedCityName)
-        formData.append('district', selectedDistrictName)
-        formData.append('village', selectedVillageName)
-        formData.append('postal_code', postalCode)
-        formData.append('address', address)
+        formData.append('nama', name)
+        formData.append('deskripsi', description)
+        formData.append('provinsi', selectedProvinceName)
+        formData.append('kota', selectedCityName)
+        formData.append('kecamatan', selectedDistrictName)
+        formData.append('kelurahan', selectedVillageName)
+        formData.append('kode_pos', postalCode)
+        formData.append('alamat', address)
         formData.append('no_hp', noHp)
         formData.append('image', image)
         try {
@@ -167,7 +167,6 @@ const DashboardProfilePage = () => {
             setErrorMessage(error.message)
         } finally {
             setIsLoading(false)
-            fetchUser()
         }
     }
 
@@ -194,7 +193,7 @@ const DashboardProfilePage = () => {
                                         className={`${role === 'Admin' ? 'justify-start' : 'justify-between'} md:flex relative w-full`}>
                                         <div className='px-4 py-8'>
                                             <img
-                                                className='object-cover w-full h-48 md:w-48 rounded-full'
+                                                className='object-cover w-full h-48 rounded-full md:w-48'
                                                 src={previewImg}
                                                 alt='Profil-image'
                                             />
@@ -202,7 +201,7 @@ const DashboardProfilePage = () => {
                                         <div className='flex items-start px-4 py-8'>
                                             <div>
                                                 <h2 className='text-2xl font-semibold text-gray-800'>
-                                                    {user?.name}
+                                                    {user?.nama}
                                                 </h2>
                                                 <p className='mt-2 text-gray-600'>
                                                     Email: {user?.email}
@@ -214,7 +213,7 @@ const DashboardProfilePage = () => {
                                                         </p>
                                                         <p className='mt-2 text-gray-600'>
                                                             Address:{' '}
-                                                            {`${user?.address}, ${user?.village} ${user?.district}, ${user?.city}, ${user?.province}, ${user?.postal_code}`}
+                                                            {`${user?.alamat}, ${user?.kelurahan} ${user?.kecamatan}, ${user?.kota}, ${user?.provinsi}, ${user?.kode_pos}`}
                                                         </p>
                                                     </>
                                                 )}
@@ -249,7 +248,7 @@ const DashboardProfilePage = () => {
                                                     {errorMessage}
                                                 </AlertMessage>
                                             )}
-                                            <div className='flex w-full flex-col gap-2'>
+                                            <div className='flex flex-col w-full gap-2'>
                                                 <div className='w-full'>
                                                     <InputForm
                                                         label={
@@ -304,7 +303,7 @@ const DashboardProfilePage = () => {
                                                                 <label
                                                                     htmlFor='province'
                                                                     className='block mb-2 text-sm font-bold text-slate-700'>
-                                                                    Province
+                                                                    Provinsi
                                                                 </label>
                                                                 <div className='mb-6'>
                                                                     <select
@@ -352,7 +351,7 @@ const DashboardProfilePage = () => {
                                                                 <label
                                                                     htmlFor='city'
                                                                     className='block mb-2 text-sm font-bold text-slate-700'>
-                                                                    City
+                                                                    Kota
                                                                 </label>
                                                                 <div className='mb-6'>
                                                                     <select
@@ -402,7 +401,7 @@ const DashboardProfilePage = () => {
                                                                 <label
                                                                     htmlFor='district'
                                                                     className='block mb-2 text-sm font-bold text-slate-700'>
-                                                                    District
+                                                                    Kecamatan
                                                                 </label>
                                                                 <div className='mb-6'>
                                                                     <select
@@ -450,7 +449,7 @@ const DashboardProfilePage = () => {
                                                                 <label
                                                                     htmlFor='village'
                                                                     className='block mb-2 text-sm font-bold text-slate-700'>
-                                                                    Village
+                                                                    Kelurahan
                                                                 </label>
                                                                 <div className='mb-6'>
                                                                     <select
@@ -498,9 +497,9 @@ const DashboardProfilePage = () => {
                                                         <div className='flex w-full gap-2'>
                                                             <div className='w-1/2'>
                                                                 <InputForm
-                                                                    label='Postal Code'
+                                                                    label='Kode Pos'
                                                                     name='postal_code'
-                                                                    placeholder='Postal Code...'
+                                                                    placeholder='Kode Pos...'
                                                                     type='text'
                                                                     disabled={
                                                                         isLoading
@@ -546,7 +545,7 @@ const DashboardProfilePage = () => {
                                                             <label
                                                                 htmlFor='address'
                                                                 className='block mb-2 text-sm font-bold text-slate-700'>
-                                                                Address
+                                                                Alamat
                                                             </label>
                                                             <textarea
                                                                 rows={4}
@@ -600,7 +599,7 @@ const DashboardProfilePage = () => {
                                                     className={`px-4 py-2 text-white rounded bg-primary hover:bg-secondary focus:outline-none relative ${isLoading ? 'opacity-50 hover:opacity-50' : ''}`}>
                                                     {isLoading ? (
                                                         <div className='absolute inset-0 flex items-center justify-center'>
-                                                            <div className='animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white'></div>
+                                                            <div className='w-4 h-4 border-t-2 border-b-2 border-white rounded-full animate-spin'></div>
                                                         </div>
                                                     ) : (
                                                         'Save'

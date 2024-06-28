@@ -32,6 +32,7 @@ import AdminUpdateCategoryPage from '@pages/MyDashboard/Admin/Category/update'
 import ScrollToTop from '@utils/ScrollToTop'
 import VerificationSellerPage from '@pages/MyDashboard/Seller/VerificationSeller'
 import AdminSellerListPage from '@pages/MyDashboard/Admin/User/Seller'
+import AdminDetailSellerPage from '@pages/MyDashboard/Admin/User/Seller/detail'
 const RoutesPage = () => {
     return (
         <BrowserRouter>
@@ -148,6 +149,14 @@ const RoutesPage = () => {
                     element={
                         <IsAdmin>
                             <AdminSellerListPage />
+                        </IsAdmin>
+                    }
+                />
+                <Route
+                    path='/my-dashboard/admin/sellers/detail/:id'
+                    element={
+                        <IsAdmin>
+                            <AdminDetailSellerPage />
                         </IsAdmin>
                     }
                 />

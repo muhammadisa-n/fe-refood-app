@@ -27,30 +27,38 @@ const AdminDetailProductPage = () => {
                         Detail Product
                     </h1>
                 </div>
-                <div className='container px-2 py-10 mx-auto bg-white rounded-lg my-2 border'>
-                    <div className='lg:w-4/5 mx-auto flex flex-wrap'>
-                        <img
-                            className='lg:w-1/3 w-full object-cover object-center rounded-lg border border-gray-200'
-                            src={`${product.image_url}`}
-                        />
-                        <div className='lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0'>
-                            <h2 className='text-sm title-font text-gray-500 tracking-widest'>
-                                {product?.Category?.name}
-                            </h2>
-                            <h1 className='text-gray-900 text-3xl title-font font-medium mb-1'>
-                                {product?.name}
-                            </h1>
-                            <p className='leading-relaxed'>
-                                {product?.description}
-                            </p>
-                            <div className='flex mt-10'>
-                                <span className='title-font font-medium text-2xl text-gray-900'>
-                                    Rp {product?.price}
-                                </span>
+                {productNotFound ? (
+                    <div className='container px-2 py-10 mx-auto my-2 bg-white border rounded-lg'>
+                        <h5 className='text-2xl text-center'>
+                            Product Not Found
+                        </h5>
+                    </div>
+                ) : (
+                    <div className='container px-2 py-10 mx-auto my-2 bg-white border rounded-lg'>
+                        <div className='flex flex-wrap mx-auto lg:w-4/5'>
+                            <img
+                                className='object-cover object-center w-full border border-gray-200 rounded-lg lg:w-1/3'
+                                src={`${product.image_url}`}
+                            />
+                            <div className='w-full mt-6 lg:w-1/2 lg:pl-10 lg:py-6 lg:mt-0'>
+                                <h2 className='text-sm tracking-widest text-gray-500 title-font'>
+                                    {product?.Category?.nama}
+                                </h2>
+                                <h1 className='mb-1 text-3xl font-medium text-gray-900 title-font'>
+                                    {product?.nama}
+                                </h1>
+                                <p className='leading-relaxed'>
+                                    {product?.deskripsi}
+                                </p>
+                                <div className='flex mt-10'>
+                                    <span className='text-2xl font-medium text-gray-900 title-font'>
+                                        Rp {product?.harga}
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                )}
             </div>
         </DashboardLayout>
     )

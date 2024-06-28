@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useCart } from '@context/CartContext'
 import CartItem from '@components/CartItem/index.jsx'
 import MainLayout from '@layouts/MainLayout'
 const CartsPage = () => {
     const { carts, refreshCart } = useCart()
-    const [isOpen, setIsOpen] = useState(true)
     useEffect(() => {
         refreshCart()
     }, [])
@@ -13,7 +12,7 @@ const CartsPage = () => {
             {carts.length === 0 ? (
                 <div className='flex items-center justify-center max-w-full min-h-screen'>
                     <div>
-                        <h5 className='text-center text-slate-400 text-4xl'>
+                        <h5 className='text-4xl text-center text-slate-400'>
                             Your Cart is Empty
                         </h5>
                     </div>
@@ -25,9 +24,9 @@ const CartsPage = () => {
                             key={cart.id}
                             productId={cart.product_id}
                             imgSrc={cart.Product.image_url}
-                            name={cart.Product.name}
-                            totalPrice={cart.total_price}
-                            totalProduct={cart.total_product}
+                            name={cart.Product.nama}
+                            totalPrice={cart.total_harga}
+                            totalProduct={cart.total_produk}
                         />
                     ))}
                 </div>

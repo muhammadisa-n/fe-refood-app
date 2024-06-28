@@ -41,14 +41,14 @@ const CartItem = ({
                         Rp. {totalPrice}
                     </span>
                     <button
-                        className='h-12 px-2 text-white rounded-md bg-primary font-semibold '
+                        className='h-12 px-2 font-semibold text-white rounded-md bg-primary '
                         onClick={OnClick}>
                         Order
                     </button>
                 </div>
                 <button
                     onClick={handleRemove}
-                    className='absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-red-500 text-white rounded-full text-xs w-8 h-8 flex items-center justify-center'>
+                    className='absolute top-0 right-0 flex items-center justify-center w-8 h-8 text-xs text-white transform translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full'>
                     <MdRemoveShoppingCart size={20} />
                 </button>
             </div>

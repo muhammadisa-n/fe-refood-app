@@ -48,7 +48,7 @@ export const deleteProduct = async (id) => {
 
 export const countProduct = async () => {
     try {
-        const response = await axiosJWT.get('seller/products/count')
+        const response = await axiosJWT.get('seller/product/count')
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error

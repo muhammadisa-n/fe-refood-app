@@ -4,7 +4,6 @@ import DropdownMenu from '@components/Header/DropdownMenu.jsx'
 import profileImage from '@assets/userdefault.png'
 import { AiOutlineMenu } from 'react-icons/ai'
 import { FaShoppingCart } from 'react-icons/fa'
-import { IoIosNotifications } from 'react-icons/io'
 import { logout } from '@utils/services/authServices.js'
 import { useCart } from '@context/CartContext'
 import { useUser } from '@context/userContext.jsx'
@@ -99,7 +98,7 @@ const Header = () => {
         }
     }, [])
     return (
-        <header className='sticky  top-0 px-4 py-4  border-b-2 bg-white  z-50'>
+        <header className='sticky top-0 z-50 px-4 py-4 bg-white border-b-2'>
             <nav>
                 <div className='container mx-auto'>
                     <div className='flex justify-between'>
@@ -121,24 +120,13 @@ const Header = () => {
                                 <>
                                     <NavLink
                                         to='/carts'
-                                        className='relative mx-2'>
-                                        <IoIosNotifications
-                                            size={20}
-                                            className='hover:text-primary'
-                                        />
-                                        <span className='absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-primary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center'>
-                                            1
-                                        </span>
-                                    </NavLink>
-                                    <NavLink
-                                        to='/carts'
                                         className='relative mx-3'>
                                         <FaShoppingCart
                                             size={20}
                                             className='hover:text-primary'
                                         />
                                         {carts && carts.length > 0 && (
-                                            <span className='absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-primary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center'>
+                                            <span className='absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-white transform translate-x-1/2 -translate-y-1/2 rounded-full bg-primary'>
                                                 {carts.length}
                                             </span>
                                         )}
@@ -198,12 +186,12 @@ const Header = () => {
                                         <div className='absolute w-[150px] right-0 bg-white px-4 py-4'>
                                             <NavLink
                                                 to='/login'
-                                                className='flex items-center justify-center h-8 px-4 font-semibold text-white transition ease-in-out rounded-sm bg-primary hover:bg-secondary hover:text-primary my-2'>
+                                                className='flex items-center justify-center h-8 px-4 my-2 font-semibold text-white transition ease-in-out rounded-sm bg-primary hover:bg-secondary hover:text-primary'>
                                                 Log In
                                             </NavLink>
                                             <NavLink
                                                 to='/register'
-                                                className='flex items-center justify-center h-8 px-4 font-semibold rounded-sm text-primary bg-secondary hover:bg-primary hover:text-white  my-2'>
+                                                className='flex items-center justify-center h-8 px-4 my-2 font-semibold rounded-sm text-primary bg-secondary hover:bg-primary hover:text-white'>
                                                 Sign Up
                                             </NavLink>
                                         </div>
@@ -213,15 +201,6 @@ const Header = () => {
                                 <>
                                     {token && role === 'Customer' ? (
                                         <div className='flex'>
-                                            <div className='relative mx-3 top-4'>
-                                                <IoIosNotifications
-                                                    size={20}
-                                                    className='hover:text-primary'
-                                                />
-                                                <span className='absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-primary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center'>
-                                                    1
-                                                </span>
-                                            </div>
                                             <NavLink
                                                 to='/carts'
                                                 className='relative mx-3 top-4'>
@@ -230,7 +209,7 @@ const Header = () => {
                                                     className='hover:text-primary'
                                                 />
                                                 {carts && carts.length > 0 && (
-                                                    <span className='absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2 bg-primary text-white rounded-full text-xs w-5 h-5 flex items-center justify-center'>
+                                                    <span className='absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-white transform translate-x-1/2 -translate-y-1/2 rounded-full bg-primary'>
                                                         {carts.length}
                                                     </span>
                                                 )}

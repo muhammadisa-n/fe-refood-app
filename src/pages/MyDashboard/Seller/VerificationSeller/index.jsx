@@ -44,8 +44,8 @@ const VerificationSellerPage = () => {
         setPreviewImg(URL.createObjectURL(image))
     }
     const fetchData = () => {
-        if (user.link_map_merchant !== null) {
-            setLinkMap(user.link_map_merchant)
+        if (user.link_map_alamat_toko !== null) {
+            setLinkMap(user.link_map_alamat_toko)
         }
     }
     useEffect(() => {
@@ -53,7 +53,7 @@ const VerificationSellerPage = () => {
     }, [])
     return (
         <DashboardLayout>
-            <div className='px-6 pt-6  '>
+            <div className='px-6 pt-6 '>
                 <div className='flex items-center'>
                     <h1 className='text-3xl font-semibold text-primary'>
                         Verification Seller
@@ -88,7 +88,7 @@ const VerificationSellerPage = () => {
                             )}
                             <form onSubmit={handleSave}>
                                 <InputForm
-                                    label='Link Address Merchant'
+                                    label='Link Gmaps Toko'
                                     name='link_map'
                                     placeholder='https://maps.app.goo.gl/xxxxx'
                                     type='text'
@@ -127,7 +127,7 @@ const VerificationSellerPage = () => {
                                     classname={`w-[30%] bg-primary relative ${isLoading ? 'opacity-50' : ''}`}>
                                     {isLoading ? (
                                         <div className='absolute inset-0 flex items-center justify-center'>
-                                            <div className='animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white'></div>
+                                            <div className='w-4 h-4 border-t-2 border-b-2 border-white rounded-full animate-spin'></div>
                                         </div>
                                     ) : (
                                         'Submit'

@@ -10,7 +10,7 @@ const CardProduct = ({
 }) => {
     return (
         <div className='flex justify-center'>
-            <div className='w-full  max-w-sm mx-6 bg-white border rounded-lg shadow '>
+            <div className='w-full max-w-sm mx-6 bg-white border rounded-lg shadow '>
                 <img
                     src={imgSrc}
                     alt='product-image'
@@ -38,8 +38,8 @@ const CardProduct = ({
                         Rp. {price}
                     </span>
                     <Link
-                        to={`product/detail/${id}`}
-                        className=' h-10 px-1 py-2 font-semibold text-white rounded-md bg-primary items-center justify-center'>
+                        to={`/product/detail/${id}`}
+                        className='items-center justify-center h-10 px-1 py-2 font-semibold text-white rounded-md bg-primary'>
                         Detail
                     </Link>
                 </div>
