@@ -2,22 +2,37 @@ import React from 'react'
 import { MdRemoveShoppingCart } from 'react-icons/md'
 import { useCart } from '@context/CartContext.jsx'
 import { deleteCart } from '@utils/services/customerServices.js'
+import { createOrder } from '@utils/services/customerServices'
+import { useNavigate } from 'react-router-dom'
 
 const CartItem = ({
     cartId,
     imgSrc,
     productId,
     name,
-    totalPrice,
+    totalHarga,
     categoryName,
     totalProduct,
-    OnClick,
 }) => {
     const { refreshCart } = useCart()
-
+    const navigate = useNavigate()
     const handleRemove = async () => {
         await deleteCart(productId)
         refreshCart()
+    }
+    const handleAddToOrder = async () => {
+        const data = {
+            total_produk: totalProduct,
+            total_harga: totalHarga,
+            product_id: productId,
+        }
+        try {
+            const response = await createOrder(data)
+            navigate(`/my-orders/checkout/${response.dataOrder.id}`)
+        } catch (error) {
+            console.error(error)
+        } finally {
+        }
     }
     return (
         <div className='flex justify-center py-2' key={cartId}>
@@ -38,11 +53,11 @@ const CartItem = ({
                 </div>
                 <div className='flex items-center justify-between px-5 pb-5'>
                     <span className='text-base font-bold text-black'>
-                        Rp. {totalPrice}
+                        Rp. {totalHarga?.toLocaleString('id-Id')}
                     </span>
                     <button
                         className='h-12 px-2 font-semibold text-white rounded-md bg-primary '
-                        onClick={OnClick}>
+                        onClick={handleAddToOrder}>
                         Order
                     </button>
                 </div>

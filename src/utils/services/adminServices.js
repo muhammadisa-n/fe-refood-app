@@ -31,16 +31,6 @@ export const getAllCategory = async (page, take, search) => {
     }
 }
 
-export const activateProduct = async (id, status) => {
-    try {
-        const response = await axiosJWT.patch(`admin/products/${id}/activate`, {
-            is_active: status,
-        })
-        return response.data
-    } catch (error) {
-        throw error.response ? error.response.data : error
-    }
-}
 export const activateSeller = async (id, status) => {
     try {
         const response = await axiosJWT.patch(`admin/sellers/${id}/activate`, {

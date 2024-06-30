@@ -72,23 +72,27 @@ const RecommendationPage = () => {
                     </>
                 )}
             </div>
-            <div className='mb-20 space-x-5 text-center'>
-                <button
-                    className='px-3 py-2 font-semibold text-white rounded-md bg-primary hover:bg-secondary disabled:bg-orange-700'
-                    onClick={() => handlePrev()}
-                    disabled={page === 1}>
-                    Prev
-                </button>
+            {totalPage > 1 && (
+                <>
+                    <div className='mb-20 space-x-5 text-center'>
+                        <button
+                            className='px-3 py-2 font-semibold text-white rounded-md bg-primary hover:bg-secondary disabled:bg-orange-700'
+                            onClick={() => handlePrev()}
+                            disabled={page === 1}>
+                            Prev
+                        </button>
 
-                <span>{page}</span>
+                        <span>{page}</span>
 
-                <button
-                    className='px-3 py-2 font-semibold text-white rounded-md bg-primary hover:bg-secondary disabled:bg-orange-700'
-                    onClick={() => handleNext()}
-                    disabled={page === totalPage}>
-                    Next
-                </button>
-            </div>
+                        <button
+                            className={`bg-primary mb-2 text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md  disabled:bg-orange-700`}
+                            onClick={() => handleNext()}
+                            disabled={page === totalPage || page > totalPage}>
+                            Next
+                        </button>
+                    </div>
+                </>
+            )}
         </MainLayout>
     )
 }

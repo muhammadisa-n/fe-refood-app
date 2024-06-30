@@ -33,6 +33,10 @@ import ScrollToTop from '@utils/ScrollToTop'
 import VerificationSellerPage from '@pages/MyDashboard/Seller/VerificationSeller'
 import AdminSellerListPage from '@pages/MyDashboard/Admin/User/Seller'
 import AdminDetailSellerPage from '@pages/MyDashboard/Admin/User/Seller/detail'
+import CheckOutPage from '@pages/CheckOut'
+import OrderDetailPage from '@pages/OrderDetail'
+import SellerDetailOrdersPage from './pages/MyDashboard/Seller/Orders/detail'
+
 const RoutesPage = () => {
     return (
         <BrowserRouter>
@@ -75,6 +79,22 @@ const RoutesPage = () => {
                         element={
                             <IsCustomer>
                                 <MyOrderPage />
+                            </IsCustomer>
+                        }
+                    />
+                    <Route
+                        path='/my-orders/detail/:id'
+                        element={
+                            <IsCustomer>
+                                <OrderDetailPage />
+                            </IsCustomer>
+                        }
+                    />
+                    <Route
+                        path='/my-orders/checkout/:id'
+                        element={
+                            <IsCustomer>
+                                <CheckOutPage />
                             </IsCustomer>
                         }
                     />
@@ -130,6 +150,14 @@ const RoutesPage = () => {
                         element={
                             <IsSeller>
                                 <SellerOrdersPage />
+                            </IsSeller>
+                        }
+                    />
+                    <Route
+                        path='/my-dashboard/seller/orders/detail/:id'
+                        element={
+                            <IsSeller>
+                                <SellerDetailOrdersPage />
                             </IsSeller>
                         }
                     />

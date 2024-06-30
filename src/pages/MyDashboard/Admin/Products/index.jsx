@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import DashboardLayout from '@layouts/DashboardLayout'
-import {
-    getAllProducts,
-    activateProduct,
-} from '@utils/services/adminServices.js'
+import { getAllProducts } from '@utils/services/adminServices.js'
 import { Link } from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
 const AdminProductsPage = () => {
@@ -23,21 +20,6 @@ const AdminProductsPage = () => {
             setTotalPage(response.paging.total_page)
         } catch (error) {
             console.error('Error Fetching Product', error)
-        }
-    }
-
-    const handleUpdateStatus = async (productId, newStatus) => {
-        try {
-            await activateProduct(productId, newStatus)
-            setProducts(
-                products.map((product) =>
-                    product.id === productId
-                        ? { ...product, is_active: newStatus }
-                        : product
-                )
-            )
-        } catch (error) {
-            console.error('Error Updating Product Status', error)
         }
     }
 
@@ -104,9 +86,6 @@ const AdminProductsPage = () => {
                                         Price
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
-                                        Status
-                                    </th>
-                                    <th scope='col' className='px-6 py-3'>
                                         Action
                                     </th>
                                 </tr>
@@ -133,29 +112,7 @@ const AdminProductsPage = () => {
                                                 <td className='px-6 py-4'>
                                                     {product.harga}
                                                 </td>
-                                                <td className='px-6 py-4'>
-                                                    <select
-                                                        value={
-                                                            product.is_active
-                                                        }
-                                                        onChange={(event) =>
-                                                            handleUpdateStatus(
-                                                                product.id,
-                                                                JSON.parse(
-                                                                    event.target
-                                                                        .value
-                                                                )
-                                                            )
-                                                        }
-                                                        className='py-2 text-black bg-white border'>
-                                                        <option value={true}>
-                                                            Active
-                                                        </option>
-                                                        <option value={false}>
-                                                            Not Active
-                                                        </option>
-                                                    </select>
-                                                </td>
+
                                                 <td className='px-6 py-4'>
                                                     <Link
                                                         type='button'

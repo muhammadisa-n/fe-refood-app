@@ -25,7 +25,7 @@ const CartsPage = () => {
                             productId={cart.product_id}
                             imgSrc={cart.Product.image_url}
                             name={cart.Product.nama}
-                            totalPrice={cart.total_harga}
+                            totalHarga={cart.total_harga}
                             totalProduct={cart.total_produk}
                         />
                     ))}

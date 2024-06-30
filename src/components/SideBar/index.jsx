@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { FaTachometerAlt } from 'react-icons/fa'
 import { MdOutlineFoodBank } from 'react-icons/md'
 import { FaUsers } from 'react-icons/fa'
-import { PiUsersThreeBold } from 'react-icons/pi'
 import { BiFoodMenu } from 'react-icons/bi'
 import { BiCategory } from 'react-icons/bi'
 import { CgProfile } from 'react-icons/cg'
@@ -38,11 +37,8 @@ const SideBar = () => {
             </Link>
             {role === 'Admin' ? (
                 <>
-                    <div className='pt-4  border-white/40'>
-                        <p className='text-xs leading-4 uppercase text-white/70 font-extralight '>
-                            Products
-                        </p>
-                        <div className='flex items-center justify-between py-4 cursor-pointer border-b'>
+                    <div className='pt-4 border-white/40'>
+                        <div className='flex items-center justify-between py-4 border-b cursor-pointer'>
                             <Link
                                 to='/my-dashboard/admin/products'
                                 className='flex items-center gap-3'>
@@ -52,10 +48,10 @@ const SideBar = () => {
                                 </p>
                             </Link>
                         </div>
-                        <p className='text-xs leading-4 uppercase text-white/70 font-extralight mt-2'>
+                        <p className='mt-2 text-xs leading-4 uppercase text-white/70 font-extralight'>
                             Category
                         </p>
-                        <div className='flex items-center justify-between py-4 cursor-pointer border-b'>
+                        <div className='flex items-center justify-between py-4 border-b cursor-pointer'>
                             <Link
                                 to='/my-dashboard/admin/category'
                                 className='flex items-center gap-3'>
@@ -65,10 +61,10 @@ const SideBar = () => {
                                 </p>
                             </Link>
                         </div>
-                        <p className='text-xs leading-4 uppercase text-white/70 font-extralight mt-2'>
+                        <p className='mt-2 text-xs leading-4 uppercase text-white/70 font-extralight'>
                             User Management
                         </p>
-                        <div className='flex items-center justify-between  py-4 cursor-pointer border-b'>
+                        <div className='flex items-center justify-between py-4 border-b cursor-pointer'>
                             <Link
                                 to='/my-dashboard/admin/sellers'
                                 className='flex items-center gap-3'>
@@ -86,7 +82,7 @@ const SideBar = () => {
                         <p className='text-xs leading-4 uppercase text-white/40 font-extralight '>
                             Products
                         </p>
-                        <div className='flex items-center justify-between  py-4 cursor-pointer'>
+                        <div className='flex items-center justify-between py-4 cursor-pointer'>
                             <Link
                                 to='/my-dashboard/seller/products'
                                 className='flex items-center gap-3'>
@@ -101,7 +97,7 @@ const SideBar = () => {
                         <p className='text-xs leading-4 uppercase text-white/40 font-extralight '>
                             Orders
                         </p>
-                        <div className='flex items-center justify-between  py-4 cursor-pointer'>
+                        <div className='flex items-center justify-between py-4 cursor-pointer'>
                             <Link
                                 to='/my-dashboard/seller/orders'
                                 className='flex items-center gap-3'>
@@ -118,7 +114,7 @@ const SideBar = () => {
                 <p className='text-xs leading-4 uppercase text-white/40 font-extralight '>
                     Profile
                 </p>
-                <div className='flex items-center justify-between  py-4 cursor-pointer'>
+                <div className='flex items-center justify-between py-4 cursor-pointer'>
                     <Link
                         to='/my-dashboard/profile'
                         className='flex items-center gap-3'>

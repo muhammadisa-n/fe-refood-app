@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { getProductById } from '@utils/services/productServices.js'
 import { useCart } from '@context/CartContext.jsx'
-import { addCart } from '@utils/services/customerServices.js'
+import { addCart, createOrder } from '@utils/services/customerServices.js'
 import MainLayout from '@layouts/MainLayout'
 import { useUser } from '@context/userContext.jsx'
 
@@ -14,6 +14,8 @@ const DetailProductPage = () => {
     const [product, setProduct] = useState([])
     const [totalProduct, setTotalProduct] = useState(1)
     const [productNotFound, setProductNotFound] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
+    const navigate = useNavigate()
     const decrease = () => {
         if (totalProduct === 1) {
             return
@@ -47,6 +49,23 @@ const DetailProductPage = () => {
             refreshCart()
         } catch (error) {
             console.error(error)
+        }
+    }
+    const handleAddToOrder = async () => {
+        setIsLoading(true)
+        const data = {
+            total_produk: totalProduct,
+            total_harga: product.harga * totalProduct,
+            product_id: product.id,
+        }
+        try {
+            const response = await createOrder(data)
+            navigate(`/my-orders/checkout/${response.dataOrder.id}`)
+        } catch (error) {
+            setIsLoading(false)
+            console.error(error)
+        } finally {
+            setIsLoading(false)
         }
     }
     return (
@@ -101,6 +120,7 @@ const DetailProductPage = () => {
                                 <div className='flex flex-col mt-8 md:flex-row'>
                                     <div className=' w-[100%] flex justify-around md:justify-center items-center space-x-10 rounded-lg p-3 md:p-2 md:mr-4 md:w-[150px]'>
                                         <button
+                                            disabled={isLoading}
                                             onClick={decrease}
                                             className='px-2 text-2xl font-semibold transition-all border md:text-xl text-primary hover:opacity-50'>
                                             -
@@ -109,6 +129,7 @@ const DetailProductPage = () => {
                                             {totalProduct}
                                         </p>
                                         <button
+                                            disabled={isLoading}
                                             onClick={() =>
                                                 setTotalProduct(
                                                     (prev) => prev + 1
@@ -122,15 +143,17 @@ const DetailProductPage = () => {
                                 <div className='flex flex-wrap justify-between mt-4'>
                                     <div className='px-4 md:px-0'>
                                         <button
+                                            disabled={isLoading}
                                             onClick={handleAddToCart}
-                                            className='px-12 py-3 mt-4 font-semibold text-white rounded-lg shadow-xl bg-primary md:mt-0 md:py-3 md:text-base hover:bg-secondary hover:text-primary'>
+                                            className={`px-12 py-3 mt-4 font-semibold text-white rounded-lg shadow-xl bg-primary md:mt-0 md:py-3 md:text-base hover:bg-secondary hover:text-primary ${isLoading ? 'bg-orange-800' : ''}`}>
                                             Add to cart
                                         </button>
                                     </div>
                                     <div className='px-4'>
                                         <button
-                                            onClick={handleAddToCart}
-                                            className='px-12 py-3 mt-4 font-semibold border-none rounded-lg shadow-xl bg-secondary text-primary md:mt-0 md:py-3 md:text-base hover:bg-primary hover:text-white'>
+                                            disabled={isLoading}
+                                            onClick={handleAddToOrder}
+                                            className={`px-12 py-3 mt-4 font-semibold text-white rounded-lg shadow-xl bg-primary md:mt-0 md:py-3 md:text-base hover:bg-secondary hover:text-primary ${isLoading ? 'bg-orange-800' : ''}`}>
                                             Order
                                         </button>
                                     </div>

@@ -139,9 +139,6 @@ const SellerProductsPage = () => {
                                         Price
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
-                                        Status
-                                    </th>
-                                    <th scope='col' className='px-6 py-3'>
                                         Action
                                     </th>
                                 </tr>
@@ -167,11 +164,6 @@ const SellerProductsPage = () => {
                                                 </td>
                                                 <td className='px-6 py-4'>
                                                     {product.harga}
-                                                </td>
-                                                <td className='px-6 py-4'>
-                                                    {product.is_active
-                                                        ? 'Active'
-                                                        : 'Not Active'}
                                                 </td>
                                                 <td className='px-6 py-4'>
                                                     <Link

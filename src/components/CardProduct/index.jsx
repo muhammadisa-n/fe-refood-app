@@ -35,7 +35,7 @@ const CardProduct = ({
                 </div>
                 <div className='flex items-center justify-between px-2 pb-2 mt-5'>
                     <span className='text-base font-bold text-black'>
-                        Rp. {price}
+                        Rp. {price?.toLocaleString('id-Id')}
                     </span>
                     <Link
                         to={`/product/detail/${id}`}
