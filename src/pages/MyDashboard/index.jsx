@@ -60,7 +60,7 @@ const MyDashboardPage = () => {
                     </h1>
                     {decoded.user_role === 'Seller' && (
                         <>
-                            {user?.link_map_toko === null &&
+                            {user?.link_map_alamat_toko === null &&
                                 user.is_active === false && (
                                     <div
                                         className={`flex items-center p-4 mb-2  rounded-lg  text-red-800 bg-red-200 mt-3`}
@@ -84,7 +84,7 @@ const MyDashboardPage = () => {
                                         </div>
                                     </div>
                                 )}
-                            {user.link_map_toko !== null &&
+                            {user.link_map_alamat_toko !== null &&
                                 user.is_active === false && (
                                     <div
                                         className={`flex items-center p-4 mb-2  rounded-lg  text-yellow-800 bg-yellow-200 mt-3`}
