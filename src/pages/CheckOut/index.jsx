@@ -46,9 +46,8 @@ const CheckOutPage = () => {
                     setIsLoading(false)
                 } finally {
                     setIsLoading(false)
+                    fetchOrder()
                 }
-
-                // axiosJWT.put(`/customer/orders/${result.order_id}`, data)
             },
             onPending: async (result) => {
                 const data = {
@@ -56,10 +55,18 @@ const CheckOutPage = () => {
                     transaction_id: result.transaction_id,
                     tipe_pembayaran: result.payment_type,
                     status_transaksi: result.transaction_status,
+                    total_pembayaran: parseInt(result.gross_amount),
                     waktu_transaksi: new Date(result.transaction_time),
                 }
-                await axiosJWT.put(`/customer/orders/${result.order_id}`, data)
-                setIsLoading(false)
+                try {
+                    await UpdateOrderTransaction(result.order_id, data)
+                } catch (error) {
+                    console.error(error.message)
+                    setIsLoading(false)
+                } finally {
+                    setIsLoading(false)
+                    fetchOrder()
+                }
             },
             onError: async (result) => {
                 const data = {
@@ -67,10 +74,18 @@ const CheckOutPage = () => {
                     transaction_id: result.transaction_id,
                     tipe_pembayaran: result.payment_type,
                     status_transaksi: result.transaction_status,
+                    total_pembayaran: parseInt(result.gross_amount),
                     waktu_transaksi: new Date(result.transaction_time),
                 }
-                await axiosJWT.put(`/customer/orders/${result.order_id}`, data)
-                setIsLoading(false)
+                try {
+                    await UpdateOrderTransaction(result.order_id, data)
+                } catch (error) {
+                    console.error(error.message)
+                    setIsLoading(false)
+                } finally {
+                    setIsLoading(false)
+                    fetchOrder()
+                }
             },
             onClose: function () {
                 console.log('closed the popup without finishing the payment')
