@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router-dom'
 import DashboardLayout from '@layouts/DashboardLayout'
 import Swal from 'sweetalert2'
 import { getAllOrders } from '@utils/services/sellerServices.js'
-import { useDebounce } from 'use-debounce'
 import { useUser } from '@context/userContext.jsx'
 import { getDetailOrder } from '@utils/services/sellerServices'
 import moment from 'moment'
@@ -16,6 +15,7 @@ const SellerDetailOrdersPage = () => {
     const toggleTransactionDetails = () => {
         setShowTransactionDetails(!showTransactionDetails)
     }
+
     useEffect(() => {
         const fetchOrder = async () => {
             try {
@@ -29,6 +29,7 @@ const SellerDetailOrdersPage = () => {
         }
         fetchOrder()
     }, [id])
+
     return (
         <DashboardLayout>
             <div className='px-6 pt-6 '>

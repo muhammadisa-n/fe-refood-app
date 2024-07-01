@@ -5,6 +5,8 @@ import Swal from 'sweetalert2'
 import { getAllOrders } from '@utils/services/sellerServices.js'
 import { useDebounce } from 'use-debounce'
 import { useUser } from '@context/userContext.jsx'
+import { UpdateStatusOrderTransaction } from '../../../../utils/services/sellerServices'
+
 const SellerOrdersPage = () => {
     const { user, refreshUser } = useUser()
     const [orders, setOrders] = useState([])
@@ -15,6 +17,12 @@ const SellerOrdersPage = () => {
     const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
     const [searchValue] = useDebounce(search, 1000)
+    const [status_pengiriman, setStatus_pengiriman] = useState('')
+    const [showEditStatus, setShowEditStatus] = useState(false)
+    const toggleshowEditStatus = () => {
+        setShowEditStatus(!showEditStatus)
+    }
+
     const fetchOrders = async () => {
         try {
             const response = await getAllOrders(page, take, searchValue)
@@ -24,6 +32,23 @@ const SellerOrdersPage = () => {
             setTotalPage(response.paging.total_page)
         } catch (error) {
             console.error('Error Fetching Order', error)
+        }
+    }
+    const handleUpdateStatus = async (id) => {
+        try {
+            const data = {
+                status_pengiriman: status_pengiriman,
+            }
+            const response = await UpdateStatusOrderTransaction(id, data)
+            await Swal.fire({
+                icon: 'success',
+                title: `${response.message}`,
+                showConfirmButton: true,
+                timer: 2000,
+            })
+            fetchOrder()
+        } catch (error) {
+            console.error(error)
         }
     }
     useEffect(() => {
@@ -146,24 +171,40 @@ const SellerOrdersPage = () => {
                                                     )}{' '}
                                                 </td>
                                                 <td className='px-6 py-4'>
-                                                    {order.status_pengiriman ===
-                                                        'PENDING' && (
-                                                        <span className='font-extrabold text-gray-500'>
-                                                            Belum Dikirim
-                                                        </span>
+                                                    {showEditStatus ? (
+                                                        <select name='' id=''>
+                                                            <option value='PROSES'>
+                                                                Sedang Dikirim
+                                                            </option>
+                                                            <option value='GAGAL'>
+                                                                GAGAL
+                                                            </option>
+                                                        </select>
+                                                    ) : (
+                                                        <>
+                                                            {order.status_pengiriman ===
+                                                                'PENDING' && (
+                                                                <span className='font-extrabold text-gray-500'>
+                                                                    Belum
+                                                                    Dikirim
+                                                                </span>
+                                                            )}
+                                                            {order.status_pengiriman ===
+                                                                'PROSES' && (
+                                                                <span className='font-extrabold text-yellow-500'>
+                                                                    Sedang
+                                                                    Dikirim
+                                                                </span>
+                                                            )}
+                                                            {order.status_pengiriman ===
+                                                                'SUKSES' && (
+                                                                <span className='font-extrabold text-green-500'>
+                                                                    Berhasil
+                                                                    Diterima
+                                                                </span>
+                                                            )}{' '}
+                                                        </>
                                                     )}
-                                                    {order.status_pengiriman ===
-                                                        'PROSES' && (
-                                                        <span className='font-extrabold text-yellow-500'>
-                                                            Sedang Dikirim
-                                                        </span>
-                                                    )}
-                                                    {order.status_pengiriman ===
-                                                        'SUKSES' && (
-                                                        <span className='font-extrabold text-green-500'>
-                                                            Sudah Dikirim
-                                                        </span>
-                                                    )}{' '}
                                                     {order.status_pengiriman ===
                                                         'GAGAL' && (
                                                         <span className='font-extrabold text-red-500'>
@@ -182,6 +223,14 @@ const SellerOrdersPage = () => {
                                                         className={`p-1 mx-2 text-white rounded-lg  hover:bg-sky-700 ${isLoading || !user.is_active ? 'bg-sky-900' : 'bg-sky-600'}`}>
                                                         Detail
                                                     </Link>
+                                                    <button
+                                                        type='button'
+                                                        onClick={
+                                                            toggleshowEditStatus
+                                                        }
+                                                        className={`p-1 mx-2 text-white rounded-lg  hover:bg-sky-700 ${isLoading || !user.is_active ? 'bg-sky-900' : 'bg-sky-600'}`}>
+                                                        Ubah Status
+                                                    </button>
                                                 </td>
                                             </tr>
                                         ))}
