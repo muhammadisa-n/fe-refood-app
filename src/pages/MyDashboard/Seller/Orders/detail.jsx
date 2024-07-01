@@ -113,6 +113,13 @@ const SellerDetailOrdersPage = () => {
                                             'id-Id'
                                         )}
                                     </p>
+                                    {order.status_bayar === 'SUKSES' && (
+                                        <button
+                                            className='px-2 py-2 mt-4 text-white rounded-md bg-primary'
+                                            onClick={() => alert('berhasil')}>
+                                            Ubah Status Pengiriman
+                                        </button>
+                                    )}
                                 </div>
                                 {order.Transaction ? (
                                     <>
