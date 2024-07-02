@@ -28,7 +28,7 @@ const TopBar = ({ toggleSidebar }) => {
                     <div>
                         <a
                             type='button'
-                            href={`https://wa.me/6287833380742?text=Halo,%20saya%20${user?.nama}%20Ingin%20Bertanya?`}
+                            href={`https://wa.me/6287833380742?text=Halo,%20saya%20dari%20${user?.nama}%20Ingin%20Bertanya?`}
                             className='inline-flex w-full py-2 mx-1 mt-2 font-semibold text-white bg-green-500 rounded-lg'
                             target='_blank'>
                             <FaWhatsapp size={24} className='mx-2' />
