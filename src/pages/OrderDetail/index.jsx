@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import MainLayout from '@layouts/MainLayout'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { getDetailOrder } from '@utils/services/customerServices'
+import {
+    getDetailOrder,
+    UpdateStatusOrderTransaction,
+    cancelOrder,
+} from '@utils/services/customerServices'
 import Swal from 'sweetalert2'
 import moment from 'moment'
-import { UpdateStatusOrderTransaction } from '../../utils/services/customerServices'
 const OrderDetailPage = () => {
     const { id } = useParams()
     const [order, setOrder] = useState([])
@@ -44,6 +47,34 @@ const OrderDetailPage = () => {
     useEffect(() => {
         fetchOrder()
     }, [id])
+    const handleCancel = async (id) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes!',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await cancelOrder(id)
+                    Swal.fire({
+                        title: 'success',
+                        text: `${response.message}`,
+                        icon: 'success',
+                    })
+                    fetchOrder()
+                } catch (error) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: `${error.message}`,
+                        icon: 'error',
+                    })
+                }
+            }
+        })
+    }
     return (
         <MainLayout>
             {orderNotFound ? (
@@ -69,20 +100,20 @@ const OrderDetailPage = () => {
                                 <p>Nama Product: {order.Product?.nama}</p>
                                 <p>Jumlah Pesanan: {order.total_produk}</p>
                                 <p>
-                                    Status Bayar:{' '}
-                                    {order.status_bayar === 'PENDING' && (
+                                    Status Order:{' '}
+                                    {order.status_order === 'PENDING' && (
                                         <span className='font-extrabold text-gray-500'>
-                                            {order.status_bayar}
+                                            {order.status_order}
                                         </span>
                                     )}
-                                    {order.status_bayar === 'SUKSES' && (
+                                    {order.status_order === 'SUKSES' && (
                                         <span className='font-extrabold text-green-500'>
-                                            {order.status_bayar}
+                                            {order.status_order}
                                         </span>
                                     )}{' '}
-                                    {order.status_bayar === 'GAGAL' && (
+                                    {order.status_order === 'CANCEL' && (
                                         <span className='font-extrabold text-red-500'>
-                                            {order.status_bayar}
+                                            {order.status_order}
                                         </span>
                                     )}{' '}
                                 </p>
@@ -103,9 +134,9 @@ const OrderDetailPage = () => {
                                             Pesanan Diterima
                                         </span>
                                     )}{' '}
-                                    {order.status_pengiriman === 'GAGAL' && (
+                                    {order.status_pengiriman === 'CANCEL' && (
                                         <span className='font-extrabold text-red-500'>
-                                            GAGAL
+                                            Orderan Dicancel
                                         </span>
                                     )}{' '}
                                 </p>
@@ -113,7 +144,7 @@ const OrderDetailPage = () => {
                                     Total Harga:{' '}
                                     {order.total_harga?.toLocaleString('id-Id')}
                                 </p>
-                                {order.status_bayar === 'SUKSES' &&
+                                {order.status_order === 'SUKSES' &&
                                     order.status_pengiriman !== 'SUKSES' && (
                                         <button
                                             className='px-2 py-2 mt-4 text-white rounded-md bg-primary'
@@ -123,6 +154,22 @@ const OrderDetailPage = () => {
                                             Pesanan Diterima
                                         </button>
                                     )}
+                                {order.status_order === 'CANCEL' ||
+                                order.Transaction?.status_transaksi ===
+                                    'settlement' ||
+                                order.status_pengiriman === 'SUKSES' ? (
+                                    <></>
+                                ) : (
+                                    <div className='mt-2 mb-2'>
+                                        <button
+                                            onClick={() =>
+                                                handleCancel(order.id)
+                                            }
+                                            className='px-1 py-1 mx-auto text-white bg-red-500 rounded-lg'>
+                                            Cancel
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                             {order.Transaction ? (
                                 <>

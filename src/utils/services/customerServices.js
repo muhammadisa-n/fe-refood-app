@@ -69,3 +69,11 @@ export const UpdateStatusOrderTransaction = async (id) => {
         throw error.response ? error.response.data : error
     }
 }
+export const cancelOrder = async (id) => {
+    try {
+        const response = await axiosJWT.patch(`/customer/orders/${id}/cancel`)
+        return response.data
+    } catch (error) {
+        throw error.response ? error.response.data : error
+    }
+}

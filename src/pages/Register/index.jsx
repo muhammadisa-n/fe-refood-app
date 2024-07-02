@@ -415,7 +415,7 @@ const RegisterPage = () => {
                         <label
                             htmlFor='address'
                             className='block mb-2 text-sm font-bold text-slate-700'>
-                            Alamat
+                            Alamat / Nama Jalan
                         </label>
                         <textarea
                             rows={3}

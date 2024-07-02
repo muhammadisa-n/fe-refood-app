@@ -6,6 +6,7 @@ import {
     UpdateOrderTransaction,
 } from '@utils/services/customerServices'
 import axiosJWT from '../../utils/services/axiosJWT'
+import { FaWhatsapp } from 'react-icons/fa'
 const CheckOutPage = () => {
     const { id } = useParams()
     const [order, setOrder] = useState([])
@@ -25,6 +26,7 @@ const CheckOutPage = () => {
     }
     useEffect(() => {
         fetchOrder()
+        console.log(order)
     }, [id])
 
     const handleCheckOut = () => {
@@ -32,7 +34,7 @@ const CheckOutPage = () => {
         window.snap.pay(order?.token_transaction, {
             onSuccess: async (result) => {
                 const data = {
-                    status_bayar: 'SUKSES',
+                    status_order: 'SUKSES',
                     transaction_id: result.transaction_id,
                     tipe_pembayaran: result.payment_type,
                     status_transaksi: result.transaction_status,
@@ -51,7 +53,7 @@ const CheckOutPage = () => {
             },
             onPending: async (result) => {
                 const data = {
-                    status_bayar: 'PENDING',
+                    status_order: 'PENDING',
                     transaction_id: result.transaction_id,
                     tipe_pembayaran: result.payment_type,
                     status_transaksi: result.transaction_status,
@@ -70,7 +72,7 @@ const CheckOutPage = () => {
             },
             onError: async (result) => {
                 const data = {
-                    status_bayar: 'GAGAL',
+                    status_order: 'GAGAL',
                     transaction_id: result.transaction_id,
                     tipe_pembayaran: result.payment_type,
                     status_transaksi: result.transaction_status,
@@ -105,6 +107,12 @@ const CheckOutPage = () => {
             document.body.removeChild(scriptTag)
         }
     }, [])
+    const convertPhoneNumber = (phoneNumber) => {
+        if (phoneNumber?.startsWith('08')) {
+            return '62' + phoneNumber.slice(1)
+        }
+        return phoneNumber
+    }
     return (
         <MainLayout>
             {orderNotFound ? (
@@ -163,7 +171,7 @@ const CheckOutPage = () => {
                                     {order.total_harga?.toLocaleString('id-Id')}
                                 </p>
                             </div>
-                            {order.status_bayar !== 'SUKSES' ? (
+                            {order.status_order !== 'SUKSES' ? (
                                 <button
                                     disabled={isLoading}
                                     className={`w-full py-2 font-semibold text-white rounded-lg bg-primary ${isLoading ? 'bg-orange-800' : ''}`}
@@ -171,11 +179,24 @@ const CheckOutPage = () => {
                                     Bayar
                                 </button>
                             ) : (
-                                <button
-                                    className='w-full py-2 font-semibold text-white bg-green-800 rounded-lg'
-                                    disabled={true}>
-                                    Sudah Dibayar
-                                </button>
+                                <>
+                                    <button
+                                        className='w-full py-2 font-semibold text-white bg-green-800 rounded-lg'
+                                        disabled={true}>
+                                        Sudah Dibayar
+                                    </button>
+                                    <a
+                                        type='button'
+                                        href={`https://wa.me/${convertPhoneNumber(order.Product?.Seller?.no_hp)}?text=Halo,%20saya%20${order.Customer?.nama}%20Telah Melakukan%20Pembayaran%20Produk%20${order.Product?.nama},%20Mohon%20Untuk%20Segera%20Diproses`}
+                                        className='inline-flex w-full py-2 mt-2 font-semibold text-white bg-green-500 rounded-lg'
+                                        target='_blank'>
+                                        <FaWhatsapp
+                                            size={24}
+                                            className='mx-2'
+                                        />
+                                        Hubungi Penjual
+                                    </a>
+                                </>
                             )}
                             <Link
                                 to={`${isLoading === true ? '' : '/my-orders'}`}

@@ -28,7 +28,7 @@ export const UserProvider = ({ children }) => {
     }
     useEffect(() => {
         refreshUser()
-    }, [])
+    }, [token])
     return (
         <UserContext.Provider value={{ user, refreshUser, role }}>
             {children}

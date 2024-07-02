@@ -112,7 +112,6 @@ const AdminProductsPage = () => {
                                                 <td className='px-6 py-4'>
                                                     {product.harga}
                                                 </td>
-
                                                 <td className='px-6 py-4'>
                                                     <Link
                                                         type='button'

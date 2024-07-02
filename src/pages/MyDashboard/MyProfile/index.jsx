@@ -138,6 +138,7 @@ const DashboardProfilePage = () => {
     }
     const handleEditMenu = () => {
         setOpenEditMenu(!openEditMenu)
+        fetchUser()
     }
     const handleUpdate = async (e) => {
         e.preventDefault()
@@ -185,7 +186,7 @@ const DashboardProfilePage = () => {
                     </h1>
                 </div>
                 {openEditMenu === false ? (
-                    <div className='pb-4 mt-5'>
+                    <div className='pb-4 mt-5 '>
                         <div className='flex flex-col max-w-full mt-10'>
                             <div className='container px-4 py-8 mx-auto'>
                                 <div className='w-full mx-auto bg-white rounded-lg shadow-md'>
@@ -232,10 +233,10 @@ const DashboardProfilePage = () => {
                         </div>
                     </div>
                 ) : (
-                    <div className='pb-4 mt-5'>
+                    <div className='pb-4 mt-5 '>
                         <div className='flex flex-col max-w-full mt-10'>
                             <div className='container px-4 py-8 mx-auto'>
-                                <div className='w-[75%] mx-auto bg-white rounded-lg shadow-md'>
+                                <div className='w-full md:w-[75%] mx-auto bg-white rounded-lg shadow-md'>
                                     <div className=''>
                                         <div className='px-4 py-8'>
                                             {errorMessage && (
@@ -574,7 +575,7 @@ const DashboardProfilePage = () => {
                                                     className='block mb-2 text-sm font-bold text-slate-700'>
                                                     Image Profile
                                                 </label>
-                                                <div className='relative inline-block'>
+                                                <div className='relative min-w-full md:w-auto '>
                                                     <input
                                                         type='file'
                                                         disabled={isLoading}

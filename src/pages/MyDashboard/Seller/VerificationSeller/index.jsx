@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import DashboardLayout from '@layouts/DashboardLayout/index.jsx'
 import { useNavigate } from 'react-router-dom'
 import AlertMessage from '@components/AlertMessage/index.jsx'
@@ -43,14 +43,7 @@ const VerificationSellerPage = () => {
         setImage(image)
         setPreviewImg(URL.createObjectURL(image))
     }
-    const fetchData = () => {
-        if (user.link_map_alamat_toko !== null) {
-            setLinkMap(user.link_map_alamat_toko)
-        }
-    }
-    useEffect(() => {
-        fetchData()
-    }, [])
+
     return (
         <DashboardLayout>
             <div className='px-6 pt-6 '>
@@ -73,7 +66,7 @@ const VerificationSellerPage = () => {
                                 <path d='M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z' />
                             </svg>
                             <div className='text-sm font-medium ms-3'>
-                                Your Account Has Ben Activated
+                                Akun Kamu Sudah Terverifikasi
                             </div>
                         </div>
                     ) : (
@@ -88,7 +81,7 @@ const VerificationSellerPage = () => {
                             )}
                             <form onSubmit={handleSave}>
                                 <InputForm
-                                    label='Link Gmaps Toko'
+                                    label='Link Alamat Gmap Toko'
                                     name='link_map'
                                     placeholder='https://maps.app.goo.gl/xxxxx'
                                     type='text'

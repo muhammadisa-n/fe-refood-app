@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import DashboardLayout from '@layouts/DashboardLayout'
-import { getDetailSeller, activateSeller } from '@utils/services/adminServices'
+import {
+    getDetailSeller,
+    updateStatusSeller,
+} from '@utils/services/adminServices'
 import profileImage from '@assets/userdefault.png'
 import Swal from 'sweetalert2'
 const AdminDetailSellerPage = () => {
@@ -9,7 +12,7 @@ const AdminDetailSellerPage = () => {
     const [seller, setSeller] = useState([])
     const [sellerNotFound, setSellertNotFound] = useState(false)
     const navigate = useNavigate()
-    const handleActivate = async (id) => {
+    const handleActivate = async (id, status) => {
         Swal.fire({
             title: 'Are you sure?',
             icon: 'warning',
@@ -20,9 +23,9 @@ const AdminDetailSellerPage = () => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const response = await activateSeller(id, true)
+                    const response = await updateStatusSeller(id, status)
                     Swal.fire({
-                        title: 'Activated',
+                        title: 'success',
                         text: `${response.message}`,
                         icon: 'success',
                     })
@@ -125,15 +128,31 @@ const AdminDetailSellerPage = () => {
                                                 <div className=''>
                                                     <button
                                                         disabled={
-                                                            seller.is_active
+                                                            seller.is_active ===
+                                                            true
                                                         }
                                                         className={`px-2 py-2 mt-3 text-white  rounded focus:outline-none ${seller.is_active ? 'bg-green-800' : 'bg-green-500'}`}
                                                         onClick={() =>
                                                             handleActivate(
-                                                                seller.id
+                                                                seller.id,
+                                                                true
                                                             )
                                                         }>
-                                                        Activate
+                                                        Terima
+                                                    </button>
+                                                    <button
+                                                        disabled={
+                                                            seller.is_active ===
+                                                            false
+                                                        }
+                                                        className={`mx-2 px-2 py-2 mt-3 text-white  rounded focus:outline-none ${!seller.is_active ? 'bg-red-800' : 'bg-red-500'}`}
+                                                        onClick={() =>
+                                                            handleActivate(
+                                                                seller.id,
+                                                                false
+                                                            )
+                                                        }>
+                                                        Tolak
                                                     </button>
                                                 </div>
                                             </div>

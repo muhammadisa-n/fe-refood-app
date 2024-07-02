@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import DashboardLayout from '@layouts/DashboardLayout'
-import Swal from 'sweetalert2'
-import { getAllOrders } from '@utils/services/sellerServices.js'
-import { useUser } from '@context/userContext.jsx'
 import { getDetailOrder } from '@utils/services/sellerServices'
 import moment from 'moment'
 const SellerDetailOrdersPage = () => {
@@ -64,20 +61,20 @@ const SellerDetailOrdersPage = () => {
                                     <p>Nama Product: {order.Product?.nama}</p>
                                     <p>Jumlah Pesanan: {order.total_produk}</p>
                                     <p>
-                                        Status Bayar:{' '}
-                                        {order.status_bayar === 'PENDING' && (
+                                        Status Order:{' '}
+                                        {order.status_order === 'PENDING' && (
                                             <span className='font-extrabold text-gray-500'>
-                                                {order.status_bayar}
+                                                {order.status_order}
                                             </span>
                                         )}
-                                        {order.status_bayar === 'SUKSES' && (
+                                        {order.status_order === 'SUKSES' && (
                                             <span className='font-extrabold text-green-500'>
-                                                {order.status_bayar}
+                                                {order.status_order}
                                             </span>
                                         )}{' '}
-                                        {order.status_bayar === 'GAGAL' && (
+                                        {order.status_order === 'CANCEL' && (
                                             <span className='font-extrabold text-red-500'>
-                                                {order.status_bayar}
+                                                {order.status_order}
                                             </span>
                                         )}{' '}
                                     </p>
@@ -102,9 +99,9 @@ const SellerDetailOrdersPage = () => {
                                             </span>
                                         )}{' '}
                                         {order.status_pengiriman ===
-                                            'GAGAL' && (
+                                            'CANCEL' && (
                                             <span className='font-extrabold text-red-500'>
-                                                GAGAL
+                                                Orderan Dicancel
                                             </span>
                                         )}{' '}
                                     </p>
@@ -114,13 +111,6 @@ const SellerDetailOrdersPage = () => {
                                             'id-Id'
                                         )}
                                     </p>
-                                    {order.status_bayar === 'SUKSES' && (
-                                        <button
-                                            className='px-2 py-2 mt-4 text-white rounded-md bg-primary'
-                                            onClick={() => alert('berhasil')}>
-                                            Ubah Status Pengiriman
-                                        </button>
-                                    )}
                                 </div>
                                 {order.Transaction ? (
                                     <>

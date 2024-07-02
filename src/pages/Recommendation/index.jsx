@@ -46,6 +46,62 @@ const RecommendationPage = () => {
                         Recommendation Menu
                     </p>
                 </div>
+                <div className='container py-10 mx-auto'>
+                    <div className='flex flex-wrap mx-auto'>
+                        <div className='flex flex-col w-1/4'>
+                            <label
+                                htmlFor='preferensi_rasa'
+                                className='text-xl'>
+                                Preferensi Rasa
+                            </label>
+                            <select
+                                name='preferensi_rasa'
+                                id='preferensi_rasa'
+                                className='px-2 py-2 border rounded-lg '>
+                                <option value=''>Manis</option>
+                                <option value=''>Asam</option>
+                                <option value=''>Asin</option>
+                                <option value=''>Pedas</option>
+                                <option value=''>Pahit</option>
+                            </select>
+                        </div>
+                        <div className='flex flex-col w-1/4 mx-auto'>
+                            <label
+                                htmlFor='preferensi_rasa'
+                                className='text-xl'>
+                                Jenis Makanan
+                            </label>
+                            <select
+                                name='preferensi_rasa'
+                                id='preferensi_rasa'
+                                className='px-2 py-2 border rounded-lg '>
+                                <option value=''>Makanan Cepat Saji</option>
+                                <option value=''>Makanan Rumahan</option>
+                                <option value=''>Makanan Restoran</option>
+                            </select>
+                        </div>
+                        <div className='flex flex-col w-1/4 mx-auto'>
+                            <label
+                                htmlFor='preferensi_rasa'
+                                className='text-xl'>
+                                Kebutuhan Diet
+                            </label>
+                            <select
+                                name='preferensi_rasa'
+                                id='preferensi_rasa'
+                                className='px-2 py-2 border rounded-lg '>
+                                <option value=''>Tidak Ada</option>
+                                <option value=''>Vegan</option>
+                                <option value=''>Vegetarian</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className='mx-10 mt-10 '>
+                    <p className='text-xl font-bold text-primary'>
+                        Hasil Rekomendasi :
+                    </p>
+                </div>
                 {totalProduct === 0 ? (
                     <>
                         <div className='mx-10 my-10 md:grid-cols-4'>

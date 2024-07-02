@@ -10,10 +10,10 @@ export const getAllProducts = async (page, take, search) => {
         throw error.response ? error.response.data : error
     }
 }
-export const getAllSellers = async (page, take, search) => {
+export const getAllSellers = async (page, take, search, status) => {
     try {
         const response = await axiosJWT.get('admin/sellers', {
-            params: { page, take, search },
+            params: { page, take, search, status },
         })
         return response.data
     } catch (error) {
@@ -31,9 +31,9 @@ export const getAllCategory = async (page, take, search) => {
     }
 }
 
-export const activateSeller = async (id, status) => {
+export const updateStatusSeller = async (id, status) => {
     try {
-        const response = await axiosJWT.patch(`admin/sellers/${id}/activate`, {
+        const response = await axiosJWT.patch(`admin/sellers/${id}/status`, {
             is_active: status,
         })
         return response.data

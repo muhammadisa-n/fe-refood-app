@@ -13,7 +13,7 @@ const NotFoundPage = () => {
                 </h3>
                 <button
                     className='underline transition-all text-primary hover:text-secondary '
-                    onClick={() => navigate(-1)}>
+                    onClick={() => navigate('/')}>
                     Back
                 </button>
             </div>

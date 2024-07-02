@@ -36,6 +36,7 @@ const MyProfilePage = () => {
     const [villages, setVillages] = useState([])
     const [image, setImage] = useState(null)
     const [previewImg, setPreviewImg] = useState('')
+    const [profileImage, setProfileImage] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
     const fetchUser = async () => {
@@ -50,11 +51,16 @@ const MyProfilePage = () => {
         setSelectedVillageName(userdata.kelurahan)
         if (userdata.ava_image_url) {
             setPreviewImg(userdata.ava_image_url)
+            setProfileImage(userdata.ava_image_url)
         } else {
             setPreviewImg(ImgDefault)
+            setProfileImage(ImgDefault)
         }
     }
-
+    const handleEditMenu = () => {
+        setOpenEditMenu(!openEditMenu)
+        fetchUser()
+    }
     useEffect(() => {
         if (token) {
             fetchUser()
@@ -139,6 +145,19 @@ const MyProfilePage = () => {
     const handleUpdate = async (e) => {
         e.preventDefault()
         setIsLoading(true)
+        if (selectedCityName === '') {
+            SetErrorMessage('Kota Wajib Diisi')
+            setIsLoading(false)
+            return
+        } else if (selectedDistrictName === '') {
+            SetErrorMessage('Kecamatan Wajib Diisi')
+            setIsLoading(false)
+            return
+        } else if (selectedVillageName === '') {
+            SetErrorMessage('Kelurahan Wajib Diisi')
+            setIsLoading(false)
+            return
+        }
         const formData = new FormData()
         formData.append('nama', name)
         formData.append('provinsi', selectedProvinceName)
@@ -183,7 +202,7 @@ const MyProfilePage = () => {
                                         <div className='px-4 py-8'>
                                             <img
                                                 className='object-cover w-full h-48 rounded-full md:w-48'
-                                                src={previewImg}
+                                                src={profileImage}
                                                 alt='Profil'
                                             />
                                         </div>
@@ -205,11 +224,7 @@ const MyProfilePage = () => {
                                             </div>
                                             <div className='ml-auto'>
                                                 <button
-                                                    onClick={() =>
-                                                        setOpenEditMenu(
-                                                            !openEditMenu
-                                                        )
-                                                    }
+                                                    onClick={handleEditMenu}
                                                     className='px-4 py-2 text-white rounded bg-primary hover:bg-secondary focus:outline-none'>
                                                     Edit
                                                 </button>

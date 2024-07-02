@@ -35,7 +35,8 @@ import AdminSellerListPage from '@pages/MyDashboard/Admin/User/Seller'
 import AdminDetailSellerPage from '@pages/MyDashboard/Admin/User/Seller/detail'
 import CheckOutPage from '@pages/CheckOut'
 import OrderDetailPage from '@pages/OrderDetail'
-import SellerDetailOrdersPage from './pages/MyDashboard/Seller/Orders/detail'
+import SellerDetailOrdersPage from '@pages/MyDashboard/Seller/Orders/detail'
+import SellerUpdateOrderPage from '@pages/MyDashboard/Seller/Orders/update'
 
 const RoutesPage = () => {
     return (
@@ -158,6 +159,14 @@ const RoutesPage = () => {
                         element={
                             <IsSeller>
                                 <SellerDetailOrdersPage />
+                            </IsSeller>
+                        }
+                    />
+                    <Route
+                        path='/my-dashboard/seller/orders/update/:id'
+                        element={
+                            <IsSeller>
+                                <SellerUpdateOrderPage />
                             </IsSeller>
                         }
                     />

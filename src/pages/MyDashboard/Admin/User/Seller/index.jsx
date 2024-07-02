@@ -1,19 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import DashboardLayout from '@layouts/DashboardLayout'
-import { activateSeller, getAllSellers } from '@utils/services/adminServices.js'
+import { getAllSellers } from '@utils/services/adminServices.js'
 import { Link } from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
+import { PiFilePdfFill } from 'react-icons/pi'
+
 const AdminSellerListPage = () => {
     const [sellers, setSellers] = useState([])
     const [take, setTake] = useState(10)
     const [totalPage, setTotalPage] = useState()
     const [totalSeller, setTotalSeller] = useState()
     const [search, setSearch] = useState('')
+    const [status, setStatus] = useState()
     const [page, setPage] = useState(1)
     const [searchValue] = useDebounce(search, 1000)
     const fetchSeller = async () => {
         try {
-            const response = await getAllSellers(page, take, searchValue)
+            const response = await getAllSellers(
+                page,
+                take,
+                searchValue,
+                status
+            )
             setSellers(response.sellers)
             setTotalSeller(response.total_seller)
             setPage(response.paging.current_page)
@@ -23,24 +33,9 @@ const AdminSellerListPage = () => {
         }
     }
 
-    const handleUpdateStatus = async (sellerId, newStatus) => {
-        try {
-            await activateSeller(sellerId, newStatus)
-            setSellers(
-                sellers.map((seller) =>
-                    seller.id === sellerId
-                        ? { ...seller, is_active: newStatus }
-                        : seller
-                )
-            )
-        } catch (error) {
-            console.error('Error Updating Seller Status', error)
-        }
-    }
-
     useEffect(() => {
         fetchSeller()
-    }, [page, take, searchValue])
+    }, [page, take, searchValue, status])
 
     const handlePrev = () => {
         if (page > 1) {
@@ -51,6 +46,21 @@ const AdminSellerListPage = () => {
         if (page < totalPage) {
             setPage(page + 1)
         }
+    }
+    const exportPDF = () => {
+        const doc = new jsPDF()
+        doc.text('Data Seller', 14, 15)
+        doc.autoTable({
+            head: [['Name Seller', 'Email', 'No Hp', 'Status']],
+            body: sellers.map((seller) => [
+                seller.nama,
+                seller.email,
+                seller.no_hp,
+                seller.is_active ? 'Diterima' : 'Ditolak',
+            ]),
+            startY: 20,
+        })
+        doc.save('sellers.pdf')
     }
     return (
         <DashboardLayout>
@@ -76,6 +86,15 @@ const AdminSellerListPage = () => {
                                     <option value='100'>100</option>
                                 </select>
                                 <label htmlFor='take'>Data Per Page</label>
+                                <div className='mb-5 '>
+                                    <button
+                                        disabled={totalSeller === 0}
+                                        onClick={exportPDF}
+                                        className='inline-flex px-2 py-1 mt-2 text-white rounded-md bg-primary'>
+                                        Export PDF
+                                        <PiFilePdfFill size={20} />
+                                    </button>
+                                </div>
                             </div>
                             <div className='px-2 '>
                                 <input
@@ -86,16 +105,34 @@ const AdminSellerListPage = () => {
                                         setSearch(e.target.value)
                                     }}
                                 />
+                                <div>
+                                    <label htmlFor='take'>Filter : </label>
+                                    <select
+                                        name='take'
+                                        id='take'
+                                        value={status}
+                                        onChange={(e) =>
+                                            setStatus(e.target.value)
+                                        }
+                                        className={` px-1 py-1 text-sm  rounded text-slate-700 bg-white mr-2 my-0 md:my-1 border`}>
+                                        <option value=''>Semua</option>
+                                        <option value='true'>Diterima</option>
+                                        <option value='false'>Ditolak</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <table className='w-full text-sm text-left text-white border rtl:text-right'>
                             <thead className='text-xs text-black uppercase bg-white '>
                                 <tr>
                                     <th scope='col' className='px-6 py-3'>
-                                        Name
+                                        Name Seller
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
                                         Email
+                                    </th>
+                                    <th scope='col' className='px-6 py-3'>
+                                        No Hp
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
                                         Status
@@ -124,10 +161,13 @@ const AdminSellerListPage = () => {
                                                 <td className='px-6 py-4 '>
                                                     {seller.email}
                                                 </td>
+                                                <td className='px-6 py-4 '>
+                                                    {seller.no_hp}
+                                                </td>
                                                 <td className='px-6 py-4'>
                                                     {seller.is_active
-                                                        ? 'Active'
-                                                        : 'Not Active'}
+                                                        ? 'Diterima'
+                                                        : 'Ditolak'}
                                                 </td>
 
                                                 <td className='px-6 py-4'>
@@ -144,6 +184,7 @@ const AdminSellerListPage = () => {
                                 )}
                             </tbody>
                         </table>
+
                         {totalPage > 1 && (
                             <>
                                 <div className='mt-4 space-x-3 text-right'>

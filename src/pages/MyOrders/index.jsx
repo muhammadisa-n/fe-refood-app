@@ -33,7 +33,7 @@ const MyOrderPage = () => {
                                 productName={order.Product.nama}
                                 totalHarga={order.total_harga}
                                 totalProduct={order.total_produk}
-                                statusBayar={order.status_bayar}
+                                statusOrder={order.status_order}
                             />
                         ))}
                     </div>
