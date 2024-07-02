@@ -131,7 +131,7 @@ const DetailProductPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='flex flex-col mt-4 md:flex-row md:px-52 '>
+                    <div className='flex flex-col pb-10 mt-4 md:flex-row md:px-52'>
                         <div className='md:basis-1/2 md:flex md:flex-col md:justify-between'>
                             <div className='hidden md:block '>
                                 <img
