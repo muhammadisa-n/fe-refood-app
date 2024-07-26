@@ -4,13 +4,12 @@ import DashboardLayout from '@layouts/DashboardLayout'
 import AlertMessage from '@components/AlertMessage/index.jsx'
 import Button from '@components/Button/index.jsx'
 import Swal from 'sweetalert2'
-import { updateProduct } from '@utils/services/sellerServices.js'
 import { getDetailOrder } from '@utils/services/sellerServices'
-import { UpdateStatusOrderTransaction } from '@utils/services/sellerServices'
+import { UpdateStatusOrder } from '@utils/services/sellerServices'
 
 const SellerUpdateOrderPage = () => {
     const { id } = useParams()
-    const [selectedStatusPengiriman, setSelectedStatusPengiriman] = useState('')
+    const [selectedStatusOrder, setSelectedStatusOrder] = useState('')
     const navigate = useNavigate()
     const [errorMessage, SetErrorMessage] = useState('')
     const [orderNotFound, setOrderNotFound] = useState(false)
@@ -20,7 +19,7 @@ const SellerUpdateOrderPage = () => {
         const fetchOrder = async () => {
             try {
                 const order = await getDetailOrder(id)
-                setSelectedStatusPengiriman(order.status_pengiriman)
+                setSelectedStatusOrder(order.status_order)
             } catch (error) {
                 if (error.status_code === 404) {
                     setOrderNotFound(true)
@@ -35,10 +34,10 @@ const SellerUpdateOrderPage = () => {
         e.preventDefault()
         setIsLoading(true)
         const data = {
-            status_pengiriman: selectedStatusPengiriman,
+            status_order: selectedStatusOrder,
         }
         try {
-            const response = await UpdateStatusOrderTransaction(id, data)
+            const response = await UpdateStatusOrder(id, data)
             await Swal.fire({
                 icon: 'success',
                 title: `${response.message}`,
@@ -59,7 +58,7 @@ const SellerUpdateOrderPage = () => {
                 <div className='px-6 pt-6 '>
                     <div className='flex items-center'>
                         <h1 className='text-3xl font-semibold text-primary'>
-                            Update Status Pengiriman
+                            Update Status Order
                         </h1>
                     </div>
                     <div className='my-4'>
@@ -103,44 +102,38 @@ const SellerUpdateOrderPage = () => {
                                     <label
                                         htmlFor='status_pengiriman'
                                         className='block mb-2 text-sm font-bold text-slate-700'>
-                                        Status Pengiriman
+                                        Status Order
                                     </label>
                                     <select
-                                        name='status_pengiriman'
-                                        id='status_pengiriman'
-                                        value={selectedStatusPengiriman}
+                                        name='status_order'
+                                        id='status_order'
+                                        value={selectedStatusOrder}
                                         onChange={(e) =>
-                                            setSelectedStatusPengiriman(
+                                            setSelectedStatusOrder(
                                                 e.target.value
                                             )
                                         }
                                         disabled={isLoading}
                                         className={`w-full px-3 py-2 text-sm border rounded text-slate-700 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
-                                        {selectedStatusPengiriman ===
-                                            'PENDING' && (
+                                        {selectedStatusOrder === 'PENDING' && (
                                             <>
                                                 <option
-                                                    value={
-                                                        selectedStatusPengiriman
-                                                    }>
-                                                    Belum Dikirim
+                                                    value={selectedStatusOrder}>
+                                                    PENDING
                                                 </option>
                                                 <option value='PROSES'>
-                                                    Sedang Dikirim
+                                                    PROSES
                                                 </option>
                                             </>
                                         )}
-                                        {selectedStatusPengiriman ===
-                                            'PROSES' && (
+                                        {selectedStatusOrder === 'PROSES' && (
                                             <>
                                                 <option
-                                                    value={
-                                                        selectedStatusPengiriman
-                                                    }>
-                                                    Sedang Dikirim
+                                                    value={selectedStatusOrder}>
+                                                    PROSES
                                                 </option>
                                                 <option value='PENDING'>
-                                                    Belum Dikirim
+                                                    PENDING
                                                 </option>
                                             </>
                                         )}

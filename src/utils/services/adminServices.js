@@ -20,6 +20,16 @@ export const getAllSellers = async (page, take, search, status) => {
         throw error.response ? error.response.data : error
     }
 }
+export const getAllCustomers = async (page, take, search) => {
+    try {
+        const response = await axiosJWT.get('admin/customers', {
+            params: { page, take, search },
+        })
+        return response.data
+    } catch (error) {
+        throw error.response ? error.response.data : error
+    }
+}
 export const getAllCategory = async (page, take, search) => {
     try {
         const response = await axiosJWT.get('admin/categories', {
@@ -34,7 +44,7 @@ export const getAllCategory = async (page, take, search) => {
 export const updateStatusSeller = async (id, status) => {
     try {
         const response = await axiosJWT.patch(`admin/sellers/${id}/status`, {
-            is_active: status,
+            status: status,
         })
         return response.data
     } catch (error) {
@@ -86,6 +96,14 @@ export const getDetailSeller = async (id) => {
     try {
         const response = await axiosJWT.get('admin/sellers/' + id)
         return response.data.seller
+    } catch (error) {
+        throw error.response ? error.response.data : error
+    }
+}
+export const getDetailCustomer = async (id) => {
+    try {
+        const response = await axiosJWT.get('admin/customers/' + id)
+        return response.data.customer
     } catch (error) {
         throw error.response ? error.response.data : error
     }

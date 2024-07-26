@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import DashboardLayout from '@layouts/DashboardLayout'
-import Swal from 'sweetalert2'
-import {
-    deleteCategory,
-    getAllCategory,
-} from '@utils/services/adminServices.js'
+import { getAllCategory } from '@utils/services/adminServices.js'
 import { useDebounce } from 'use-debounce'
 const AdminCategoryPage = () => {
     const [categories, setCategories] = useState([])
@@ -29,34 +25,6 @@ const AdminCategoryPage = () => {
     useEffect(() => {
         fetchCategory()
     }, [page, take, searchValue])
-    const handleDelete = async (id) => {
-        Swal.fire({
-            title: 'Are you sure?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    const response = await deleteCategory(id)
-                    Swal.fire({
-                        title: 'Deleted',
-                        text: `${response.message}`,
-                        icon: 'success',
-                    })
-                    fetchCategory()
-                } catch (error) {
-                    Swal.fire({
-                        title: 'Error!',
-                        text: `${error.message}`,
-                        icon: 'error',
-                    })
-                }
-            }
-        })
-    }
 
     const handlePrev = () => {
         if (page > 1) {
@@ -120,9 +88,6 @@ const AdminCategoryPage = () => {
                                     <th scope='col' className='px-6 py-3'>
                                         Category name
                                     </th>
-                                    <th scope='col' className='px-6 py-3'>
-                                        Action
-                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -142,23 +107,6 @@ const AdminCategoryPage = () => {
                                             </td>
                                             <td className='px-6 py-4'>
                                                 {category.nama}
-                                            </td>
-                                            <td className='px-6 py-4'>
-                                                <Link
-                                                    type='button'
-                                                    to={`/my-dashboard/admin/category/update/${category.id}`}
-                                                    className='p-1 mx-2 text-white rounded-lg bg-sky-600 hover:bg-sky-700'>
-                                                    Update
-                                                </Link>
-                                                <button
-                                                    onClick={() =>
-                                                        handleDelete(
-                                                            category.id
-                                                        )
-                                                    }
-                                                    className='p-1 text-white bg-red-600 rounded-lg hover:bg-red-700'>
-                                                    Delete
-                                                </button>
                                             </td>
                                         </tr>
                                     ))

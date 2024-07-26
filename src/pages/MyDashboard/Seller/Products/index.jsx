@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import DashboardLayout from '@layouts/DashboardLayout'
 import Swal from 'sweetalert2'
 import {
-    deleteProduct,
     getAllProducts,
 } from '@utils/services/sellerServices.js'
 import { useDebounce } from 'use-debounce'
@@ -33,37 +32,7 @@ const SellerProductsPage = () => {
         refreshUser()
         fetchProducts()
     }, [page, take, searchValue])
-    const handleDelete = async (id) => {
-        Swal.fire({
-            title: 'Are you sure?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    setIsLoading(true)
-                    const response = await deleteProduct(id)
-                    Swal.fire({
-                        title: 'Deleted',
-                        text: `${response.message}`,
-                        icon: 'success',
-                    })
-                    fetchProducts()
-                } catch (error) {
-                    Swal.fire({
-                        title: 'Error',
-                        text: `${error.message}`,
-                        icon: 'error',
-                    })
-                } finally {
-                    setIsLoading(false)
-                }
-            }
-        })
-    }
+
     const handlePrev = () => {
         if (page > 1) {
             setPage(page - 1)
@@ -85,12 +54,12 @@ const SellerProductsPage = () => {
                     <div className='flex justify-between my-4'>
                         <Link
                             to={
-                                user.is_active || isLoading
+                                user.status === 'Diterima' || isLoading
                                     ? '/my-dashboard/seller/products/create'
                                     : null
                             }
                             className={`px-2 py-2 text-white rounded-lg  ${
-                                isLoading || user.is_active
+                                isLoading || user.status === 'Diterima'
                                     ? 'bg-primary'
                                     : 'bg-orange-900'
                             }`}>
@@ -169,26 +138,14 @@ const SellerProductsPage = () => {
                                                     <Link
                                                         type='button'
                                                         to={
-                                                            user.is_active
+                                                            user.status ===
+                                                            'Diterima'
                                                                 ? `/my-dashboard/seller/products/update/${product.id}`
                                                                 : null
                                                         }
-                                                        className={`p-1 mx-2 text-white rounded-lg  hover:bg-sky-700 ${isLoading || !user.is_active ? 'bg-sky-900' : 'bg-sky-600'}`}>
+                                                        className={`p-1 mx-2 text-white rounded-lg  hover:bg-sky-700 ${isLoading || user.status === 'Diterima' ? 'bg-sky-600' : 'bg-sky-900'}`}>
                                                         Update
                                                     </Link>
-                                                    <button
-                                                        disabled={
-                                                            isLoading ||
-                                                            !user.is_active
-                                                        }
-                                                        onClick={() =>
-                                                            handleDelete(
-                                                                product.id
-                                                            )
-                                                        }
-                                                        className={`p-1 text-white  rounded-lg hover:bg-red-700 ${isLoading || !user.is_active ? 'bg-red-900' : 'bg-red-600'}`}>
-                                                        Delete
-                                                    </button>
                                                 </td>
                                             </tr>
                                         ))}

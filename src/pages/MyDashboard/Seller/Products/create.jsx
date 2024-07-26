@@ -47,8 +47,8 @@ const SellerCreateProductPage = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const category = await getAllCategory()
-                setCategories(category)
+                const response = await getAllCategory()
+                setCategories(response.categories)
             } catch (error) {
                 console.error('Error fetching Categories:', error)
             }

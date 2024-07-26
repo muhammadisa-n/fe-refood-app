@@ -89,12 +89,20 @@ export const verifySeller = async (data) => {
     }
 }
 
-export const UpdateStatusOrderTransaction = async (id, data) => {
+export const UpdateStatusOrder = async (id, data) => {
     try {
         const response = await axiosJWT.patch(
-            `/seller/orders/${id}/status-pengiriman`,
+            `/seller/orders/${id}/status-order`,
             data
         )
+        return response.data
+    } catch (error) {
+        throw error.response ? error.response.data : error
+    }
+}
+export const countPendapatan = async () => {
+    try {
+        const response = await axiosJWT.get('seller/pendapatan/count')
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error

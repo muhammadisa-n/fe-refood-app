@@ -64,13 +64,23 @@ const SideBar = () => {
                         <p className='mt-2 text-xs leading-4 uppercase text-white/70 font-extralight'>
                             User Management
                         </p>
-                        <div className='flex items-center justify-between py-4 border-b cursor-pointer'>
+                        <div className='flex items-center justify-between py-2 cursor-pointer'>
                             <Link
                                 to='/my-dashboard/admin/sellers'
                                 className='flex items-center gap-3'>
                                 <FaUsers className='text-white' />
                                 <p className='text-base leading-5 text-white'>
                                     Seller
+                                </p>
+                            </Link>
+                        </div>
+                        <div className='flex items-center justify-between py-4 border-b cursor-pointer'>
+                            <Link
+                                to='/my-dashboard/admin/customers'
+                                className='flex items-center gap-3'>
+                                <FaUsers className='text-white' />
+                                <p className='text-base leading-5 text-white'>
+                                    Customer
                                 </p>
                             </Link>
                         </div>

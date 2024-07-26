@@ -8,6 +8,7 @@ const OrderItem = ({
     totalHarga,
     totalProduct,
     statusOrder,
+    statusTransaksi,
 }) => {
     return (
         <div className='w-full px-4 lg:w-1/3 ' key={orderId}>
@@ -22,24 +23,25 @@ const OrderItem = ({
                     <p className='mt-2 text-sm'>Harga: Rp. {totalHarga}</p>
                     <p className='mt-2 text-sm'>Total : {totalProduct}</p>
                     <p className='mt-2 '>
-                        Status Order :{' '}
-                        {statusOrder === 'PENDING' ? (
+                        Status :{' '}
+                        {statusTransaksi === 'PENDING' ? (
                             <span className='px-2 py-1 text-base font-extrabold text-gray-500 rounded-lg'>
-                                {statusOrder}
+                                {statusTransaksi}
                             </span>
                         ) : (
                             ''
                         )}
-                        {statusOrder === 'SUKSES' ? (
+                        {statusTransaksi === 'PAID' ? (
                             <span className='px-2 py-1 text-base font-extrabold text-green-500 rounded-lg'>
-                                {statusOrder}
+                                {statusTransaksi}
                             </span>
                         ) : (
                             ''
                         )}
-                        {statusOrder === 'CANCEL' ? (
+                        {statusTransaksi === 'FAIL' ||
+                        statusTransaksi === 'CANCEL' ? (
                             <span className='px-2 py-1 text-base font-extrabold text-red-500 rounded-lg'>
-                                {statusOrder}
+                                {statusTransaksi}
                             </span>
                         ) : (
                             ''
@@ -53,8 +55,9 @@ const OrderItem = ({
                                 Detail
                             </Link>
                         </div>
-                        {statusOrder === 'SUKSES' ||
-                        statusOrder === 'CANCEL' ? (
+                        {statusTransaksi === 'PAID' ||
+                        statusTransaksi === 'CANCEL' ||
+                        statusTransaksi === 'FAIL' ? (
                             ''
                         ) : (
                             <div>

@@ -51,7 +51,7 @@ export const getDetailOrder = async (id) => {
     }
 }
 
-export const UpdateOrderTransaction = async (id, data) => {
+export const updateOrder = async (id, data) => {
     try {
         const response = await axiosJWT.put(`/customer/orders/${id}`, data)
         return response.data
@@ -59,19 +59,21 @@ export const UpdateOrderTransaction = async (id, data) => {
         throw error.response ? error.response.data : error
     }
 }
-export const UpdateStatusOrderTransaction = async (id) => {
+
+export const cancelOrder = async (id) => {
     try {
-        const response = await axiosJWT.patch(
-            `/customer/orders/${id}/status-pengiriman`
-        )
+        const response = await axiosJWT.patch(`/customer/orders/${id}/cancel`)
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error
     }
 }
-export const cancelOrder = async (id) => {
+export const UpdateStatusOrder = async (id, data) => {
     try {
-        const response = await axiosJWT.patch(`/customer/orders/${id}/cancel`)
+        const response = await axiosJWT.patch(
+            `/customer/orders/${id}/status-order`,
+            data
+        )
         return response.data
     } catch (error) {
         throw error.response ? error.response.data : error

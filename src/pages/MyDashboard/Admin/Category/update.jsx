@@ -102,6 +102,7 @@ const AdminUpdateCategoryPage = () => {
                                     name='name'
                                     placeholder='Name Category...'
                                     type='text'
+                                    disabled={true}
                                     value={name}
                                     OnChange={(e) => setName(e.target.value)}
                                 />

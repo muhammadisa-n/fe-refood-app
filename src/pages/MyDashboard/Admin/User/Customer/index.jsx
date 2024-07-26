@@ -1,41 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import DashboardLayout from '@layouts/DashboardLayout'
-import { getAllSellers } from '@utils/services/adminServices.js'
+import { getAllCustomers } from '@utils/services/adminServices.js'
 import { Link } from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
-import jsPDF from 'jspdf'
-import 'jspdf-autotable'
-import { PiFilePdfFill } from 'react-icons/pi'
 
-const AdminSellerListPage = () => {
-    const [sellers, setSellers] = useState([])
+const AdminCustomerListPage = () => {
+    const [customers, setCustomers] = useState([])
     const [take, setTake] = useState(10)
     const [totalPage, setTotalPage] = useState()
-    const [totalSeller, setTotalSeller] = useState()
+    const [totalCustomer, setTotalCustomer] = useState()
     const [search, setSearch] = useState('')
     const [status, setStatus] = useState()
     const [page, setPage] = useState(1)
     const [searchValue] = useDebounce(search, 1000)
-    const fetchSeller = async () => {
+    const fetchCustomer = async () => {
         try {
-            const response = await getAllSellers(
-                page,
-                take,
-                searchValue,
-                status
-            )
-            setSellers(response.sellers)
-            setTotalSeller(response.total_seller)
+            const response = await getAllCustomers(page, take, searchValue)
+            setCustomers(response.customers)
+            setTotalCustomer(response.total_customer)
             setPage(response.paging.current_page)
             setTotalPage(response.paging.total_page)
         } catch (error) {
-            console.error('Error Fetching Product', error)
+            console.error('Error Fetching Customer', error)
         }
     }
 
     useEffect(() => {
-        fetchSeller()
-    }, [page, take, searchValue, status])
+        fetchCustomer()
+    }, [page, take, searchValue])
 
     const handlePrev = () => {
         if (page > 1) {
@@ -47,27 +39,13 @@ const AdminSellerListPage = () => {
             setPage(page + 1)
         }
     }
-    const exportPDF = () => {
-        const doc = new jsPDF()
-        doc.text('Data Seller', 14, 15)
-        doc.autoTable({
-            head: [['Name Seller', 'Email', 'No Hp', 'Status']],
-            body: sellers.map((seller) => [
-                seller.nama,
-                seller.email,
-                seller.no_hp,
-                seller.status === null ? 'Belum Ada Tindakan' : seller.status,
-            ]),
-            startY: 20,
-        })
-        doc.save('sellers.pdf')
-    }
+
     return (
         <DashboardLayout>
             <div className='px-6 pt-6 '>
                 <div className='flex flex-col '>
                     <h1 className='text-3xl font-semibold text-primary'>
-                        List Seller
+                        List Customer
                     </h1>
                 </div>
                 <div className='mt-5 basis-[85%]  '>
@@ -86,15 +64,6 @@ const AdminSellerListPage = () => {
                                     <option value='100'>100</option>
                                 </select>
                                 <label htmlFor='take'>Data Per Page</label>
-                                <div className='mb-5 '>
-                                    <button
-                                        disabled={totalSeller === 0}
-                                        onClick={exportPDF}
-                                        className='inline-flex px-2 py-1 mt-2 text-white rounded-md bg-primary'>
-                                        Export PDF
-                                        <PiFilePdfFill size={20} />
-                                    </button>
-                                </div>
                             </div>
                             <div className='px-2 '>
                                 <input
@@ -105,30 +74,13 @@ const AdminSellerListPage = () => {
                                         setSearch(e.target.value)
                                     }}
                                 />
-                                <div>
-                                    <label htmlFor='filter'>Filter : </label>
-                                    <select
-                                        name='filter'
-                                        id='filter'
-                                        value={status}
-                                        onChange={(e) =>
-                                            setStatus(e.target.value)
-                                        }
-                                        className={` px-1 py-1 text-sm  rounded text-slate-700 bg-white mr-2 my-0 md:my-1 border`}>
-                                        <option value=''>Semua</option>
-                                        <option value='Diterima'>
-                                            Diterima
-                                        </option>
-                                        <option value='Ditolak'>Ditolak</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                         <table className='w-full text-sm text-left text-white border rtl:text-right'>
                             <thead className='text-xs text-black uppercase bg-white '>
                                 <tr>
                                     <th scope='col' className='px-6 py-3'>
-                                        Name Seller
+                                        Name Customer
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
                                         Email
@@ -137,45 +89,36 @@ const AdminSellerListPage = () => {
                                         No Hp
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
-                                        Status
-                                    </th>
-                                    <th scope='col' className='px-6 py-3'>
                                         Action
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {totalSeller === 0 ? (
+                                {totalCustomer === 0 ? (
                                     <tr className='text-black border-b'>
                                         <td className='px-6 py-4'>
-                                            No Data Seller
+                                            No Data Customer
                                         </td>
                                     </tr>
                                 ) : (
                                     <>
-                                        {sellers.map((seller, index) => (
+                                        {customers.map((customer, index) => (
                                             <tr
                                                 className='text-black bg-white border-b '
                                                 key={index}>
                                                 <td className='px-6 py-4'>
-                                                    {seller.nama}
+                                                    {customer.nama}
                                                 </td>
                                                 <td className='px-6 py-4 '>
-                                                    {seller.email}
+                                                    {customer.email}
                                                 </td>
                                                 <td className='px-6 py-4 '>
-                                                    {seller.no_hp}
+                                                    {customer.no_hp}
                                                 </td>
-                                                <td className='px-6 py-4'>
-                                                    {seller.status === null
-                                                        ? 'Belum Ada Tindakan'
-                                                        : seller.status}
-                                                </td>
-
                                                 <td className='px-6 py-4'>
                                                     <Link
                                                         type='button'
-                                                        to={`/my-dashboard/admin/sellers/detail/${seller.id}`}
+                                                        to={`/my-dashboard/admin/customers/detail/${customer.id}`}
                                                         className='p-2 mx-2 text-white rounded-lg bg-sky-600 hover:bg-sky-700'>
                                                         Detail
                                                     </Link>
@@ -218,4 +161,4 @@ const AdminSellerListPage = () => {
     )
 }
 
-export default AdminSellerListPage
+export default AdminCustomerListPage

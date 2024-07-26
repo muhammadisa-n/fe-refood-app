@@ -9,39 +9,43 @@ const CardProduct = ({
     productCategory,
 }) => {
     return (
-        <div className='flex justify-center'>
-            <div className='w-full max-w-sm mx-6 bg-white border rounded-lg shadow '>
-                <img
-                    src={imgSrc}
-                    alt='product-image'
-                    title={name}
-                    className='p-2 mx-auto rounded-lg md:h-[200px]   w-[200px] object-cover '
-                />
-                <div className='px-2 pb-2'>
+        <div className='w-1/2 px-4 mb-6 md:w-1/3 lg:w-1/4'>
+            <div className='flex flex-col overflow-hidden shadow-lg rounded-2xl'>
+                <div className=''>
+                    <img
+                        src={imgSrc}
+                        alt='product-image'
+                        title={name}
+                        className='object-cover w-full h-40 rounded-lg'
+                    />
+                </div>
+
+                <div className='flex flex-col flex-1 p-4'>
                     <span className='text-xs font-bold text-gray-600'>
                         {productCategory}
                     </span>
-                    <Link to={`product/detail/${id}`}>
-                        <h5 className='text-xl font-semibold text-black'>
+                    <Link to={`product/detail/${id}`} className='flex-1'>
+                        <h5 className='mt-2 text-xl font-semibold text-black'>
                             {name}
                         </h5>
-                        <div className='md:h-16'>
-                            <p className='text-sm text-gray-400'>
-                                {description.substring(0, 75)}
-                                {'...'}
-                            </p>
+                        <p className='text-sm text-gray-400 line-clamp-3'>
+                            {description}
+                        </p>
+                    </Link>
+                    <div className='flex items-center justify-between mt-2 '>
+                        <div className='m'>
+                            <span className='text-base font-bold text-black'>
+                                Rp. {price?.toLocaleString('id-ID')}
+                            </span>
                         </div>
-                    </Link>
-                </div>
-                <div className='flex items-center justify-between px-2 pb-2 mt-5'>
-                    <span className='text-base font-bold text-black'>
-                        Rp. {price?.toLocaleString('id-Id')}
-                    </span>
-                    <Link
-                        to={`/product/detail/${id}`}
-                        className='items-center justify-center h-10 px-1 py-2 font-semibold text-white rounded-md bg-primary'>
-                        Detail
-                    </Link>
+                        <div>
+                            <Link
+                                to={`/product/detail/${id}`}
+                                className='inline-block px-4 py-2 font-semibold text-white rounded-md bg-primary'>
+                                Detail
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

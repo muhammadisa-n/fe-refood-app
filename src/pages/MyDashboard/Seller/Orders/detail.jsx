@@ -7,12 +7,6 @@ const SellerDetailOrdersPage = () => {
     const { id } = useParams()
     const [order, setOrder] = useState([])
     const [orderNotFound, setOrderNotFound] = useState(false)
-    const [showTransactionDetails, setShowTransactionDetails] = useState(false)
-
-    const toggleTransactionDetails = () => {
-        setShowTransactionDetails(!showTransactionDetails)
-    }
-
     useEffect(() => {
         const fetchOrder = async () => {
             try {
@@ -50,16 +44,8 @@ const SellerDetailOrdersPage = () => {
                                         Order Detail
                                     </h1>
                                     <p>Order ID: {order.id}</p>
-                                    <p>Nama Customer: {order.Customer?.nama}</p>
-                                    <p>
-                                        Nomor Handphone: {order.Customer?.no_hp}
-                                    </p>
-                                    <p>
-                                        Alamat Pengiriman:{' '}
-                                        {order.alamat_pengiriman}
-                                    </p>
-                                    <p>Nama Product: {order.Product?.nama}</p>
-                                    <p>Jumlah Pesanan: {order.total_produk}</p>
+                                    <p>Nama: {order.Customer?.nama}</p>
+                                    <p>Nomor HP: {order.Customer?.no_hp}</p>
                                     <p>
                                         Status Order:{' '}
                                         {order.status_order === 'PENDING' && (
@@ -79,134 +65,113 @@ const SellerDetailOrdersPage = () => {
                                         )}{' '}
                                     </p>
                                     <p>
-                                        Status Pengiriman:{' '}
-                                        {order.status_pengiriman ===
+                                        Status Transaksi:{' '}
+                                        {order.status_transaksi === 'PAID' && (
+                                            <span className='font-extrabold text-green-500'>
+                                                {order.status_transaksi}
+                                            </span>
+                                        )}
+                                        {order.status_transaksi ===
                                             'PENDING' && (
                                             <span className='font-extrabold text-gray-500'>
-                                                Belum Dikirim
+                                                {order.status_transaksi}
                                             </span>
                                         )}
-                                        {order.status_pengiriman ===
-                                            'PROSES' && (
-                                            <span className='font-extrabold text-yellow-500'>
-                                                Sedang Dikirim
-                                            </span>
-                                        )}
-                                        {order.status_pengiriman ===
-                                            'SUKSES' && (
-                                            <span className='font-extrabold text-green-500'>
-                                                Sudah Dikirim
+                                        {order.status_transaksi === 'FAIL' && (
+                                            <span className='font-extrabold text-red-500'>
+                                                {order.status_transaksi}
                                             </span>
                                         )}{' '}
-                                        {order.status_pengiriman ===
+                                        {order.status_transaksi ===
                                             'CANCEL' && (
                                             <span className='font-extrabold text-red-500'>
-                                                Orderan Dicancel
+                                                {order.status_transaksi}
                                             </span>
                                         )}{' '}
                                     </p>
-                                    <p>
-                                        Total Harga:{' '}
-                                        {order.total_harga?.toLocaleString(
-                                            'id-Id'
-                                        )}
-                                    </p>
-                                </div>
-                                {order.Transaction ? (
-                                    <>
-                                        <button
-                                            onClick={toggleTransactionDetails}
-                                            className='flex items-center justify-between w-full px-4 py-2 text-white transition duration-300 rounded-lg bg-primary hover:bg-orange-700'>
-                                            <span>Detail Transaksi</span>
-                                            <svg
-                                                className={`w-6 h-6 transition-transform duration-300 ${showTransactionDetails ? 'transform rotate-180' : ''}`}
-                                                fill='none'
-                                                stroke='currentColor'
-                                                viewBox='0 0 24 24'
-                                                xmlns='http://www.w3.org/2000/svg'>
-                                                <path
-                                                    strokeLinecap='round'
-                                                    strokeLinejoin='round'
-                                                    strokeWidth='2'
-                                                    d='M19 9l-7 7-7-7'
-                                                />
-                                            </svg>
-                                        </button>
-                                    </>
-                                ) : (
-                                    ''
-                                )}
-                                <div className='mb-4'>
-                                    {showTransactionDetails && (
-                                        <div className='mt-4'>
-                                            {order.Transaction
-                                                .transaction_id ? (
-                                                <>
-                                                    <h2 className='text-lg font-semibold'>
-                                                        Informasi Transaksi
-                                                    </h2>
-                                                    <p>
-                                                        ID Transaksi:{' '}
-                                                        {
-                                                            order.Transaction
-                                                                ?.transaction_id
-                                                        }
-                                                    </p>
-                                                    <p>
-                                                        Waktu Transaksi:{' '}
-                                                        {moment(
-                                                            order.Transaction
-                                                                ?.waktu_transaksi
-                                                        ).format(
-                                                            ' DD-MM-YYYY HH:mm:ss'
-                                                        )}
-                                                    </p>
-                                                    <p>
-                                                        Total Pembayaran:{' '}
-                                                        {order.Transaction?.total_pembayaran?.toLocaleString(
-                                                            'id-Id'
-                                                        )}
-                                                    </p>
-                                                    <p>
-                                                        Tipe Pembayaran:{' '}
-                                                        {order.Transaction
-                                                            ?.tipe_pembayaran ===
-                                                            'bank_transfer' &&
-                                                            'Bank Transfer'}
-                                                    </p>
-                                                    <p>
-                                                        Status Transaksi:{' '}
-                                                        {order.Transaction
-                                                            ?.status_transaksi ===
-                                                            'settlement' && (
-                                                            <span className='font-extrabold text-green-500'>
-                                                                SUCCESS
-                                                            </span>
-                                                        )}
-                                                        {order.Transaction
-                                                            ?.status_transaksi ===
-                                                            'pending' && (
-                                                            <span className='font-extrabold text-gray-500'>
-                                                                PENDING
-                                                            </span>
-                                                        )}
-                                                        {order.Transaction
-                                                            ?.status_transaksi ===
-                                                            'deny' && (
-                                                            <span className='font-extrabold text-red-500'>
-                                                                GAGAL
-                                                            </span>
-                                                        )}
-                                                    </p>
-                                                </>
-                                            ) : (
-                                                <h2 className='text-lg font-semibold'>
-                                                    Anda Belum Melakukan
-                                                    Transaksi
-                                                </h2>
+
+                                    <p>Products: {order.Product?.nama}</p>
+                                    <table className='min-w-full bg-white border border-primary'>
+                                        <thead className='text-white bg-primary'>
+                                            <tr className=''>
+                                                <th className='px-4 py-2 border border-gray-200'>
+                                                    Image
+                                                </th>
+                                                <th className='px-4 py-2 border border-gray-200'>
+                                                    Nama Produk
+                                                </th>
+                                                <th className='px-4 py-2 border border-gray-200'>
+                                                    Quantity
+                                                </th>
+                                                <th className='px-4 py-2 border border-gray-200'>
+                                                    Harga
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {order.OrderProducts?.map(
+                                                (item) => (
+                                                    <>
+                                                        <tr
+                                                            key={
+                                                                item.Product?.id
+                                                            }>
+                                                            <td className='px-4 py-2 border border-gray-200'>
+                                                                <img
+                                                                    src={
+                                                                        item
+                                                                            .Product
+                                                                            .image_url
+                                                                    }
+                                                                    alt={
+                                                                        item
+                                                                            .Product
+                                                                            .nama
+                                                                    }
+                                                                    className='object-cover w-16 h-16 rounded '
+                                                                />
+                                                            </td>
+                                                            <td className='px-4 py-2 border border-gray-200'>
+                                                                {
+                                                                    item.Product
+                                                                        .nama
+                                                                }
+                                                            </td>
+                                                            <td className='px-4 py-2 border border-gray-200'>
+                                                                {item.quantity}
+                                                            </td>
+                                                            <td className='px-4 py-2 border border-gray-200'>
+                                                                Rp.
+                                                                {item.Product.harga?.toLocaleString(
+                                                                    'id-ID'
+                                                                )}
+                                                            </td>
+                                                        </tr>
+                                                    </>
+                                                )
                                             )}
-                                        </div>
-                                    )}
+                                            <tr>
+                                                <td
+                                                    className='px-4 py-2 border border-gray-200'
+                                                    colSpan='3'
+                                                    rowSpan='2'>
+                                                    Total
+                                                </td>
+                                                <td className='px-4 py-2 border border-gray-200'>
+                                                    Total Produk :{' '}
+                                                    {order.total_produk}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className='px-4 py-2 border border-gray-200'>
+                                                    Total Harga: Rp.
+                                                    {order.total_harga?.toLocaleString(
+                                                        'id-ID'
+                                                    )}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>

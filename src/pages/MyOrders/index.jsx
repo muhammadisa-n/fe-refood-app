@@ -7,6 +7,7 @@ const MyOrderPage = () => {
     const [orders, serOrders] = useState([])
     const fetchOrders = async () => {
         const response = await getAllOrder()
+
         serOrders(response)
     }
     useEffect(() => {
@@ -28,12 +29,19 @@ const MyOrderPage = () => {
                         {orders.map((order) => (
                             <OrderItem
                                 key={order.id}
+                                imgSrc={
+                                    order.OrderProducts[0].Product.image_url
+                                }
                                 orderId={order.id}
-                                imgSrc={order.Product.image_url}
-                                productName={order.Product.nama}
+                                productName={
+                                    order.OrderProducts.length > 1
+                                        ? `${order.OrderProducts[0].Product.nama} ...`
+                                        : order.OrderProducts[0].Product.nama
+                                }
                                 totalHarga={order.total_harga}
                                 totalProduct={order.total_produk}
                                 statusOrder={order.status_order}
+                                statusTransaksi={order.status_transaksi}
                             />
                         ))}
                     </div>

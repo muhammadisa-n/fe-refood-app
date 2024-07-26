@@ -3,9 +3,15 @@ import MainLayout from '@layouts/MainLayout'
 import Banner from '@components/Banner'
 import CardProduct from '@components/CardProduct'
 import { getAllProducts } from '@utils/services/productServices.js'
+import { getAllCategory } from '@utils/services/categoryServices.js'
 import { useDebounce } from 'use-debounce'
+import CardCategory from '@components/CardCategory'
+import FastFood from '@assets/fast-food.png'
+import { Link } from 'react-router-dom'
+import axios from 'axios'
 const HomePage = () => {
     const [products, setProducts] = useState([])
+    const [categories, setCategories] = useState([])
     const [take, setTake] = useState(8)
     const [totalPage, setTotalPage] = useState()
     const [totalProduct, setTotalProduct] = useState()
@@ -24,10 +30,20 @@ const HomePage = () => {
             console.error('Failed to fetch products:', error)
         }
     }
+    // const fetchCategory = async () => {
+    //     try {
+    //         const response = await getAllCategory()
+    //         setCategories(response.categories)
+    //     } catch (error) {
+    //         console.error('Failed to fetch categories:', error)
+    //     }
+    // }
     useEffect(() => {
         fetchProduct()
     }, [page, take, searchValue])
-
+    // useEffect(() => {
+    //     fetchCategory()
+    // }, [])
     const handlePrev = () => {
         if (page > 1) {
             setPage(page - 1)
@@ -41,32 +57,39 @@ const HomePage = () => {
 
     return (
         <MainLayout>
-            <Banner />
-            <div className='flex flex-col max-w-full min-h-screen mx-auto mt-10'>
-                <div className='mt-10 text-center '>
-                    <p className='text-3xl font-bold text-primary'>All Foods</p>
-                </div>
-                <div className='px-4 mt-10 text-center'>
-                    <input
-                        type='text'
-                        className='w-[75%] px-2 py-4 text-primary border font-normal focus:ring-primary focus:ring-1 focus:outline-none rounded-lg'
-                        placeholder='Search Food...'
-                        onChange={(e) => {
-                            setSearch(e.target.value)
-                        }}
-                    />
-                </div>
-                {totalProduct === 0 ? (
-                    <>
-                        <div className='mx-10 my-10 md:grid-cols-4'>
-                            <h5 className='text-4xl text-center text-slate-400'>
-                                No Data Product
-                            </h5>
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <div className='grid grid-cols-2 my-10 mx-36 md:grid-cols-4'>
+            <div className='container mx-auto mt-10 '>
+                {/* <div className='flex flex-wrap'>
+                    {categories.map((category, index) => (
+                        <CardCategory
+                            key={index}
+                            title={category.nama}
+                            imgSrc={FastFood}
+                        />
+                    ))}
+                </div> */}
+            </div>
+            <div className='px-4 mt-10 text-center'>
+                <input
+                    type='text'
+                    className='w-[75%] px-2 py-4 text-primary border font-semibold focus:ring-primary focus:ring-1 focus:outline-none rounded-lg bg-slate-100'
+                    placeholder='Search Food...'
+                    onChange={(e) => {
+                        setSearch(e.target.value)
+                    }}
+                />
+            </div>
+            {totalProduct === 0 ? (
+                <>
+                    <div className='my-10 '>
+                        <h5 className='text-4xl text-center text-slate-400'>
+                            No Data Product
+                        </h5>
+                    </div>
+                </>
+            ) : (
+                <>
+                    <div className='container py-10 mx-auto'>
+                        <div className='flex flex-wrap'>
                             {products.map((product, index) => (
                                 <CardProduct
                                     key={index}
@@ -79,9 +102,10 @@ const HomePage = () => {
                                 />
                             ))}
                         </div>
-                    </>
-                )}
-            </div>
+                    </div>
+                </>
+            )}
+
             {totalPage > 1 && (
                 <>
                     <div className='mb-20 space-x-5 text-center'>

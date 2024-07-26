@@ -128,28 +128,28 @@ const AdminDetailSellerPage = () => {
                                                 <div className=''>
                                                     <button
                                                         disabled={
-                                                            seller.is_active ===
-                                                            true
+                                                            seller.status ===
+                                                            'Diterima'
                                                         }
-                                                        className={`px-2 py-2 mt-3 text-white  rounded focus:outline-none ${seller.is_active ? 'bg-green-800' : 'bg-green-500'}`}
+                                                        className={`px-2 py-2 mt-3 text-white  rounded focus:outline-none ${seller.status === 'Ditolak' || seller.status === null ? 'bg-green-500' : 'bg-green-800'}`}
                                                         onClick={() =>
                                                             handleActivate(
                                                                 seller.id,
-                                                                true
+                                                                'Diterima'
                                                             )
                                                         }>
                                                         Terima
                                                     </button>
                                                     <button
                                                         disabled={
-                                                            seller.is_active ===
-                                                            false
+                                                            seller.status ===
+                                                            'Ditolak'
                                                         }
-                                                        className={`mx-2 px-2 py-2 mt-3 text-white  rounded focus:outline-none ${!seller.is_active ? 'bg-red-800' : 'bg-red-500'}`}
+                                                        className={`mx-2 px-2 py-2 mt-3 text-white  rounded focus:outline-none ${seller.status === 'Diterima' || seller.status === null ? 'bg-red-500' : 'bg-red-800'}`}
                                                         onClick={() =>
                                                             handleActivate(
                                                                 seller.id,
-                                                                false
+                                                                'Ditolak'
                                                             )
                                                         }>
                                                         Tolak

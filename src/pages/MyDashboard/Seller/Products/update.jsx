@@ -30,8 +30,8 @@ const SellerUpdateProductPage = () => {
                 const product = await getDetailProduct(id)
                 setName(product.nama)
                 setPrice(product.harga)
-                setSelectedCategory(product.category_id)
                 setDescription(product.deskripsi)
+                setSelectedCategory(product.Category?.nama)
                 if (product.image_url) {
                     setPreviewImg(product.image_url)
                 }
@@ -43,26 +43,13 @@ const SellerUpdateProductPage = () => {
         }
         fetchProduct()
     }, [id])
-    useEffect(() => {
-        const fetchCategories = async () => {
-            try {
-                const category = await getAllCategory()
-                setCategories(category)
-            } catch (error) {
-                console.error('Error fetching Categories:', error)
-            }
-        }
-        fetchCategories()
-    }, [])
 
     const handleUpdate = async (e) => {
         e.preventDefault()
         setIsLoading(true)
         const formData = new FormData()
-        formData.append('nama', name)
         formData.append('deskripsi', description)
         formData.append('harga', price)
-        formData.append('category_id', selectedCategory)
         formData.append('image', image)
         try {
             const response = await updateProduct(id, formData)
@@ -131,16 +118,23 @@ const SellerUpdateProductPage = () => {
                         ) : (
                             <form onSubmit={handleUpdate}>
                                 <InputForm
-                                    label='Name Product'
-                                    name='name'
-                                    placeholder='Name Product...'
+                                    label='Nama'
+                                    name='Nama'
+                                    placeholder='Nama...'
                                     type='text'
                                     value={name}
-                                    disabled={isLoading}
-                                    OnChange={(e) => setName(e.target.value)}
+                                    disabled={true}
                                 />
                                 <InputForm
-                                    label='Price'
+                                    label='Category'
+                                    name='Category'
+                                    placeholder='Category...'
+                                    type='text'
+                                    value={selectedCategory}
+                                    disabled={true}
+                                />
+                                <InputForm
+                                    label='Harga'
                                     name='price'
                                     placeholder='10000'
                                     type='number'
@@ -148,30 +142,7 @@ const SellerUpdateProductPage = () => {
                                     disabled={isLoading}
                                     OnChange={(e) => setPrice(e.target.value)}
                                 />
-                                <div className='mb-6'>
-                                    <label
-                                        htmlFor='category'
-                                        className='block mb-2 text-sm font-bold text-slate-700'>
-                                        Category
-                                    </label>
-                                    <select
-                                        name='category'
-                                        id='category'
-                                        value={selectedCategory}
-                                        onChange={(e) =>
-                                            setSelectedCategory(e.target.value)
-                                        }
-                                        disabled={isLoading}
-                                        className={`w-full px-3 py-2 text-sm border rounded text-slate-700 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
-                                        {categories.map((category) => (
-                                            <option
-                                                key={category.id}
-                                                value={category.id}>
-                                                {category.nama}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
+
                                 <div className='mb-6'>
                                     <label
                                         htmlFor='description'

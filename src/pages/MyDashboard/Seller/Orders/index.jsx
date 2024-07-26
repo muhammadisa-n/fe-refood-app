@@ -16,30 +16,16 @@ const SellerOrdersPage = () => {
     const [page, setPage] = useState(1)
     const [isLoading, setIsLoading] = useState(false)
     const [searchValue] = useDebounce(search, 1000)
-    const [status_pengiriman, setStatus_pengiriman] = useState('')
     const [showEditStatus, setShowEditStatus] = useState(false)
     const toggleshowEditStatus = () => {
         setShowEditStatus(!showEditStatus)
-    }
-    const handleUpdateStatusKirim = async (sellerId, newStatus) => {
-        try {
-            await activateSeller(orderId, newStatus)
-            setOrders(
-                orders.map((order) =>
-                    order.id === orderId
-                        ? { ...order, is_active: newStatus }
-                        : order
-                )
-            )
-        } catch (error) {
-            console.error('Error Updating Seller Status', error)
-        }
     }
 
     const fetchOrders = async () => {
         try {
             const response = await getAllOrders(page, take, searchValue)
             setOrders(response.orders)
+            console.log(response.orders)
             setTotalOrder(response.total_orders)
             setPage(response.paging.current_page)
             setTotalPage(response.paging.total_page)
@@ -108,16 +94,13 @@ const SellerOrdersPage = () => {
                                         Order Id
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
-                                        Product name
-                                    </th>
-                                    <th scope='col' className='px-6 py-3'>
-                                        Total Harga
+                                        Customer Name
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
                                         Status Order
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
-                                        Status Kirim
+                                        Status Transaksi
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
                                         Action
@@ -141,82 +124,111 @@ const SellerOrdersPage = () => {
                                                     {order?.id}
                                                 </td>
                                                 <td className='px-6 py-4 '>
-                                                    {order?.Product?.nama}
+                                                    {order?.Customer.nama}
                                                 </td>
+
                                                 <td className='px-6 py-4'>
-                                                    {order?.total_harga.toLocaleString(
-                                                        'id-Id'
-                                                    )}
-                                                </td>
-                                                <td className='px-6 py-4'>
-                                                    {order.status_order ===
+                                                    {order?.status_order ===
                                                         'PENDING' && (
                                                         <span className='font-extrabold text-gray-500'>
-                                                            {order.status_order}
+                                                            {
+                                                                order?.status_order
+                                                            }
                                                         </span>
                                                     )}
-                                                    {order.status_order ===
-                                                        'SUKSES' && (
-                                                        <span className='font-extrabold text-green-500'>
-                                                            {order.status_order}
-                                                        </span>
-                                                    )}{' '}
-                                                    {order.status_order ===
-                                                        'CANCEL' && (
-                                                        <span className='font-extrabold text-red-500'>
-                                                            {order.status_order}
-                                                        </span>
-                                                    )}{' '}
-                                                </td>
-                                                <td className='px-6 py-4'>
-                                                    {order.status_pengiriman ===
-                                                        'PENDING' && (
-                                                        <span className='font-extrabold text-gray-500'>
-                                                            Belum Dikirim
-                                                        </span>
-                                                    )}
-                                                    {order.status_pengiriman ===
+                                                    {order?.status_order ===
                                                         'PROSES' && (
                                                         <span className='font-extrabold text-yellow-500'>
-                                                            Sedang Dikirim
+                                                            {
+                                                                order?.status_order
+                                                            }
                                                         </span>
                                                     )}
-                                                    {order.status_pengiriman ===
+                                                    {order?.status_order ===
                                                         'SUKSES' && (
                                                         <span className='font-extrabold text-green-500'>
-                                                            Berhasil Diterima
+                                                            {
+                                                                order?.status_order
+                                                            }
                                                         </span>
-                                                    )}
-                                                    {order.status_pengiriman ===
+                                                    )}{' '}
+                                                    {order?.status_order ===
                                                         'CANCEL' && (
                                                         <span className='font-extrabold text-red-500'>
-                                                            Orderan Di Cancel
+                                                            {
+                                                                order?.status_order
+                                                            }
                                                         </span>
                                                     )}{' '}
                                                 </td>
+                                                <td className='px-6 py-4'>
+                                                    {order?.status_transaksi ===
+                                                        'PENDING' && (
+                                                        <span className='font-extrabold text-gray-500'>
+                                                            {
+                                                                order?.status_transaksi
+                                                            }
+                                                        </span>
+                                                    )}
+                                                    {order?.status_transaksi ===
+                                                        'PAID' && (
+                                                        <span className='font-extrabold text-green-500'>
+                                                            {
+                                                                order?.status_transaksi
+                                                            }
+                                                        </span>
+                                                    )}{' '}
+                                                    {order.status_transaksi ===
+                                                        'CANCEL' && (
+                                                        <span className='font-extrabold text-red-500'>
+                                                            {
+                                                                order?.status_transaksi
+                                                            }
+                                                        </span>
+                                                    )}
+                                                    {order.status_transaksi ===
+                                                        'FAIL' && (
+                                                        <span className='font-extrabold text-red-500'>
+                                                            {
+                                                                order?.status_transaksi
+                                                            }
+                                                        </span>
+                                                    )}
+                                                </td>
+
                                                 <td className='px-6 py-4 md:flex'>
                                                     <Link
                                                         type='button'
                                                         to={
-                                                            user.is_active
+                                                            user.status ===
+                                                            'Diterima'
                                                                 ? `/my-dashboard/seller/orders/detail/${order.id}`
                                                                 : null
                                                         }
-                                                        className={`p-1 mx-2 text-white rounded-lg  hover:bg-sky-700 ${!user.is_active ? 'bg-sky-900' : 'bg-sky-600'}`}>
+                                                        className={`p-1 mx-2 text-white rounded-lg  hover:bg-sky-700 ${user.status === 'Ditolak' ? 'bg-sky-900' : 'bg-sky-600'}`}>
                                                         Detail
                                                     </Link>
-                                                    {order.status_order ===
-                                                        'SUKSES' && (
-                                                        <Link
-                                                            type='button'
-                                                            to={
-                                                                user.is_active
-                                                                    ? `/my-dashboard/seller/orders/update/${order.id}`
-                                                                    : null
-                                                            }
-                                                            className={`p-1 mx-2 text-white rounded-lg  hover:bg-yellow-700 ${!user.is_active ? 'bg-yellow-900' : 'bg-yellow-500'}`}>
-                                                            Update
-                                                        </Link>
+                                                    {order?.status_order ===
+                                                    'SUKSES' ? (
+                                                        <></>
+                                                    ) : (
+                                                        <>
+                                                            {order?.status_transaksi ===
+                                                                'PAID' && (
+                                                                <Link
+                                                                    type='button'
+                                                                    to={
+                                                                        user.status ===
+                                                                        'Diterima'
+                                                                            ? `/my-dashboard/seller/orders/update/${order.id}`
+                                                                            : null
+                                                                    }
+                                                                    className={`p-1 mx-2 text-white rounded-lg  hover:bg-yellow-700 ${user.status === 'Ditolak' ? 'bg-yellow-900' : 'bg-yellow-500'}`}>
+                                                                    Update
+                                                                    Status
+                                                                </Link>
+                                                            )}
+                                                        </>
                                                     )}
                                                 </td>
                                             </tr>

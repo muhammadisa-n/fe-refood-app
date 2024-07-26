@@ -36,7 +36,6 @@ const MyProfilePage = () => {
     const [villages, setVillages] = useState([])
     const [image, setImage] = useState(null)
     const [previewImg, setPreviewImg] = useState('')
-    const [profileImage, setProfileImage] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
     const fetchUser = async () => {
@@ -51,10 +50,8 @@ const MyProfilePage = () => {
         setSelectedVillageName(userdata.kelurahan)
         if (userdata.ava_image_url) {
             setPreviewImg(userdata.ava_image_url)
-            setProfileImage(userdata.ava_image_url)
         } else {
             setPreviewImg(ImgDefault)
-            setProfileImage(ImgDefault)
         }
     }
     const handleEditMenu = () => {
@@ -202,7 +199,7 @@ const MyProfilePage = () => {
                                         <div className='px-4 py-8'>
                                             <img
                                                 className='object-cover w-full h-48 rounded-full md:w-48'
-                                                src={profileImage}
+                                                src={previewImg}
                                                 alt='Profil'
                                             />
                                         </div>

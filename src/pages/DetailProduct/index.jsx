@@ -7,6 +7,7 @@ import MainLayout from '@layouts/MainLayout'
 import { useUser } from '@context/userContext.jsx'
 import ImgDefault from '@assets/seller_default.png'
 import { FaWhatsapp } from 'react-icons/fa'
+import Swal from 'sweetalert2'
 const DetailProductPage = () => {
     const { refreshCart } = useCart()
     const { role } = useUser()
@@ -46,7 +47,13 @@ const DetailProductPage = () => {
             product_id: product.id,
         }
         try {
-            await addCart(data)
+            const response = await addCart(data)
+            await Swal.fire({
+                icon: 'success',
+                title: `${response.message}`,
+                showConfirmButton: true,
+                timer: 2000,
+            })
             refreshCart()
         } catch (error) {
             console.error(error)
@@ -55,9 +62,13 @@ const DetailProductPage = () => {
     const handleAddToOrder = async () => {
         setIsLoading(true)
         const data = {
-            total_produk: totalProduct,
+            products: [
+                {
+                    product_id: product.id,
+                    quantity: totalProduct,
+                },
+            ],
             total_harga: product.harga * totalProduct,
-            product_id: product.id,
         }
         try {
             const response = await createOrder(data)
@@ -92,7 +103,7 @@ const DetailProductPage = () => {
                             <div className='flex px-3 border-r-2 border-gray-500 md:px-8 md:my-2'>
                                 <div className='my-auto mr-4 md:mr-8'>
                                     <img
-                                        className='object-cover w-20 h-20 border border-gray-300 rounded-full'
+                                        className='object-cover w-10 h-10 border border-gray-300 rounded-full md:w-20 md:h-20'
                                         src={
                                             product.Seller?.ava_image_url
                                                 ? product.Seller.ava_image_url
@@ -109,12 +120,13 @@ const DetailProductPage = () => {
                             </div>
 
                             <div className='w-5/12 mx-3 my-auto text-gray-500 md:w-8/12 max-sm:text-sm '>
-                                <p className='font-semibold'>
-                                    {product.Seller?.alamat},{' '}
-                                    {product.Seller?.provinsi},
-                                    {product.Seller?.kota},
+                                <p className='text-sm font-semibold md:text-base'>
+                                    {product.Seller?.alamat},
+                                    {product.Seller?.kelurahan},
                                     {product.Seller?.kecamatan},
-                                    {product.Seller?.kelurahan}
+                                    {product.Seller?.kota},
+                                    {product.Seller?.provinsi},
+                                    {product.Seller?.kode_pos}
                                 </p>
                                 <a
                                     href={`https://wa.me/${convertPhoneNumber(product.Seller?.no_hp)}?text=Hai,%20Apakah%20Produk%20Tersedia?`}

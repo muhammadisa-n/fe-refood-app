@@ -32,11 +32,14 @@ import AdminUpdateCategoryPage from '@pages/MyDashboard/Admin/Category/update'
 import ScrollToTop from '@utils/ScrollToTop'
 import VerificationSellerPage from '@pages/MyDashboard/Seller/VerificationSeller'
 import AdminSellerListPage from '@pages/MyDashboard/Admin/User/Seller'
+import AdminCustomerListPage from '@pages/MyDashboard/Admin/User/Customer'
 import AdminDetailSellerPage from '@pages/MyDashboard/Admin/User/Seller/detail'
 import CheckOutPage from '@pages/CheckOut'
 import OrderDetailPage from '@pages/OrderDetail'
 import SellerDetailOrdersPage from '@pages/MyDashboard/Seller/Orders/detail'
 import SellerUpdateOrderPage from '@pages/MyDashboard/Seller/Orders/update'
+import GetLocationPage from '@pages/GetLocation'
+import AdminDetailCustomerPage from '@pages/MyDashboard/Admin/User/Customer/detail'
 
 const RoutesPage = () => {
     return (
@@ -53,6 +56,7 @@ const RoutesPage = () => {
                     path='/recommendation'
                     element={<RecommendationPage />}
                 />
+                <Route path='/getlocation' element={<GetLocationPage />} />
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/register' element={<RegisterPage />} />
                 <Route
@@ -186,6 +190,22 @@ const RoutesPage = () => {
                     element={
                         <IsAdmin>
                             <AdminSellerListPage />
+                        </IsAdmin>
+                    }
+                />
+                <Route
+                    path='/my-dashboard/admin/customers'
+                    element={
+                        <IsAdmin>
+                            <AdminCustomerListPage />
+                        </IsAdmin>
+                    }
+                />
+                <Route
+                    path='/my-dashboard/admin/customers/detail/:id'
+                    element={
+                        <IsAdmin>
+                            <AdminDetailCustomerPage />
                         </IsAdmin>
                     }
                 />

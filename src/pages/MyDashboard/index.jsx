@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { AiFillProduct } from 'react-icons/ai'
 import { FaUsers } from 'react-icons/fa'
 import { PiUsersThreeBold } from 'react-icons/pi'
-import { MdOutlineFoodBank } from 'react-icons/md'
+import { PiMoneyWavyBold } from 'react-icons/pi'
+
 import DashboardLayout from '@layouts/DashboardLayout'
 import {
     countProduct as countProductSeller,
     countOrder,
+    countPendapatan,
 } from '@utils/services/sellerServices.js'
 import {
     countProduct as countProductAdmin,
@@ -25,6 +27,7 @@ const MyDashboardPage = () => {
     const [countSellerText, setCountSellerText] = useState(0)
     const [countCustomerText, setCountCustomerText] = useState(0)
     const [countOrderText, setCountOrderText] = useState(0)
+    const [countPendapatanText, setCountPendapatanText] = useState(0)
 
     const amountProduct = async () => {
         try {
@@ -58,6 +61,8 @@ const MyDashboardPage = () => {
             const decoded = jwtDecode(token)
             if (decoded.user_role === 'Seller') {
                 const dataOrder = await countOrder()
+                const dataPendapatan = await countPendapatan()
+                setCountPendapatanText(dataPendapatan.total_pendapatan)
                 setCountOrderText(dataOrder.total_order)
             }
         } catch (error) {
@@ -83,7 +88,7 @@ const MyDashboardPage = () => {
                     {decoded.user_role === 'Seller' && (
                         <>
                             {user.link_map_alamat_toko === null &&
-                                user.is_active === null && (
+                                user.status === null && (
                                     <div
                                         className={`flex items-center p-4 mb-2  rounded-lg  text-primary bg-secondary mt-3`}
                                         role='alert'>
@@ -107,7 +112,7 @@ const MyDashboardPage = () => {
                                     </div>
                                 )}
                             {user.link_map_alamat_toko !== null &&
-                                user.is_active === null && (
+                                user.status === null && (
                                     <div
                                         className={`flex items-center p-4 mb-2  rounded-lg  text-yellow-800 bg-yellow-200 mt-3`}
                                         role='alert'>
@@ -125,7 +130,7 @@ const MyDashboardPage = () => {
                                     </div>
                                 )}
                             {user.link_map_alamat_toko !== null &&
-                                user.is_active === false && (
+                                user.status === 'Ditolak' && (
                                     <div
                                         className={`flex items-center p-4 mb-2  rounded-lg  text-red-800 bg-red-200 mt-3`}
                                         role='alert'>
@@ -181,6 +186,23 @@ const MyDashboardPage = () => {
                                         </h1>
                                     </div>
                                     <AiFillProduct
+                                        fontSize={28}
+                                        className='text-black'
+                                    />
+                                </div>
+                                <div className='w-full mx-0 md:mx-4 md:my-0 my-4 md:w-1/4 h-[100px] rounded-[8px] bg-white border-l-4 border-primary flex items-center justify-between px-7 hover:shadow-lg transform hover:scale-105 transition duration-300 ease-out '>
+                                    <div>
+                                        <h2 className='text-base font-bold leading-3 text-primary '>
+                                            Total Pendapatan
+                                        </h2>
+                                        <h1 className='mt-2 text-xl font-bold text-gray-600'>
+                                            RP.{' '}
+                                            {countPendapatanText.toLocaleString(
+                                                'ID-id'
+                                            )}
+                                        </h1>
+                                    </div>
+                                    <PiMoneyWavyBold
                                         fontSize={28}
                                         className='text-black'
                                     />
