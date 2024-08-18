@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import DashboardLayout from '@layouts/DashboardLayout'
 import { getDetailOrder } from '@utils/services/sellerServices'
-import moment from 'moment'
+import moment from 'moment-timezone'
 const SellerDetailOrdersPage = () => {
     const { id } = useParams()
     const [order, setOrder] = useState([])
@@ -58,6 +58,16 @@ const SellerDetailOrdersPage = () => {
                                                 {order.status_order}
                                             </span>
                                         )}{' '}
+                                        {order.status_order === 'SELESAI' && (
+                                            <span className='font-extrabold text-green-500'>
+                                                Selesai Diproses
+                                            </span>
+                                        )}{' '}
+                                        {order.status_order === 'PROSES' && (
+                                            <span className='font-extrabold text-yellow-500'>
+                                                Sedang Diproses
+                                            </span>
+                                        )}{' '}
                                         {order.status_order === 'CANCEL' && (
                                             <span className='font-extrabold text-red-500'>
                                                 {order.status_order}
@@ -89,7 +99,22 @@ const SellerDetailOrdersPage = () => {
                                             </span>
                                         )}{' '}
                                     </p>
+                                    <p>Jenis Layanan: {order?.jenis_layanan}</p>
+                                    <p>
+                                        Waktu Order:{' '}
+                                        {moment(order?.created_at).format(
+                                            ' DD-MM-YYYY HH:mm:ss'
+                                        )}
+                                    </p>
 
+                                    {order.waktu_transaksi !== null && (
+                                        <p>
+                                            Waktu Transaksi:{' '}
+                                            {moment(order?.waktu_transaksi)
+                                                .tz('Asia/Jakarta')
+                                                .format('DD-MM-YYYY HH:mm:ss')}
+                                        </p>
+                                    )}
                                     <p>Products: {order.Product?.nama}</p>
                                     <table className='min-w-full bg-white border border-primary'>
                                         <thead className='text-white bg-primary'>

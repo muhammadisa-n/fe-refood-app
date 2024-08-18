@@ -139,9 +139,13 @@ const SellerOrdersPage = () => {
                                                     {order?.status_order ===
                                                         'PROSES' && (
                                                         <span className='font-extrabold text-yellow-500'>
-                                                            {
-                                                                order?.status_order
-                                                            }
+                                                            DI PROSES
+                                                        </span>
+                                                    )}
+                                                    {order?.status_order ===
+                                                        'SELESAI' && (
+                                                        <span className='font-extrabold text-green-300'>
+                                                            SELESAI DIPROSES
                                                         </span>
                                                     )}
                                                     {order?.status_order ===

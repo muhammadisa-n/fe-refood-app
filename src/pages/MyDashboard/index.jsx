@@ -9,6 +9,7 @@ import {
     countProduct as countProductSeller,
     countOrder,
     countPendapatan,
+    countPendapatanPerbulan,
 } from '@utils/services/sellerServices.js'
 import {
     countProduct as countProductAdmin,
@@ -28,6 +29,33 @@ const MyDashboardPage = () => {
     const [countCustomerText, setCountCustomerText] = useState(0)
     const [countOrderText, setCountOrderText] = useState(0)
     const [countPendapatanText, setCountPendapatanText] = useState(0)
+    const [pendapatanDataBulan, setPendapatanDataBulan] = useState([])
+    const bulanNames = [
+        'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Agustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember',
+    ]
+    useEffect(() => {
+        const fetchPendapatanDataPerbulan = async () => {
+            try {
+                const response = await countPendapatanPerbulan()
+                setPendapatanDataBulan(response.pendapatan_per_bulan)
+            } catch (error) {
+                console.error('Error fetching pendapatan data perbulan:', error)
+            }
+        }
+
+        fetchPendapatanDataPerbulan()
+    }, [])
 
     const amountProduct = async () => {
         try {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import MainLayout from '@layouts/MainLayout'
 import CardProduct from '@components/CardProduct'
 import axios from 'axios'
-import { getAllProducts } from '../../utils/services/productServices'
+import { getAllProductRecomendation } from '../../utils/services/customerServices'
 import { useDebounce } from 'use-debounce'
 
 const RecommendationPage = () => {
@@ -20,10 +20,16 @@ const RecommendationPage = () => {
     const [search, setSearch] = useState('')
     const [page, setPage] = useState(1)
     const [searchValue] = useDebounce(prediksi, 100)
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true)
+
     const fetchProduct = async () => {
         if (prediksi !== '') {
             try {
-                const response = await getAllProducts(page, take, searchValue)
+                const response = await getAllProductRecomendation(
+                    page,
+                    take,
+                    searchValue
+                )
                 setProducts(response.products)
                 setTotalProduct(response.total_product)
                 setPage(response.paging.current_page)
@@ -35,14 +41,37 @@ const RecommendationPage = () => {
             setTotalProduct(0)
         }
     }
+
     useEffect(() => {
         fetchProduct()
     }, [page, take, searchValue])
 
+    useEffect(() => {
+        const checkIfButtonShouldBeDisabled = () => {
+            if (
+                !preferensiRasa &&
+                !jenisMakanan &&
+                (kebutuhanDiet === 'Tidak Ada' || !kebutuhanDiet) &&
+                bahanDisukai.length === 0 &&
+                bahanTidakDisukai.length === 0
+            ) {
+                setIsButtonDisabled(true)
+            } else {
+                setIsButtonDisabled(false)
+            }
+        }
+
+        checkIfButtonShouldBeDisabled()
+    }, [
+        preferensiRasa,
+        jenisMakanan,
+        kebutuhanDiet,
+        bahanDisukai,
+        bahanTidakDisukai,
+    ])
+
     const handleRecommendation = async () => {
         try {
-            const url_deploy =
-                'https://recommendation.refood-app.site/api/get-recomendation'
             const response = await axios.post(
                 'https://recommendation.refood-app.site/api/get-recomendation',
                 {
@@ -75,7 +104,10 @@ const RecommendationPage = () => {
 
     const handleBahanDisukaiChange = (e) => {
         const { value } = e.target
-        if (!bahanDisukai.includes(value)) {
+        if (
+            !bahanDisukai.includes(value) &&
+            !bahanTidakDisukai.includes(value)
+        ) {
             setBahanDisukai([...bahanDisukai, value])
         } else {
             setBahanDisukai(bahanDisukai.filter((item) => item !== value))
@@ -84,7 +116,10 @@ const RecommendationPage = () => {
 
     const handleBahanTidakDisukaiChange = (e) => {
         const { value } = e.target
-        if (!bahanTidakDisukai.includes(value)) {
+        if (
+            !bahanTidakDisukai.includes(value) &&
+            !bahanDisukai.includes(value)
+        ) {
             setBahanTidakDisukai([...bahanTidakDisukai, value])
         } else {
             setBahanTidakDisukai(
@@ -92,6 +127,15 @@ const RecommendationPage = () => {
             )
         }
     }
+
+    const isBahanDisukaiChecked = (value) => bahanDisukai.includes(value)
+
+    const isBahanTidakDisukaiChecked = (value) =>
+        bahanTidakDisukai.includes(value)
+
+    const isDisabledDisukai = (value) => bahanTidakDisukai.includes(value)
+
+    const isDisabledTidakDisukai = (value) => bahanDisukai.includes(value)
 
     return (
         <MainLayout>
@@ -139,9 +183,6 @@ const RecommendationPage = () => {
                                 <option value='Makanan Rumahan'>
                                     Makanan Rumahan
                                 </option>
-                                <option value='Makanan Restoran'>
-                                    Makanan Restoran
-                                </option>
                             </select>
                         </div>
                         <div className='flex flex-col w-1/4 mx-auto'>
@@ -171,9 +212,11 @@ const RecommendationPage = () => {
                                     id='Ayam'
                                     name='Ayam'
                                     value='Ayam'
+                                    checked={isBahanDisukaiChecked('Ayam')}
                                     onChange={handleBahanDisukaiChange}
+                                    disabled={isDisabledDisukai('Ayam')}
                                 />
-                                <label htmlFor='sayuran'> Ayam</label>
+                                <label htmlFor='Ayam'> Ayam</label>
                             </div>
                             <div>
                                 <input
@@ -181,7 +224,9 @@ const RecommendationPage = () => {
                                     id='Daging'
                                     name='Daging'
                                     value='Daging'
+                                    checked={isBahanDisukaiChecked('Daging')}
                                     onChange={handleBahanDisukaiChange}
+                                    disabled={isDisabledDisukai('Daging')}
                                 />
                                 <label htmlFor='Daging'> Daging</label>
                             </div>
@@ -191,7 +236,9 @@ const RecommendationPage = () => {
                                     id='Ikan'
                                     name='Ikan'
                                     value='Ikan'
+                                    checked={isBahanDisukaiChecked('Ikan')}
                                     onChange={handleBahanDisukaiChange}
+                                    disabled={isDisabledDisukai('Ikan')}
                                 />
                                 <label htmlFor='Ikan'> Ikan</label>
                             </div>
@@ -201,7 +248,9 @@ const RecommendationPage = () => {
                                     id='Sayuran'
                                     name='Sayuran'
                                     value='Sayuran'
+                                    checked={isBahanDisukaiChecked('Sayuran')}
                                     onChange={handleBahanDisukaiChange}
+                                    disabled={isDisabledDisukai('Sayuran')}
                                 />
                                 <label htmlFor='Sayuran'> Sayuran</label>
                             </div>
@@ -214,7 +263,9 @@ const RecommendationPage = () => {
                                     id='ayam-tdk'
                                     name='ayam-tdk'
                                     value='Ayam'
+                                    checked={isBahanTidakDisukaiChecked('Ayam')}
                                     onChange={handleBahanTidakDisukaiChange}
+                                    disabled={isDisabledTidakDisukai('Ayam')}
                                 />
                                 <label htmlFor='ayam-tdk'> Ayam</label>
                             </div>
@@ -224,7 +275,11 @@ const RecommendationPage = () => {
                                     id='daging-tdk'
                                     name='daging-tdk'
                                     value='Daging'
+                                    checked={isBahanTidakDisukaiChecked(
+                                        'Daging'
+                                    )}
                                     onChange={handleBahanTidakDisukaiChange}
+                                    disabled={isDisabledTidakDisukai('Daging')}
                                 />
                                 <label htmlFor='daging-tdk'> Daging</label>
                             </div>
@@ -234,7 +289,9 @@ const RecommendationPage = () => {
                                     id='ikan-tdk'
                                     name='ikan-tdk'
                                     value='Ikan'
+                                    checked={isBahanTidakDisukaiChecked('Ikan')}
                                     onChange={handleBahanTidakDisukaiChange}
+                                    disabled={isDisabledTidakDisukai('Ikan')}
                                 />
                                 <label htmlFor='ikan-tdk'> Ikan</label>
                             </div>
@@ -244,7 +301,11 @@ const RecommendationPage = () => {
                                     id='sayuran-tdk'
                                     name='sayuran-tdk'
                                     value='Sayuran'
+                                    checked={isBahanTidakDisukaiChecked(
+                                        'Sayuran'
+                                    )}
                                     onChange={handleBahanTidakDisukaiChange}
+                                    disabled={isDisabledTidakDisukai('Sayuran')}
                                 />
                                 <label htmlFor='sayuran-tdk'> Sayuran</label>
                             </div>
@@ -252,15 +313,16 @@ const RecommendationPage = () => {
                     </div>
                     <div className='flex mt-4'>
                         <button
-                            className='px-4 py-2 font-semibold text-white rounded-md bg-primary'
-                            onClick={handleRecommendation}>
+                            className='px-4 py-2 font-semibold text-white rounded-md bg-primary disabled:bg-orange-700'
+                            onClick={handleRecommendation}
+                            disabled={isButtonDisabled}>
                             Dapatkan Rekomendasi
                         </button>
                     </div>
                 </div>
-                <div className='mx-10 mt-10 '>
+                <div className='mx-10 mt-10'>
                     <p className='text-xl font-bold text-primary'>
-                        Hasil Rekomendasi : {prediksi}
+                        Hasil Rekomendasi: {prediksi}
                     </p>
                 </div>
                 {totalProduct === 0 ? (
@@ -292,11 +354,9 @@ const RecommendationPage = () => {
                             disabled={page === 1}>
                             Sebelumnya
                         </button>
-
                         <span>{page}</span>
-
                         <button
-                            className={`bg-primary mb-2 text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md  disabled:bg-orange-700`}
+                            className={`bg-primary mb-2 text-white font-semibold px-3 py-2 hover:bg-secondary rounded-md disabled:bg-orange-700`}
                             onClick={() => handleNext()}
                             disabled={page === totalPage || page > totalPage}>
                             Selanjutnya

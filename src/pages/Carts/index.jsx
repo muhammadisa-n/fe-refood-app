@@ -5,6 +5,7 @@ import MainLayout from '@layouts/MainLayout'
 import { deleteCart } from '@utils/services/customerServices'
 import { createOrder } from '../../utils/services/customerServices'
 import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 const CartsPage = () => {
     const { carts, refreshCart } = useCart()
     const navigate = useNavigate()
@@ -29,9 +30,18 @@ const CartsPage = () => {
         }
         try {
             const response = await createOrder(data)
+
             navigate(`/my-orders/checkout/${response.dataOrder.id}`)
         } catch (error) {
             console.error(error)
+            if (error.status_code !== 200) {
+                await Swal.fire({
+                    icon: 'error',
+                    title: `${error.message}`,
+                    showConfirmButton: true,
+                    timer: 2000,
+                })
+            }
         } finally {
         }
     }

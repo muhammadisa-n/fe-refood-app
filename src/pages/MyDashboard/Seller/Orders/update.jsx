@@ -122,7 +122,10 @@ const SellerUpdateOrderPage = () => {
                                                     PENDING
                                                 </option>
                                                 <option value='PROSES'>
-                                                    PROSES
+                                                    SEDANG DIPROSES
+                                                </option>
+                                                <option value='SELESAI'>
+                                                    SELESAI DIPROSES
                                                 </option>
                                             </>
                                         )}
@@ -130,7 +133,24 @@ const SellerUpdateOrderPage = () => {
                                             <>
                                                 <option
                                                     value={selectedStatusOrder}>
-                                                    PROSES
+                                                    SEDANG DIPROSES
+                                                </option>
+                                                <option value='SELESAI'>
+                                                    SELESAI DIPROSES
+                                                </option>
+                                                <option value='PENDING'>
+                                                    PENDING
+                                                </option>
+                                            </>
+                                        )}
+                                        {selectedStatusOrder === 'SELESAI' && (
+                                            <>
+                                                <option
+                                                    value={selectedStatusOrder}>
+                                                    SELESAI DIPROSES
+                                                </option>
+                                                <option value='PROSES'>
+                                                    SEDANG DIPROSES
                                                 </option>
                                                 <option value='PENDING'>
                                                     PENDING

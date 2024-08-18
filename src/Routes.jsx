@@ -38,7 +38,6 @@ import CheckOutPage from '@pages/CheckOut'
 import OrderDetailPage from '@pages/OrderDetail'
 import SellerDetailOrdersPage from '@pages/MyDashboard/Seller/Orders/detail'
 import SellerUpdateOrderPage from '@pages/MyDashboard/Seller/Orders/update'
-import GetLocationPage from '@pages/GetLocation'
 import AdminDetailCustomerPage from '@pages/MyDashboard/Admin/User/Customer/detail'
 
 const RoutesPage = () => {
@@ -52,11 +51,6 @@ const RoutesPage = () => {
                     path='/product/detail/:id'
                     element={<DetailProductPage />}
                 />
-                <Route
-                    path='/recommendation'
-                    element={<RecommendationPage />}
-                />
-                <Route path='/getlocation' element={<GetLocationPage />} />
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/register' element={<RegisterPage />} />
                 <Route
@@ -70,6 +64,10 @@ const RoutesPage = () => {
                 <Route path='/reset-password' element={<ResetPasswordPage />} />
                 {/* Protected Routes */}
                 <Route element={<IsLoggedIn />}>
+                    <Route
+                        path='/recommendation'
+                        element={<RecommendationPage />}
+                    />
                     {/* Customer Route */}
                     <Route
                         path='/carts'

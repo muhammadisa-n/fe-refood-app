@@ -79,3 +79,14 @@ export const UpdateStatusOrder = async (id, data) => {
         throw error.response ? error.response.data : error
     }
 }
+
+export const getAllProductRecomendation = async (page, take, search) => {
+    try {
+        const response = await axiosJWT.get('/customer/products', {
+            params: { page, take, search },
+        })
+        return response.data
+    } catch (error) {
+        throw error.response ? error.response.data : error
+    }
+}

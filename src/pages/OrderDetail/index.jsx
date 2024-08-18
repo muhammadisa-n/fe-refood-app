@@ -7,7 +7,7 @@ import {
     UpdateStatusOrder,
 } from '@utils/services/customerServices'
 import Swal from 'sweetalert2'
-import moment from 'moment'
+import moment from 'moment-timezone'
 const OrderDetailPage = () => {
     const { id } = useParams()
     const [order, setOrder] = useState([])
@@ -140,12 +140,27 @@ const OrderDetailPage = () => {
                                         </span>
                                     )}{' '}
                                 </p>
+
+                                {order?.jenis_layanan !== null && (
+                                    <p>
+                                        Jenis Layanan : {order?.jenis_layanan}
+                                    </p>
+                                )}
                                 <p>
-                                    Waktu Transaksi:{' '}
-                                    {moment(order?.waktu_transaksi).format(
-                                        ' DD-MM-YYYY HH:mm:ss'
-                                    )}
+                                    Waktu Order:{' '}
+                                    {moment(order?.created_at)
+                                        .tz('Asia/Jakarta')
+                                        .format('DD-MM-YYYY HH:mm:ss')}
                                 </p>
+                                {order.waktu_transaksi !== null && (
+                                    <p>
+                                        Waktu Transaksi:{' '}
+                                        {moment(order?.waktu_transaksi)
+                                            .tz('Asia/Jakarta')
+                                            .format('DD-MM-YYYY HH:mm:ss')}
+                                    </p>
+                                )}
+
                                 {order.status_order === 'PROSES' &&
                                     order.status_transaksi === 'PAID' && (
                                         <button
@@ -153,7 +168,7 @@ const OrderDetailPage = () => {
                                             onClick={() =>
                                                 handleUpdateStatus(order.id)
                                             }>
-                                            Pesanan Diambil
+                                            Pesanan Selesai
                                         </button>
                                     )}
                                 {order.status_order === 'CANCEL' ||

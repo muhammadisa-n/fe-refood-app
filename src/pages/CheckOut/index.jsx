@@ -3,12 +3,15 @@ import MainLayout from '@layouts/MainLayout'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getDetailOrder, updateOrder } from '@utils/services/customerServices'
 import { FaWhatsapp } from 'react-icons/fa'
+
 const CheckOutPage = () => {
     const { id } = useParams()
     const [order, setOrder] = useState([])
     const [orderNotFound, setOrderNotFound] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [jenisLayanan, setJenisLayanan] = useState('')
     const navigate = useNavigate()
+
     const fetchOrder = async () => {
         try {
             const response = await getDetailOrder(id)
@@ -19,6 +22,7 @@ const CheckOutPage = () => {
             }
         }
     }
+
     useEffect(() => {
         fetchOrder()
     }, [id])
@@ -32,6 +36,7 @@ const CheckOutPage = () => {
                     tipe_pembayaran: result.payment_type,
                     waktu_transaksi: new Date(result.transaction_time),
                     token_transaction: null,
+                    jenis_layanan: jenisLayanan,
                 }
                 try {
                     await updateOrder(result.order_id, data)
@@ -47,7 +52,7 @@ const CheckOutPage = () => {
                 const data = {
                     status_transaksi: 'PENDING',
                     tipe_pembayaran: result.payment_type,
-                    waktu_transaksi: new Date(result.transaction_time),
+                    jenis_layanan: jenisLayanan,
                 }
                 try {
                     await updateOrder(result.order_id, data)
@@ -66,6 +71,7 @@ const CheckOutPage = () => {
                     tipe_pembayaran: result.payment_type,
                     waktu_transaksi: new Date(result.transaction_time),
                     token_transaction: null,
+                    jenis_layanan: jenisLayanan,
                 }
                 try {
                     await updateOrder(result.order_id, data)
@@ -83,6 +89,7 @@ const CheckOutPage = () => {
             },
         })
     }
+
     useEffect(() => {
         const midtransURL = 'https://app.midtrans.com/snap/snap.js'
         let scriptTag = document.createElement('script')
@@ -94,6 +101,7 @@ const CheckOutPage = () => {
             document.body.removeChild(scriptTag)
         }
     }, [])
+
     return (
         <MainLayout>
             {orderNotFound ? (
@@ -157,6 +165,25 @@ const CheckOutPage = () => {
                                     Rp{' '}
                                     {order.total_harga?.toLocaleString('id-Id')}
                                 </p>
+                            </div>
+                            <div className='mb-4'>
+                                <h2 className='text-lg font-semibold'>
+                                    Pilihan Layanan
+                                </h2>
+                                <select
+                                    disabled={order.status_transaksi === 'PAID'}
+                                    value={jenisLayanan}
+                                    onChange={(e) =>
+                                        setJenisLayanan(e.target.value)
+                                    }
+                                    className='w-full py-2 mt-2 border rounded-lg'>
+                                    <option value='Makan di Tempat'>
+                                        Makan di Tempat
+                                    </option>
+                                    <option value='Ambil di Tempat'>
+                                        Ambil di Tempat
+                                    </option>
+                                </select>
                             </div>
                             {order.status_transaksi !== 'PAID' ? (
                                 <button
