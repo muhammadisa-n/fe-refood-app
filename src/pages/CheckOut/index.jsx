@@ -91,12 +91,12 @@ const CheckOutPage = () => {
     }
 
     useEffect(() => {
-        // const midtransURL = 'https://app.sandbox.midtrans.com/snap/snap.js'
-        const midtransURL = 'https://app.midtrans.com/snap/snap.js'
+        const midtransURL = 'https://app.sandbox.midtrans.com/snap/snap.js'
+        //  const midtransURL = 'https://app.midtrans.com/snap/snap.js'
         let scriptTag = document.createElement('script')
         scriptTag.src = midtransURL
-        const midtransClientKey = import.meta.env.PROD_MIDTRANS_CLIENT_KEY
-        // const midtransClientKey = import.meta.env.DEV_MIDTRANS_CLIENT_KEY
+        // const midtransClientKey = import.meta.env.PROD_MIDTRANS_CLIENT_KEY
+        const midtransClientKey = import.meta.env.DEV_MIDTRANS_CLIENT_KEY
         scriptTag.setAttribute('data-client-key', midtransClientKey)
         document.body.appendChild(scriptTag)
         return () => {
