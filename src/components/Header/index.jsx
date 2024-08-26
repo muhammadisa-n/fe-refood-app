@@ -10,7 +10,7 @@ import { useUser } from '@context/userContext.jsx'
 const Header = () => {
     const { user, role, refreshUser } = useUser()
     const [isOpen, setIsOpen] = useState(false)
-    const { carts, refreshCart } = useCart()
+    const { carts, refreshCart, cartsItems } = useCart()
     const [token, setToken] = useState(
         localStorage.getItem('access_token') || ''
     )
@@ -125,11 +125,12 @@ const Header = () => {
                                             size={20}
                                             className='hover:text-primary'
                                         />
-                                        {carts && carts.length > 0 && (
-                                            <span className='absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-white transform translate-x-1/2 -translate-y-1/2 rounded-full bg-primary'>
-                                                {carts.length}
-                                            </span>
-                                        )}
+                                        {cartsItems &&
+                                            cartsItems.length > 0 && (
+                                                <span className='absolute top-0 right-0 flex items-center justify-center w-5 h-5 text-xs text-white transform translate-x-1/2 -translate-y-1/2 rounded-full bg-primary'>
+                                                    {cartsItems.length}
+                                                </span>
+                                            )}
                                     </NavLink>
                                     <DropdownMenu
                                         profileImage={

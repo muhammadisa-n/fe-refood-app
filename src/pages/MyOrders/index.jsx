@@ -29,18 +29,15 @@ const MyOrderPage = () => {
                         {orders.map((order) => (
                             <OrderItem
                                 key={order.id}
-                                imgSrc={
-                                    order.OrderProducts[0].Product.image_url
-                                }
+                                imgSrc={order.OrderItems[0].Product.image_url}
                                 orderId={order.id}
                                 productName={
-                                    order.OrderProducts.length > 1
-                                        ? `${order.OrderProducts[0].Product.nama} ...`
-                                        : order.OrderProducts[0].Product.nama
+                                    order.OrderItems.length > 1
+                                        ? `${order.OrderItems[0].Product.nama} ...`
+                                        : order.OrderItems[0].Product.nama
                                 }
-                                totalHarga={order.total_harga}
+                                totalHarga={order.total_pembayaran}
                                 totalProduct={order.total_produk}
-                                statusOrder={order.status_order}
                                 statusTransaksi={order.status_transaksi}
                             />
                         ))}

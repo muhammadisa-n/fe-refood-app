@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getProductById } from '@utils/services/productServices.js'
 import { useCart } from '@context/CartContext.jsx'
 import { addCart, createOrder } from '@utils/services/customerServices.js'
@@ -17,6 +17,12 @@ const DetailProductPage = () => {
     const [totalProduct, setTotalProduct] = useState(1)
     const [productNotFound, setProductNotFound] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [jenisLayanan, setJenisLayanan] = useState('Ambil Di Tempat')
+    const [isModalOpen, setIsModalOpen] = useState()
+    const [waktuMakan, setWaktuMakan] = useState()
+    const [noMeja, setNoMeja] = useState('')
+    const openModal = () => setIsModalOpen(true)
+    const closeModal = () => setIsModalOpen(false)
     const navigate = useNavigate()
     const decrease = () => {
         if (totalProduct === 1) {
@@ -41,9 +47,10 @@ const DetailProductPage = () => {
     }, [id])
 
     const handleAddToCart = async () => {
+        const hargaDiskon = hargaSetelaDiskon(product.harga, product.diskon)
         const data = {
             total_produk: totalProduct,
-            total_harga: product.harga * totalProduct,
+            total_harga: hargaDiskon * totalProduct,
             product_id: product.id,
         }
         try {
@@ -60,22 +67,28 @@ const DetailProductPage = () => {
         }
     }
     const handleAddToOrder = async () => {
-        setIsLoading(true)
+        const hargaDiskon = hargaSetelaDiskon(product.harga, product.diskon)
         const data = {
             products: [
                 {
                     product_id: product.id,
-                    quantity: totalProduct,
+                    sub_total_produk: totalProduct,
+                    sub_total_harga: hargaDiskon * totalProduct,
                 },
             ],
-            total_harga: product.harga * totalProduct,
+            jenis_layanan: jenisLayanan,
+            waktu_makan: jenisLayanan === 'Makan Di Tempat' ? waktuMakan : null,
+            no_meja: noMeja,
+            total_pembayaran:
+                hargaSetelaDiskon(product.harga, product.diskon) * totalProduct,
+            total_produk: totalProduct,
         }
+        console.log(data)
         try {
             const response = await createOrder(data)
             navigate(`/my-orders/checkout/${response.dataOrder.id}`)
         } catch (error) {
             setIsLoading(false)
-            console.error(error)
         } finally {
             setIsLoading(false)
         }
@@ -85,6 +98,9 @@ const DetailProductPage = () => {
             return '62' + phoneNumber.slice(1)
         }
         return phoneNumber
+    }
+    const hargaSetelaDiskon = (harga, diskon) => {
+        return diskon && diskon > 0 ? (harga * (100 - diskon)) / 100 : harga
     }
     return (
         <MainLayout>
@@ -112,11 +128,13 @@ const DetailProductPage = () => {
                                         alt=''
                                     />
                                 </div>
-                                <div className='my-auto'>
+                                <Link
+                                    to={`/products?seller=${product.Seller?.nama}`}
+                                    className='my-auto'>
                                     <p className='text-xs font-semibold md:text-xl'>
                                         {product.Seller?.nama}
                                     </p>
-                                </div>
+                                </Link>
                             </div>
 
                             <div className='w-5/12 mx-3 my-auto text-gray-500 md:w-8/12 max-sm:text-sm '>
@@ -161,9 +179,10 @@ const DetailProductPage = () => {
                             </div>
                         </div>
                         <div className='p-6 description md:basis-1/2 md:py-10'>
-                            <p className='mb-6 text-base font-semibold tracking-widest uppercase text-primary'>
+                            <p className='mb-6 text-xs font-semibold tracking-widest uppercase text-primary'>
                                 {product.Category?.nama}
                             </p>
+
                             <h1 className='text-3xl font-semibold capitalize md:text-4xl'>
                                 {product.nama}
                             </h1>
@@ -173,12 +192,35 @@ const DetailProductPage = () => {
                             <p className='my-6 leading-7 text-black md:hidden'>
                                 {product.deskripsi}
                             </p>
+                            {product.diskon && product.diskon > 0 ? (
+                                <>
+                                    <div className='flex items-center'>
+                                        <span className='text-3xl font-[700] mr-4 text-slate-400 line-through'>
+                                            Rp.{' '}
+                                            {product.harga?.toLocaleString(
+                                                'id-Id'
+                                            )}
+                                        </span>
+                                    </div>
+                                    <div className='flex items-center'>
+                                        <span className='text-3xl font-[700] mr-4'>
+                                            Rp.{' '}
+                                            {hargaSetelaDiskon(
+                                                product.harga,
+                                                product.diskon
+                                            ).toLocaleString('id-ID')}
+                                        </span>
+                                    </div>
+                                </>
+                            ) : (
+                                <div className='flex items-center'>
+                                    <span className='text-3xl font-[700] mr-4'>
+                                        Rp.{' '}
+                                        {product.harga?.toLocaleString('id-Id')}
+                                    </span>
+                                </div>
+                            )}
 
-                            <div className='flex items-center price'>
-                                <span className='text-3xl font-[700] mr-4'>
-                                    Rp. {product.harga?.toLocaleString('id-Id')}
-                                </span>
-                            </div>
                             {token && role === 'Customer' && (
                                 <>
                                     <div className='flex flex-col mt-8 md:flex-row'>
@@ -216,11 +258,152 @@ const DetailProductPage = () => {
                                         <div className='px-4 mx-auto'>
                                             <button
                                                 disabled={isLoading}
-                                                onClick={handleAddToOrder}
+                                                onClick={openModal}
                                                 className={`px-12 py-3 mt-4 font-semibold text-white rounded-lg shadow-xl bg-primary md:mt-0 md:py-3 md:text-base hover:bg-secondary hover:text-primary ${isLoading ? 'bg-orange-800' : ''}`}>
                                                 Order
                                             </button>
                                         </div>
+                                        {isModalOpen && (
+                                            <div className='fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50'>
+                                                <div className='w-11/12 max-w-md p-8 bg-white rounded-lg shadow-lg'>
+                                                    <h2 className='mb-4 text-xl font-bold'>
+                                                        Order Confirmation
+                                                    </h2>
+                                                    <div className='mb-4'>
+                                                        <h3 className='text-lg font-semibold'>
+                                                            {product.nama}
+                                                        </h3>
+                                                        <p>
+                                                            Harga: Rp.{' '}
+                                                            {product.harga?.toLocaleString(
+                                                                'id-Id'
+                                                            )}
+                                                        </p>
+                                                        <p>
+                                                            Jumlah:{' '}
+                                                            {totalProduct}
+                                                        </p>
+                                                        {product.diskon && (
+                                                            <>
+                                                                <p>
+                                                                    Diskon:
+                                                                    {
+                                                                        product.diskon
+                                                                    }
+                                                                    %
+                                                                </p>
+                                                                <p>
+                                                                    Harga
+                                                                    Diskon: Rp.{' '}
+                                                                    {hargaSetelaDiskon(
+                                                                        product.harga,
+                                                                        product.diskon
+                                                                    ).toLocaleString(
+                                                                        'id-Id'
+                                                                    )}
+                                                                </p>
+                                                            </>
+                                                        )}
+                                                        <p>
+                                                            Total Harga: Rp.{' '}
+                                                            {(
+                                                                hargaSetelaDiskon(
+                                                                    product.harga,
+                                                                    product.diskon
+                                                                ) * totalProduct
+                                                            ).toLocaleString(
+                                                                'id-Id'
+                                                            )}
+                                                        </p>
+                                                    </div>
+                                                    <div className='mb-4'>
+                                                        <label className='block mb-2 text-sm font-medium text-gray-600'>
+                                                            Pilih Jenis Layanan
+                                                        </label>
+                                                        <select
+                                                            value={jenisLayanan}
+                                                            onChange={(e) =>
+                                                                setJenisLayanan(
+                                                                    e.target
+                                                                        .value
+                                                                )
+                                                            }
+                                                            className='w-full p-2 border border-gray-300 rounded-md'>
+                                                            <option value='Ambil Di Tempat'>
+                                                                Ambil Di Tempat
+                                                            </option>
+                                                            <option value='Makan Di Tempat'>
+                                                                Makan Di Tempat
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                    {jenisLayanan ===
+                                                        'Makan Di Tempat' && (
+                                                        <>
+                                                            <div className='mb-4'>
+                                                                <label className='block mb-2 text-sm font-medium text-gray-600'>
+                                                                    Waktu Makan
+                                                                </label>
+                                                                <input
+                                                                    type='time'
+                                                                    value={
+                                                                        waktuMakan
+                                                                    }
+                                                                    onChange={(
+                                                                        e
+                                                                    ) =>
+                                                                        setWaktuMakan(
+                                                                            e
+                                                                                .target
+                                                                                .value
+                                                                        )
+                                                                    }
+                                                                    className='w-full p-2 border border-gray-300 rounded-md'
+                                                                />
+                                                            </div>
+                                                            <div className='mb-4'>
+                                                                <label className='block mb-2 text-sm font-medium text-gray-600'>
+                                                                    Nomor Meja
+                                                                </label>
+                                                                <input
+                                                                    type='number'
+                                                                    value={
+                                                                        noMeja
+                                                                    }
+                                                                    onChange={(
+                                                                        e
+                                                                    ) =>
+                                                                        setNoMeja(
+                                                                            e
+                                                                                .target
+                                                                                .value
+                                                                        )
+                                                                    }
+                                                                    className='w-full p-2 border border-gray-300 rounded-md hide-arrow'
+                                                                    placeholder='Masukkan nomor meja'
+                                                                />
+                                                            </div>
+                                                        </>
+                                                    )}
+                                                    <div className='mt-4 text-right'>
+                                                        <button
+                                                            className='px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-700'
+                                                            onClick={
+                                                                closeModal
+                                                            }>
+                                                            Close
+                                                        </button>
+                                                        <button
+                                                            className='px-4 py-2 ml-2 text-white bg-green-500 rounded-md hover:bg-green-700'
+                                                            onClick={
+                                                                handleAddToOrder
+                                                            }>
+                                                            Confirm Order
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </>
                             )}

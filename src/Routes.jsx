@@ -39,6 +39,9 @@ import OrderDetailPage from '@pages/OrderDetail'
 import SellerDetailOrdersPage from '@pages/MyDashboard/Seller/Orders/detail'
 import SellerUpdateOrderPage from '@pages/MyDashboard/Seller/Orders/update'
 import AdminDetailCustomerPage from '@pages/MyDashboard/Admin/User/Customer/detail'
+import ProductsByPage from './pages/ProductsBy'
+import SellerReportSalesPage from './pages/MyDashboard/Seller/Reports/salesReport'
+import SellerReportIncomePage from './pages/MyDashboard/Seller/Reports/incomeReport'
 
 const RoutesPage = () => {
     return (
@@ -51,6 +54,7 @@ const RoutesPage = () => {
                     path='/product/detail/:id'
                     element={<DetailProductPage />}
                 />
+                <Route path='/products' element={<ProductsByPage />} />
                 <Route path='/login' element={<LoginPage />} />
                 <Route path='/register' element={<RegisterPage />} />
                 <Route
@@ -133,6 +137,22 @@ const RoutesPage = () => {
                         element={
                             <IsSeller>
                                 <SellerProductsPage />
+                            </IsSeller>
+                        }
+                    />
+                    <Route
+                        path='/my-dashboard/seller/report-sales'
+                        element={
+                            <IsSeller>
+                                <SellerReportSalesPage />
+                            </IsSeller>
+                        }
+                    />
+                    <Route
+                        path='/my-dashboard/seller/report-income'
+                        element={
+                            <IsSeller>
+                                <SellerReportIncomePage />
                             </IsSeller>
                         }
                     />

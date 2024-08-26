@@ -1,15 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { AiFillProduct } from 'react-icons/ai'
 import { FaUsers } from 'react-icons/fa'
 import { PiUsersThreeBold } from 'react-icons/pi'
 import { PiMoneyWavyBold } from 'react-icons/pi'
-
+import {
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    Tooltip,
+    ZAxis,
+    ScatterChart,
+    Legend,
+    CartesianGrid,
+    Scatter,
+    BarChart,
+    Bar,
+} from 'recharts'
 import DashboardLayout from '@layouts/DashboardLayout'
+import moment from 'moment-timezone'
 import {
     countProduct as countProductSeller,
     countOrder,
     countPendapatan,
-    countPendapatanPerbulan,
 } from '@utils/services/sellerServices.js'
 import {
     countProduct as countProductAdmin,
@@ -19,6 +32,7 @@ import {
 import { jwtDecode } from 'jwt-decode'
 import { NavLink } from 'react-router-dom'
 import { useUser } from '@context/userContext.jsx'
+import { reportIncomeSeller } from '../../utils/services/sellerServices'
 
 const MyDashboardPage = () => {
     const { user, refreshUser } = useUser()
@@ -30,33 +44,22 @@ const MyDashboardPage = () => {
     const [countOrderText, setCountOrderText] = useState(0)
     const [countPendapatanText, setCountPendapatanText] = useState(0)
     const [pendapatanDataBulan, setPendapatanDataBulan] = useState([])
-    const bulanNames = [
-        'Januari',
-        'Februari',
-        'Maret',
-        'April',
-        'Mei',
-        'Juni',
-        'Juli',
-        'Agustus',
-        'September',
-        'Oktober',
-        'November',
-        'Desember',
-    ]
-    useEffect(() => {
-        const fetchPendapatanDataPerbulan = async () => {
-            try {
-                const response = await countPendapatanPerbulan()
-                setPendapatanDataBulan(response.pendapatan_per_bulan)
-            } catch (error) {
-                console.error('Error fetching pendapatan data perbulan:', error)
+    const [datagrafikPendapatan, setDataGrafikPendapatan] = useState([])
+    const tableRef = useRef()
+    const [startDate, setStartDate] = useState()
+    const [endDate, setEndDate] = useState()
+
+    const fetchReportData = async () => {
+        try {
+            const decoded = jwtDecode(token)
+            if (decoded.user_role === 'Seller') {
+                const response = await reportIncomeSeller(startDate, endDate)
+                setDataGrafikPendapatan(response.dataPendapatan || [])
             }
+        } catch (error) {
+            console.error('Error Fetching Report Sales', error)
         }
-
-        fetchPendapatanDataPerbulan()
-    }, [])
-
+    }
     const amountProduct = async () => {
         try {
             const decoded = jwtDecode(token)
@@ -104,8 +107,11 @@ const MyDashboardPage = () => {
             amountProduct()
             amountOrder()
             amountSellerAndCustomer()
+            fetchReportData()
         }
     }, [token])
+    const formatDate = (date) => moment(date).format('DD MMM YYYY')
+
     return (
         <DashboardLayout>
             <div className='px-6 pt-6 '>
@@ -234,6 +240,42 @@ const MyDashboardPage = () => {
                                         fontSize={28}
                                         className='text-black'
                                     />
+                                </div>
+                            </div>
+                            <div className='mt-5 basis-[85%]'>
+                                <div className='mx-auto mt-10'>
+                                    <h1 className='mb-10 text-3xl font-semibold text-primary '>
+                                        Grafik Total Pendapatan
+                                    </h1>
+                                    <LineChart
+                                        width={800}
+                                        height={500}
+                                        data={datagrafikPendapatan}>
+                                        <Line
+                                            name='Total Pendapatan'
+                                            dataKey='_sum.total_pembayaran'
+                                            stroke='green'
+                                        />
+                                        <XAxis
+                                            stroke='black'
+                                            dataKey='waktu_transaksi'
+                                            tickFormatter={formatDate}
+                                            height={70}
+                                        />
+                                        <YAxis
+                                            name='Total Pendapatan'
+                                            stroke='black'
+                                        />
+                                        <Tooltip
+                                            labelFormatter={(value) =>
+                                                formatDate(value)
+                                            }
+                                            formatter={(value) => [
+                                                `Rp ${value.toLocaleString('id-ID')}`,
+                                                'Total Pendapatan',
+                                            ]}
+                                        />
+                                    </LineChart>
                                 </div>
                             </div>
                         </>

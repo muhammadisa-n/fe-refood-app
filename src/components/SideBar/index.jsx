@@ -7,8 +7,10 @@ import { BiFoodMenu } from 'react-icons/bi'
 import { BiCategory } from 'react-icons/bi'
 import { CgProfile } from 'react-icons/cg'
 import { CiLogout } from 'react-icons/ci'
+import { FcSalesPerformance } from 'react-icons/fc'
 import { logout } from '@utils/services/authServices.js'
 import { useUser } from '@context/userContext.jsx'
+import { GiProfit } from 'react-icons/gi'
 const SideBar = () => {
     const { role } = useUser()
     const [token, setToken] = useState(
@@ -114,6 +116,31 @@ const SideBar = () => {
                                 <BiFoodMenu className='text-white' />
                                 <p className='text-base leading-5 text-white'>
                                     Orders
+                                </p>
+                            </Link>
+                        </div>
+                    </div>
+                    <div className='pt-4 border-b border-white/40'>
+                        <p className='text-xs leading-4 uppercase text-white/40 font-extralight '>
+                            REPORTS
+                        </p>
+                        <div className='flex items-center justify-between py-4 cursor-pointer'>
+                            <Link
+                                to='/my-dashboard/seller/report-sales'
+                                className='flex items-center gap-3'>
+                                <FcSalesPerformance className='text-white bg-white' />
+                                <p className='text-base leading-5 text-white'>
+                                    Penjualan
+                                </p>
+                            </Link>
+                        </div>
+                        <div className='flex items-center justify-between py-4 cursor-pointer'>
+                            <Link
+                                to='/my-dashboard/seller/report-income'
+                                className='flex items-center gap-3'>
+                                <GiProfit className='text-white ' />
+                                <p className='text-base leading-5 text-white'>
+                                    Pendapatan
                                 </p>
                             </Link>
                         </div>

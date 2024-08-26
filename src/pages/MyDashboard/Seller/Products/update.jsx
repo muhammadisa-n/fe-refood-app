@@ -16,6 +16,7 @@ const SellerUpdateProductPage = () => {
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
+    const [diskon, setDiskon] = useState('')
     const [selectedCategory, setSelectedCategory] = useState()
     const [categories, setCategories] = useState([])
     const navigate = useNavigate()
@@ -31,6 +32,7 @@ const SellerUpdateProductPage = () => {
                 setName(product.nama)
                 setPrice(product.harga)
                 setDescription(product.deskripsi)
+                setDiskon(product.diskon)
                 setSelectedCategory(product.Category?.nama)
                 if (product.image_url) {
                     setPreviewImg(product.image_url)
@@ -51,6 +53,7 @@ const SellerUpdateProductPage = () => {
         formData.append('deskripsi', description)
         formData.append('harga', price)
         formData.append('image', image)
+        formData.append('diskon', diskon)
         try {
             const response = await updateProduct(id, formData)
             await Swal.fire({
@@ -142,7 +145,45 @@ const SellerUpdateProductPage = () => {
                                     disabled={isLoading}
                                     OnChange={(e) => setPrice(e.target.value)}
                                 />
-
+                                <div className='mb-6'>
+                                    <label
+                                        htmlFor='diskon'
+                                        className='block mb-2 text-sm font-bold text-slate-700'>
+                                        Diskon
+                                    </label>
+                                    <div className='mb-6'>
+                                        <label
+                                            htmlFor='diskon'
+                                            className='block mb-2 text-sm font-bold text-slate-700'>
+                                            Diskon
+                                        </label>
+                                        <select
+                                            id='diskon'
+                                            name='diskon'
+                                            value={diskon}
+                                            onChange={(e) =>
+                                                setDiskon(e.target.value)
+                                            }
+                                            disabled={isLoading}
+                                            className={`w-full px-3 py-2 text-sm border rounded text-slate-700 placeholder:opacity-50 ${isLoading ? 'bg-gray-200 text-slate-700 border-gray-300' : ''}`}>
+                                            <option value='0'>
+                                                Tidak ada diskon
+                                            </option>
+                                            {Array.from(
+                                                { length: 21 },
+                                                (_, i) => i * 5
+                                            )
+                                                .filter((value) => value > 0)
+                                                .map((value) => (
+                                                    <option
+                                                        key={value}
+                                                        value={value}>
+                                                        {value}%
+                                                    </option>
+                                                ))}
+                                        </select>
+                                    </div>
+                                </div>
                                 <div className='mb-6'>
                                     <label
                                         htmlFor='description'

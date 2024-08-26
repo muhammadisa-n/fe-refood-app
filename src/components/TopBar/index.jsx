@@ -22,10 +22,9 @@ const TopBar = ({ toggleSidebar }) => {
                     <RiMenu2Line size={32} />
                 </button>
             </div>
-
-            <div className='relative flex items-center gap-4'>
+            <div className='relative flex items-center gap-4 jus'>
                 {decoded.user_role === 'Seller' ? (
-                    <div>
+                    <div className=''>
                         <a
                             type='button'
                             href={`https://wa.me/6287833380742?text=Halo,%20saya%20dari%20${user?.nama}%20Ingin%20Bertanya?`}
@@ -38,7 +37,6 @@ const TopBar = ({ toggleSidebar }) => {
                 ) : (
                     <></>
                 )}
-
                 <div className='flex items-center gap-3'>
                     <p className='font-bold tracking-widest'>{user?.nama}</p>
                     <img

@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import DashboardLayout from '@layouts/DashboardLayout'
-import Swal from 'sweetalert2'
-import {
-    getAllProducts,
-} from '@utils/services/sellerServices.js'
+import { getAllProducts } from '@utils/services/sellerServices.js'
 import { useDebounce } from 'use-debounce'
 import { useUser } from '@context/userContext.jsx'
 const SellerProductsPage = () => {
@@ -43,7 +40,9 @@ const SellerProductsPage = () => {
             setPage(page + 1)
         }
     }
-
+    const hargaSetelaDiskon = (harga, diskon) => {
+        return diskon && diskon > 0 ? (harga * (100 - diskon)) / 100 : harga
+    }
     return (
         <DashboardLayout>
             <div className='px-6 pt-6 '>
@@ -105,7 +104,13 @@ const SellerProductsPage = () => {
                                         Category
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
-                                        Price
+                                        Harga
+                                    </th>
+                                    <th scope='col' className='px-6 py-3'>
+                                        Diskon
+                                    </th>
+                                    <th scope='col' className='px-6 py-3'>
+                                        Harga Setelah Diskon
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
                                         Action
@@ -133,6 +138,27 @@ const SellerProductsPage = () => {
                                                 </td>
                                                 <td className='px-6 py-4'>
                                                     {product.harga}
+                                                </td>
+                                                <td className='px-6 py-4'>
+                                                    {product.diskon === null ||
+                                                    product.diskon === 0 ? (
+                                                        <>Tidak Ada Diskon</>
+                                                    ) : (
+                                                        <>{product.diskon}%</>
+                                                    )}
+                                                </td>
+                                                <td className='px-6 py-4'>
+                                                    {product.diskon === null ||
+                                                    product.diskon === 0 ? (
+                                                        <>{product.harga}</>
+                                                    ) : (
+                                                        <>
+                                                            {hargaSetelaDiskon(
+                                                                product.harga,
+                                                                product.diskon
+                                                            )}
+                                                        </>
+                                                    )}
                                                 </td>
                                                 <td className='px-6 py-4'>
                                                     <Link

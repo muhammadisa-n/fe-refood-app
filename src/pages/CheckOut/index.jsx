@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import MainLayout from '@layouts/MainLayout'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getDetailOrder, updateOrder } from '@utils/services/customerServices'
-import { FaWhatsapp } from 'react-icons/fa'
-
+import moment from 'moment-timezone'
 const CheckOutPage = () => {
     const { id } = useParams()
     const [order, setOrder] = useState([])
@@ -89,7 +88,9 @@ const CheckOutPage = () => {
             },
         })
     }
-
+    const hargaSetelaDiskon = (harga, diskon) => {
+        return diskon && diskon > 0 ? (harga * (100 - diskon)) / 100 : harga
+    }
     useEffect(() => {
         const midtransURL = 'https://app.sandbox.midtrans.com/snap/snap.js'
         //  const midtransURL = 'https://app.midtrans.com/snap/snap.js'
@@ -121,7 +122,7 @@ const CheckOutPage = () => {
                             <h1 className='mb-4 text-2xl font-bold'>
                                 Checkout
                             </h1>
-                            {order.OrderProducts?.map((item, index) => (
+                            {order.OrderItems?.map((item, index) => (
                                 <div
                                     className='flex items-center justify-between py-4 border-b'
                                     key={index}>
@@ -135,14 +136,46 @@ const CheckOutPage = () => {
                                                 {item.Product?.nama}
                                             </h2>
                                             <p className='text-gray-500'>
-                                                Rp{' '}
+                                                Harga : Rp{' '}
                                                 {item.Product?.harga?.toLocaleString(
                                                     'id-ID'
                                                 )}
                                             </p>
+                                            {item.Product?.diskon && (
+                                                <>
+                                                    <p className='text-gray-500'>
+                                                        Diskon :{' '}
+                                                        {item.Product?.diskon}%
+                                                    </p>
+                                                    <p className='text-gray-500'>
+                                                        Harga Diskon : Rp{' '}
+                                                        {hargaSetelaDiskon(
+                                                            item.Product?.harga,
+                                                            item.Product.diskon
+                                                        ).toLocaleString(
+                                                            'id-ID'
+                                                        )}
+                                                    </p>
+                                                </>
+                                            )}
                                             <p className='text-gray-600'>
-                                                Jumlah: x{item.quantity}
+                                                Jumlah: x{item.sub_total_produk}
                                             </p>
+                                            <p className='text-gray-600'>
+                                                Jenis Layanan:
+                                                {order.jenis_layanan}
+                                            </p>
+                                            {order.jenis_layanan ===
+                                                'Makan Di Tempat' && (
+                                                <p className='text-gray-600'>
+                                                    Waktu Makan:
+                                                    {moment(
+                                                        order?.waktu_transaksi
+                                                    )
+                                                        .locale('id')
+                                                        .format('HH:mm:ss')}
+                                                </p>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -165,27 +198,10 @@ const CheckOutPage = () => {
                                 </h2>
                                 <p className='text-xl font-bold'>
                                     Rp{' '}
-                                    {order.total_harga?.toLocaleString('id-Id')}
+                                    {order.total_pembayaran?.toLocaleString(
+                                        'id-Id'
+                                    )}
                                 </p>
-                            </div>
-                            <div className='mb-4'>
-                                <h2 className='text-lg font-semibold'>
-                                    Pilihan Layanan
-                                </h2>
-                                <select
-                                    disabled={order.status_transaksi === 'PAID'}
-                                    value={jenisLayanan}
-                                    onChange={(e) =>
-                                        setJenisLayanan(e.target.value)
-                                    }
-                                    className='w-full py-2 mt-2 border rounded-lg'>
-                                    <option value='Makan di Tempat'>
-                                        Makan di Tempat
-                                    </option>
-                                    <option value='Ambil di Tempat'>
-                                        Ambil di Tempat
-                                    </option>
-                                </select>
                             </div>
                             {order.status_transaksi !== 'PAID' ? (
                                 <button

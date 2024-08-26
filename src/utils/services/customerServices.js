@@ -17,6 +17,17 @@ export const addCart = async (data) => {
         throw error.response ? error.response.data : error
     }
 }
+export const updateCartTotalProduk = async (productId, total_produk) => {
+    try {
+        const response = await axiosJWT.patch(
+            `/customer/carts/${productId}/quantity`,
+            { total_produk: total_produk }
+        )
+        return response.data
+    } catch (error) {
+        throw error.response ? error.response.data : error
+    }
+}
 export const deleteCart = async (productId) => {
     try {
         const response = await axiosJWT.delete('/customer/carts/' + productId)

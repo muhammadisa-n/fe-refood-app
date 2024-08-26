@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import DashboardLayout from '@layouts/DashboardLayout'
 import { getDetailOrder } from '@utils/services/sellerServices'
 import moment from 'moment-timezone'
 const SellerDetailOrdersPage = () => {
+    const navigate = useNavigate()
     const { id } = useParams()
     const [order, setOrder] = useState([])
     const [orderNotFound, setOrderNotFound] = useState(false)
@@ -44,70 +45,35 @@ const SellerDetailOrdersPage = () => {
                                         Order Detail
                                     </h1>
                                     <p>Order ID: {order.id}</p>
-                                    <p>Nama: {order.Customer?.nama}</p>
+                                    <p>Name Customer: {order.Customer?.nama}</p>
                                     <p>Nomor HP: {order.Customer?.no_hp}</p>
                                     <p>
                                         Status Order:{' '}
-                                        {order.status_order === 'PENDING' && (
-                                            <span className='font-extrabold text-gray-500'>
-                                                {order.status_order}
-                                            </span>
-                                        )}
-                                        {order.status_order === 'SUKSES' && (
-                                            <span className='font-extrabold text-green-500'>
-                                                {order.status_order}
-                                            </span>
-                                        )}{' '}
-                                        {order.status_order === 'SELESAI' && (
-                                            <span className='font-extrabold text-green-500'>
-                                                Selesai Diproses
-                                            </span>
-                                        )}{' '}
-                                        {order.status_order === 'PROSES' && (
-                                            <span className='font-extrabold text-yellow-500'>
-                                                Sedang Diproses
-                                            </span>
-                                        )}{' '}
-                                        {order.status_order === 'CANCEL' && (
-                                            <span className='font-extrabold text-red-500'>
-                                                {order.status_order}
-                                            </span>
-                                        )}{' '}
+                                        <span
+                                            className={`font-extrabold ${order.status_order === 'PENDING' ? 'text-gray-500' : order.status_order === 'PROSES' ? 'text-yellow-500' : order.status_order === 'SUKSES' ? 'text-green-500' : 'text-red-500'}`}>
+                                            {order.status_order}
+                                        </span>
                                     </p>
                                     <p>
                                         Status Transaksi:{' '}
-                                        {order.status_transaksi === 'PAID' && (
-                                            <span className='font-extrabold text-green-500'>
-                                                {order.status_transaksi}
-                                            </span>
-                                        )}
-                                        {order.status_transaksi ===
-                                            'PENDING' && (
-                                            <span className='font-extrabold text-gray-500'>
-                                                {order.status_transaksi}
-                                            </span>
-                                        )}
-                                        {order.status_transaksi === 'FAIL' && (
-                                            <span className='font-extrabold text-red-500'>
-                                                {order.status_transaksi}
-                                            </span>
-                                        )}{' '}
-                                        {order.status_transaksi ===
-                                            'CANCEL' && (
-                                            <span className='font-extrabold text-red-500'>
-                                                {order.status_transaksi}
-                                            </span>
-                                        )}{' '}
-                                    </p>
-                                    <p>Jenis Layanan: {order?.jenis_layanan}</p>
-                                    <p>
-                                        Waktu Order:{' '}
-                                        {moment(order?.created_at).format(
-                                            ' DD-MM-YYYY HH:mm:ss'
-                                        )}
+                                        <span
+                                            className={`font-extrabold ${order.status_transaksi === 'PAID' ? 'text-green-500' : order.status_transaksi === 'PENDING' ? 'text-gray-500' : 'text-red-500'}`}>
+                                            {order.status_transaksi}
+                                        </span>
                                     </p>
 
-                                    {order.waktu_transaksi !== null && (
+                                    {order?.jenis_layanan && (
+                                        <p>
+                                            Jenis Layanan: {order.jenis_layanan}
+                                        </p>
+                                    )}
+                                    <p>
+                                        Waktu Order:{' '}
+                                        {moment(order?.created_at)
+                                            .tz('Asia/Jakarta')
+                                            .format('DD-MM-YYYY HH:mm:ss')}
+                                    </p>
+                                    {order.waktu_transaksi && (
                                         <p>
                                             Waktu Transaksi:{' '}
                                             {moment(order?.waktu_transaksi)
@@ -115,82 +81,110 @@ const SellerDetailOrdersPage = () => {
                                                 .format('DD-MM-YYYY HH:mm:ss')}
                                         </p>
                                     )}
-                                    <p>Products: {order.Product?.nama}</p>
+
+                                    {order.status_order === 'PROSES' &&
+                                        order.status_transaksi === 'PAID' && (
+                                            <button
+                                                className='px-2 py-2 mt-4 text-white rounded-md bg-primary'
+                                                onClick={() =>
+                                                    handleUpdateStatus(order.id)
+                                                }>
+                                                Pesanan Selesai
+                                            </button>
+                                        )}
+
+                                    <div className='mt-2 mb-2'>
+                                        <button
+                                            onClick={() =>
+                                                navigate(
+                                                    '/my-dashboard/seller/orders'
+                                                )
+                                            }
+                                            className='px-3 py-1 mx-auto text-white rounded-lg bg-primary'>
+                                            Back
+                                        </button>
+                                    </div>
+
                                     <table className='min-w-full bg-white border border-primary'>
                                         <thead className='text-white bg-primary'>
-                                            <tr className=''>
+                                            <tr>
+                                                <th className='px-4 py-2 border border-gray-200'>
+                                                    No
+                                                </th>
                                                 <th className='px-4 py-2 border border-gray-200'>
                                                     Image
                                                 </th>
                                                 <th className='px-4 py-2 border border-gray-200'>
-                                                    Nama Produk
+                                                    Product Name
                                                 </th>
                                                 <th className='px-4 py-2 border border-gray-200'>
-                                                    Quantity
+                                                    Harga Satuan
                                                 </th>
                                                 <th className='px-4 py-2 border border-gray-200'>
-                                                    Harga
+                                                    Total Produk
+                                                </th>
+                                                <th className='px-4 py-2 border border-gray-200'>
+                                                    Total Harga
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {order.OrderProducts?.map(
-                                                (item) => (
-                                                    <>
-                                                        <tr
-                                                            key={
-                                                                item.Product?.id
-                                                            }>
-                                                            <td className='px-4 py-2 border border-gray-200'>
-                                                                <img
-                                                                    src={
-                                                                        item
-                                                                            .Product
-                                                                            .image_url
-                                                                    }
-                                                                    alt={
-                                                                        item
-                                                                            .Product
-                                                                            .nama
-                                                                    }
-                                                                    className='object-cover w-16 h-16 rounded '
-                                                                />
-                                                            </td>
-                                                            <td className='px-4 py-2 border border-gray-200'>
-                                                                {
+                                            {order.OrderItems?.map(
+                                                (item, index) => (
+                                                    <tr key={index}>
+                                                        <td className='px-4 py-2 text-center border border-gray-200'>
+                                                            {index + 1}
+                                                        </td>
+                                                        <td className='px-4 py-2 border border-gray-200'>
+                                                            <img
+                                                                src={
+                                                                    item.Product
+                                                                        .image_url
+                                                                }
+                                                                alt={
                                                                     item.Product
                                                                         .nama
                                                                 }
-                                                            </td>
-                                                            <td className='px-4 py-2 border border-gray-200'>
-                                                                {item.quantity}
-                                                            </td>
-                                                            <td className='px-4 py-2 border border-gray-200'>
-                                                                Rp.
-                                                                {item.Product.harga?.toLocaleString(
-                                                                    'id-ID'
-                                                                )}
-                                                            </td>
-                                                        </tr>
-                                                    </>
+                                                                className='object-cover w-16 h-16 rounded '
+                                                            />
+                                                        </td>
+                                                        <td className='px-4 py-2 text-center border border-gray-200'>
+                                                            {item.Product.nama}
+                                                        </td>
+                                                        <td className='px-4 py-2 text-center border border-gray-200'>
+                                                            Rp.{' '}
+                                                            {item.Product.harga?.toLocaleString(
+                                                                'id-ID'
+                                                            )}
+                                                        </td>
+                                                        <td className='px-4 py-2 text-center border border-gray-200'>
+                                                            {
+                                                                item.sub_total_produk
+                                                            }
+                                                        </td>
+
+                                                        <td className='px-4 py-2 text-center border border-gray-200'>
+                                                            Rp.{' '}
+                                                            {item.sub_total_harga?.toLocaleString(
+                                                                'id-ID'
+                                                            )}
+                                                        </td>
+                                                    </tr>
                                                 )
                                             )}
                                             <tr>
                                                 <td
-                                                    className='px-4 py-2 border border-gray-200'
-                                                    colSpan='3'
-                                                    rowSpan='2'>
+                                                    className='px-4 py-2 text-center border border-gray-200'
+                                                    colSpan='4'>
                                                     Total
                                                 </td>
-                                                <td className='px-4 py-2 border border-gray-200'>
-                                                    Total Produk :{' '}
+                                                <td className='px-4 py-2 text-center border border-gray-200'>
+                                                    Total Produk:{' '}
                                                     {order.total_produk}
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td className='px-4 py-2 border border-gray-200'>
-                                                    Total Harga: Rp.
-                                                    {order.total_harga?.toLocaleString(
+                                                <td className='px-4 py-2 text-center border border-gray-200'>
+                                                    Total Pembayaran: Rp.{' '}
+                                                    {order.total_pembayaran?.toLocaleString(
                                                         'id-ID'
                                                     )}
                                                 </td>

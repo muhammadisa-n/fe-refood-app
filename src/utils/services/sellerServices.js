@@ -116,3 +116,25 @@ export const countPendapatanPerbulan = async () => {
         throw error.response ? error.response.data : error
     }
 }
+export const reportSalesSeller = async (tanggalMulai, tanggalSelesai) => {
+    try {
+        const response = await axiosJWT.get('seller/report-sales', {
+            params: { tanggalMulai, tanggalSelesai },
+        })
+        return response.data
+    } catch (error) {
+        console.error(error.response)
+        throw error.response ? error.response.data : error
+    }
+}
+export const reportIncomeSeller = async (tanggalMulai, tanggalSelesai) => {
+    try {
+        const response = await axiosJWT.get('seller/report-income', {
+            params: { tanggalMulai, tanggalSelesai },
+        })
+        return response.data
+    } catch (error) {
+        console.error(error.response)
+        throw error.response ? error.response.data : error
+    }
+}

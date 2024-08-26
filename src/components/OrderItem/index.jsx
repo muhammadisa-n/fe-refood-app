@@ -7,7 +7,7 @@ const OrderItem = ({
     productName,
     totalHarga,
     totalProduct,
-    statusOrder,
+
     statusTransaksi,
 }) => {
     return (
@@ -20,8 +20,12 @@ const OrderItem = ({
                 />
                 <div className='px-4 py-4'>
                     <p className='text-xl font-semibold'>{productName}</p>
-                    <p className='mt-2 text-sm'>Harga: Rp. {totalHarga}</p>
-                    <p className='mt-2 text-sm'>Total : {totalProduct}</p>
+                    <p className='mt-2 text-sm'>
+                        Total Bayar : Rp. {totalHarga}
+                    </p>
+                    <p className='mt-2 text-sm'>
+                        Total Produk : {totalProduct}
+                    </p>
                     <p className='mt-2 '>
                         Status :{' '}
                         {statusTransaksi === 'PENDING' ? (
