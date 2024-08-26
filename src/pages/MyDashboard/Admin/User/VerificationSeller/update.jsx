@@ -7,7 +7,7 @@ import {
 } from '@utils/services/adminServices'
 import profileImage from '@assets/userdefault.png'
 import Swal from 'sweetalert2'
-const AdminDetailSellerPage = () => {
+const AdminChangeStatuslSellerPage = () => {
     const { id } = useParams()
     const [seller, setSeller] = useState([])
     const [sellerNotFound, setSellertNotFound] = useState(false)
@@ -29,7 +29,7 @@ const AdminDetailSellerPage = () => {
                         text: `${response.message}`,
                         icon: 'success',
                     })
-                    navigate('/my-dashboard/admin/sellers')
+                    navigate('/my-dashboard/admin/verify-sellers')
                 } catch (error) {
                     Swal.fire({
                         title: 'Error',
@@ -113,17 +113,6 @@ const AdminDetailSellerPage = () => {
                                                         }
                                                     </a>
                                                 </p>
-                                                <p className='mt-2 text-gray-600'>
-                                                    Sample Product:
-                                                    <img
-                                                        className='object-cover w-full h-48 mx-4 md:w-48'
-                                                        src={
-                                                            seller.sample_image_product_url
-                                                        }
-                                                        title='sample-product-image'
-                                                        alt='Profil-image'
-                                                    />
-                                                </p>
 
                                                 <div className=''>
                                                     <button
@@ -168,4 +157,4 @@ const AdminDetailSellerPage = () => {
     )
 }
 
-export default AdminDetailSellerPage
+export default AdminChangeStatuslSellerPage

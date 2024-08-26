@@ -94,7 +94,7 @@ const VerificationSellerPage = () => {
                                     <label
                                         htmlFor='image'
                                         className='block mb-2 text-sm font-bold text-slate-700'>
-                                        Foto Warung Penjual
+                                        Foto Warung
                                     </label>
                                     <div className='relative inline-block'>
                                         <input
@@ -110,7 +110,7 @@ const VerificationSellerPage = () => {
                                         <img
                                             src={previewImg}
                                             className='w-[250px] h-[250px] px-2 py-2 bg-white'
-                                            alt='Preview Sample Product'
+                                            alt='Preview Warung '
                                         />
                                     </div>
                                 )}

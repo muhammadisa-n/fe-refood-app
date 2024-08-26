@@ -23,17 +23,13 @@ import SellerProductsPage from '@pages/MyDashboard/Seller/Products'
 import SellerCreateProductPage from '@pages/MyDashboard/Seller/Products/create'
 import SellerUpdateProductPage from '@pages/MyDashboard/Seller/Products/update'
 import SellerOrdersPage from '@pages/MyDashboard/Seller/Orders'
-import AdminProductsPage from '@pages/MyDashboard/Admin/Products'
-import AdminDetailProductPage from '@pages/MyDashboard/Admin/Products/detail'
 import DetailProductPage from '@pages/DetailProduct'
 import AdminCategoryPage from '@pages/MyDashboard/Admin/Category'
 import AdminCreateCategoryPage from '@pages/MyDashboard/Admin/Category/create'
 import AdminUpdateCategoryPage from '@pages/MyDashboard/Admin/Category/update'
 import ScrollToTop from '@utils/ScrollToTop'
 import VerificationSellerPage from '@pages/MyDashboard/Seller/VerificationSeller'
-import AdminSellerListPage from '@pages/MyDashboard/Admin/User/Seller'
 import AdminCustomerListPage from '@pages/MyDashboard/Admin/User/Customer'
-import AdminDetailSellerPage from '@pages/MyDashboard/Admin/User/Seller/detail'
 import CheckOutPage from '@pages/CheckOut'
 import OrderDetailPage from '@pages/OrderDetail'
 import SellerDetailOrdersPage from '@pages/MyDashboard/Seller/Orders/detail'
@@ -42,6 +38,11 @@ import AdminDetailCustomerPage from '@pages/MyDashboard/Admin/User/Customer/deta
 import ProductsByPage from './pages/ProductsBy'
 import SellerReportSalesPage from './pages/MyDashboard/Seller/Reports/salesReport'
 import SellerReportIncomePage from './pages/MyDashboard/Seller/Reports/incomeReport'
+import AdminVerificationSellerPage from './pages/MyDashboard/Admin/User/VerificationSeller'
+import AdminChangeStatuslSellerPage from './pages/MyDashboard/Admin/User/VerificationSeller/update'
+import AdminDataSellerPage from './pages/MyDashboard/Admin/DataSeller'
+import AdminDetailDataSellerPage from './pages/MyDashboard/Admin/DataSeller/detail'
+import AdminDetailProductPage from './pages/MyDashboard/Admin/DataSeller/detailproduct'
 
 const RoutesPage = () => {
     return (
@@ -196,18 +197,18 @@ const RoutesPage = () => {
                 {/*End Seller Routes*/}
                 {/*Admin Routes*/}
                 <Route
-                    path='/my-dashboard/admin/products'
+                    path='/my-dashboard/admin/data-sellers'
                     element={
                         <IsAdmin>
-                            <AdminProductsPage />
+                            <AdminDataSellerPage />
                         </IsAdmin>
                     }
                 />
                 <Route
-                    path='/my-dashboard/admin/sellers'
+                    path='/my-dashboard/admin/verify-sellers'
                     element={
                         <IsAdmin>
-                            <AdminSellerListPage />
+                            <AdminVerificationSellerPage />
                         </IsAdmin>
                     }
                 />
@@ -228,21 +229,29 @@ const RoutesPage = () => {
                     }
                 />
                 <Route
-                    path='/my-dashboard/admin/sellers/detail/:id'
+                    path='/my-dashboard/admin/verify-sellers/:id'
                     element={
                         <IsAdmin>
-                            <AdminDetailSellerPage />
+                            <AdminChangeStatuslSellerPage />
                         </IsAdmin>
                     }
                 />
                 <Route
-                    path='/my-dashboard/admin/products/detail/:id'
+                    path='/my-dashboard/admin/data-sellers/:id'
+                    element={
+                        <IsAdmin>
+                            <AdminDetailDataSellerPage />
+                        </IsAdmin>
+                    }
+                />
+                <Route
+                    path='/my-dashboard/admin/data-sellers/products/:id'
                     element={
                         <IsAdmin>
                             <AdminDetailProductPage />
                         </IsAdmin>
                     }
-                />{' '}
+                />
                 <Route
                     path='/my-dashboard/admin/category'
                     element={

@@ -10,10 +10,28 @@ export const getAllProducts = async (page, take, search) => {
         throw error.response ? error.response.data : error
     }
 }
-export const getAllSellers = async (page, take, search, status) => {
+export const getAllSellers = async (
+    page,
+    take,
+    search,
+    provinsi,
+    kota,
+    kecamatan,
+    kelurahan,
+    status
+) => {
     try {
         const response = await axiosJWT.get('admin/sellers', {
-            params: { page, take, search, status },
+            params: {
+                page,
+                take,
+                search,
+                provinsi,
+                kota,
+                kecamatan,
+                kelurahan,
+                status,
+            },
         })
         return response.data
     } catch (error) {

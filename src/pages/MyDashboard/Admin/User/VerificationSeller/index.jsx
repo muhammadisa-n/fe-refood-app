@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import DashboardLayout from '@layouts/DashboardLayout'
 import { getAllSellers } from '@utils/services/adminServices.js'
 import { Link } from 'react-router-dom'
@@ -6,8 +6,8 @@ import { useDebounce } from 'use-debounce'
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
 import { PiFilePdfFill } from 'react-icons/pi'
-
-const AdminSellerListPage = () => {
+import profileImage from '@assets/userdefault.png'
+const AdminVerificationSellerPage = () => {
     const [sellers, setSellers] = useState([])
     const [take, setTake] = useState(10)
     const [totalPage, setTotalPage] = useState()
@@ -15,7 +15,9 @@ const AdminSellerListPage = () => {
     const [search, setSearch] = useState('')
     const [status, setStatus] = useState()
     const [page, setPage] = useState(1)
+    const tableRef = useRef()
     const [searchValue] = useDebounce(search, 1000)
+
     const fetchSeller = async () => {
         try {
             const response = await getAllSellers(
@@ -67,7 +69,7 @@ const AdminSellerListPage = () => {
             <div className='px-6 pt-6 '>
                 <div className='flex flex-col '>
                     <h1 className='text-3xl font-semibold text-primary'>
-                        List Seller
+                        Verifikasi Seller
                     </h1>
                 </div>
                 <div className='mt-5 basis-[85%]  '>
@@ -124,17 +126,19 @@ const AdminSellerListPage = () => {
                                 </div>
                             </div>
                         </div>
-                        <table className='w-full text-sm text-left text-white border rtl:text-right'>
+                        <table
+                            ref={tableRef}
+                            className='w-full text-sm text-left text-white border rtl:text-right'>
                             <thead className='text-xs text-black uppercase bg-white '>
                                 <tr>
                                     <th scope='col' className='px-6 py-3'>
-                                        Name Seller
+                                        Foto Warung
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
-                                        Email
+                                        Nama Seller
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
-                                        No Hp
+                                        Link Gmaps Toko
                                     </th>
                                     <th scope='col' className='px-6 py-3'>
                                         Status
@@ -158,13 +162,29 @@ const AdminSellerListPage = () => {
                                                 className='text-black bg-white border-b '
                                                 key={index}>
                                                 <td className='px-6 py-4'>
+                                                    <img
+                                                        src={
+                                                            seller.ava_image_url
+                                                                ? seller.ava_image_url
+                                                                : profileImage
+                                                        }
+                                                        className='object-cover w-24 h-24 mr-4 rounded-lg'
+                                                    />
+                                                </td>
+                                                <td className='px-6 py-4 '>
                                                     {seller.nama}
                                                 </td>
                                                 <td className='px-6 py-4 '>
-                                                    {seller.email}
-                                                </td>
-                                                <td className='px-6 py-4 '>
-                                                    {seller.no_hp}
+                                                    <a
+                                                        href={
+                                                            seller?.link_map_alamat_toko
+                                                        }
+                                                        className='text-blue-500 underline'
+                                                        target='_blank'>
+                                                        {
+                                                            seller?.link_map_alamat_toko
+                                                        }
+                                                    </a>
                                                 </td>
                                                 <td className='px-6 py-4'>
                                                     {seller.status === null
@@ -175,9 +195,9 @@ const AdminSellerListPage = () => {
                                                 <td className='px-6 py-4'>
                                                     <Link
                                                         type='button'
-                                                        to={`/my-dashboard/admin/sellers/detail/${seller.id}`}
+                                                        to={`/my-dashboard/admin/verify-sellers/${seller.id}`}
                                                         className='p-2 mx-2 text-white rounded-lg bg-sky-600 hover:bg-sky-700'>
-                                                        Detail
+                                                        Ubah Status
                                                     </Link>
                                                 </td>
                                             </tr>
@@ -218,4 +238,4 @@ const AdminSellerListPage = () => {
     )
 }
 
-export default AdminSellerListPage
+export default AdminVerificationSellerPage

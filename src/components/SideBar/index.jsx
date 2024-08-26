@@ -42,11 +42,11 @@ const SideBar = () => {
                     <div className='pt-4 border-white/40'>
                         <div className='flex items-center justify-between py-4 border-b cursor-pointer'>
                             <Link
-                                to='/my-dashboard/admin/products'
+                                to='/my-dashboard/admin/data-sellers'
                                 className='flex items-center gap-3'>
                                 <MdOutlineFoodBank className='text-white' />
                                 <p className='text-base leading-5 text-white'>
-                                    Products
+                                    Data Seller
                                 </p>
                             </Link>
                         </div>
@@ -68,11 +68,11 @@ const SideBar = () => {
                         </p>
                         <div className='flex items-center justify-between py-2 cursor-pointer'>
                             <Link
-                                to='/my-dashboard/admin/sellers'
+                                to='/my-dashboard/admin/verify-sellers'
                                 className='flex items-center gap-3'>
                                 <FaUsers className='text-white' />
                                 <p className='text-base leading-5 text-white'>
-                                    Seller
+                                    Verif Seller
                                 </p>
                             </Link>
                         </div>
