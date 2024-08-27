@@ -213,7 +213,9 @@ const SellerOrdersPage = () => {
                                                         Detail
                                                     </Link>
                                                     {order?.status_order ===
-                                                    'SUKSES' ? (
+                                                        'SUKSES' ||
+                                                    order?.status_order ===
+                                                        'SELESAI' ? (
                                                         <></>
                                                     ) : (
                                                         <>

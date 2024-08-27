@@ -102,8 +102,17 @@ const OrderDetailPage = () => {
                                 <p>
                                     Status Order:{' '}
                                     <span
-                                        className={`font-extrabold ${order.status_order === 'PENDING' ? 'text-gray-500' : order.status_order === 'PROSES' ? 'text-yellow-500' : order.status_order === 'SUKSES' ? 'text-green-500' : 'text-red-500'}`}>
-                                        {order.status_order}
+                                        className={`font-extrabold ${order.status_order === 'PENDING' ? 'text-gray-500' : order.status_order === 'PROSES' ? 'text-yellow-500' : order.status_order === 'SUKSES' ? 'text-green-400' : order.status_order === 'SELESAI' ? 'text-green-500' : 'text-red-500'}`}>
+                                        {order.status_order === 'PENDING'
+                                            ? 'PENDING'
+                                            : order.status_order === 'PROSES'
+                                              ? 'Sedang Diproses'
+                                              : order.status_order === 'SELESAI'
+                                                ? 'Selesai Diproses'
+                                                : order.status_order ===
+                                                    'SUKSES'
+                                                  ? 'SUKSES'
+                                                  : ''}
                                     </span>
                                 </p>
                                 <p>
@@ -132,17 +141,16 @@ const OrderDetailPage = () => {
                                     </p>
                                 )}
 
-                                {order.status_order === 'PROSES' ||
-                                    (order.status_order === 'SELESAI' &&
-                                        order.status_transaksi === 'PAID' && (
-                                            <button
-                                                className='px-2 py-2 mt-4 text-white rounded-md bg-primary'
-                                                onClick={() =>
-                                                    handleUpdateStatus(order.id)
-                                                }>
-                                                Pesanan Selesai
-                                            </button>
-                                        ))}
+                                {order.status_order === 'SELESAI' &&
+                                    order.status_transaksi === 'PAID' && (
+                                        <button
+                                            className='px-2 py-2 mt-4 text-white rounded-md bg-primary'
+                                            onClick={() =>
+                                                handleUpdateStatus(order.id)
+                                            }>
+                                            Pesanan Selesai
+                                        </button>
+                                    )}
 
                                 <div className='mt-2 mb-2'>
                                     {order.status_order !== 'CANCEL' &&
