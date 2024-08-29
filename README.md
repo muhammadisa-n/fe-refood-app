@@ -4,6 +4,10 @@
 
 [Backend](https://github.com/muhammadisa226/be-tugas-akhir)
 
+### Recommendation Repository
+
+[Recommendation](https://github.com/muhammadisa226/recommendation-tugas-akhir)
+
 # Usage
 
 ### Clone Repo
