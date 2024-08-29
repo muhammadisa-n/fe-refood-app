@@ -229,7 +229,7 @@ const SellerOrdersPage = () => {
                                                                             ? `/my-dashboard/seller/orders/update/${order.id}`
                                                                             : null
                                                                     }
-                                                                    className={`p-1 mx-2 text-white rounded-lg  hover:bg-yellow-700 ${user.status === 'Ditolak' ? 'bg-yellow-900' : 'bg-yellow-500'}`}>
+                                                                    className={`p-1 mx-2 w-full text-white rounded-lg  hover:bg-yellow-700 ${user.status === 'Ditolak' ? 'bg-yellow-900' : 'bg-yellow-500'}`}>
                                                                     Update
                                                                     Status
                                                                 </Link>
