@@ -1,12 +1,12 @@
 # Frontend ReFood App
 
-### Design
-
-[Design Figma](https://www.figma.com/file/JZNpNsry28MQP49pmVuyL7/Design-ReFood-App?type=design&node-id=6%3A4&mode=design&t=nvZYiV1YBZ4RkrFY-1)
-
 ### Backend Repository
 
 [Backend](https://github.com/muhammadisa226/be-tugas-akhir)
+
+### Recommendation Repository
+
+[Recommendation](https://github.com/muhammadisa226/recommendation-tugas-akhir)
 
 # Usage
 

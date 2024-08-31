@@ -1,14 +1,15 @@
-import React from "react"
-import { Routes, Route } from "react-router-dom"
-import Home from "./Pages/Home"
-import About from "./Pages/About"
+import React from 'react'
+import RoutesPage from './Routes'
+import { CartProvider } from '@context/CartContext'
+import { UserProvider } from '@context/userContext.jsx'
 const App = () => {
-  return (
-    <Routes>
-      <Route path="/" Component={Home}></Route>
-      <Route path="/about" Component={About}></Route>
-    </Routes>
-  )
+    return (
+        <UserProvider>
+            <CartProvider>
+                <RoutesPage />
+            </CartProvider>
+        </UserProvider>
+    )
 }
 
 export default App
