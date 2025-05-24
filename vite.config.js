@@ -4,9 +4,7 @@ import { fileURLToPath } from 'node:url'
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
-    server: {
-        host: true,
-    },
+    base: '/refood-app/',
     resolve: {
         alias: [
             {

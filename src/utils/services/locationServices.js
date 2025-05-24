@@ -3,7 +3,7 @@ import axios from 'axios'
 export const fetchProvinces = async () => {
     try {
         const response = await axios.get(
-            'https://muhammadisa226.github.io/api-wilayah-indonesia/api/provinces.json'
+            'https://muhammadisa-n.github.io/api-wilayah-indonesia/api/provinces.json'
         )
         return response.data
     } catch (error) {
@@ -16,7 +16,7 @@ export const fetchProvinces = async () => {
 export const fetchCities = async (provinceId) => {
     try {
         const response = await axios.get(
-            `https://muhammadisa226.github.io/api-wilayah-indonesia/api/regencies/${provinceId}.json`
+            `https://muhammadisa-n.github.io/api-wilayah-indonesia/api/regencies/${provinceId}.json`
         )
         return response.data
     } catch (error) {
@@ -29,7 +29,7 @@ export const fetchCities = async (provinceId) => {
 export const fetchDistricts = async (cityId) => {
     try {
         const response = await axios.get(
-            `https://muhammadisa226.github.io/api-wilayah-indonesia/api/districts/${cityId}.json`
+            `https://muhammadisa-n.github.io/api-wilayah-indonesia/api//districts/${cityId}.json`
         )
         return response.data
     } catch (error) {
@@ -42,7 +42,7 @@ export const fetchDistricts = async (cityId) => {
 export const fetchVillages = async (districtId) => {
     try {
         const response = await axios.get(
-            `https://muhammadisa226.github.io/api-wilayah-indonesia/api/villages/${districtId}.json`
+            `https://muhammadisa-n.github.io/api-wilayah-indonesia/api/villages/${districtId}.json`
         )
         return response.data
     } catch (error) {
