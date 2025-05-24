@@ -111,9 +111,9 @@ const Header = () => {
                             <NavLink to='/' className={setActive}>
                                 Home
                             </NavLink>
-                            <NavLink to='/recommendation' className={setActive}>
+                            {/* <NavLink to='/recommendation' className={setActive}>
                                 Recommendation
-                            </NavLink>
+                            </NavLink> */}
                         </div>
                         <div className='items-center justify-between hidden gap-2 md:flex '>
                             {token && role === 'Customer' ? (
