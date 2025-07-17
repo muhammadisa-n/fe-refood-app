@@ -46,7 +46,7 @@ import AdminDetailProductPage from './pages/MyDashboard/Admin/DataSeller/detailp
 
 const RoutesPage = () => {
     return (
-        <BrowserRouter basename='/refood-app/'>
+        <BrowserRouter>
             <ScrollToTop />
             <Routes>
                 {/* PublicRoute */}
