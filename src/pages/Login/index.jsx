@@ -29,9 +29,9 @@ const LoginPage = () => {
             localStorage.setItem('access_token', response.access_token)
             const decodedData = jwtDecode(response.access_token)
             if (decodedData.user_role !== 'Customer') {
-                window.location.href = '/my-dashboard'
+                window.location.href = '/refood/my-dashboard'
             } else {
-                window.location.href = '/'
+                window.location.href = '/refood'
             }
         } catch (error) {
             setErrorMessage(error.message)
