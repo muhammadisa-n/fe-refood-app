@@ -43,7 +43,7 @@ const Header = () => {
     const menuItemsCustomerMobile = [
         {
             title: 'Home',
-            to: '/',
+            to: '/refood',
         },
         {
             title: 'Recommendation',
@@ -75,7 +75,7 @@ const Header = () => {
     const menuItemsMobile = [
         {
             title: 'Home',
-            to: '/',
+            to: '/refood',
         },
         {
             title: 'Recommendation',
@@ -103,7 +103,7 @@ const Header = () => {
                 <div className='container mx-auto'>
                     <div className='flex justify-between'>
                         <a
-                            href='/'
+                            href='/refood'
                             className='text-[26px] font-semibold font-inter'>
                             Refood App
                         </a>
